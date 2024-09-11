@@ -1,0 +1,24 @@
+<h2>Đăng nhập</h2><br><br>
+<p>Đăng nhập để truy cập tài khoản của bạn</p>
+<form>
+  <label for="email">Email:</label>
+  <input type="email" id="email" required>
+  <br> <br>
+
+  <label for="password">Password:</label>
+  <input type="password" id="password" required>
+  <br> <br>
+
+  <label><input type="checkbox">Lưu mật khẩu</label>
+
+  <label><a routerLink="/forgot-password">Quên mật khẩu?</a></label>
+
+  <p><button type="submit">Login</button> </p>
+</form>
+
+<p>Bạn chưa có tài khoản? <a routerLink="/register">Đăng kí tại đây</a></p>
+<div class="login-container">
+    <p>Hoặc đăng nhập bằng</p>
+    <button>Login with Google</button>
+    <button>Login with Facebook</button>
+</div>
