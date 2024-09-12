@@ -1,0 +1,38 @@
+<div class="login-container">
+  <div class="login-form">
+    <h2>Đăng nhập</h2>
+    <p style="color: #888">Đăng nhập để truy cập tài khoản của bạn</p>
+    <form>
+      <label for="email">Email:</label>
+      <input type="email" id="email" required>
+      
+      <label for="password">Password:</label>
+      <input type="password" id="password" required>
+      
+      <div class="form-footer">
+        <label>
+          <input type="checkbox">Lưu mật khẩu
+        </label>
+        <label>
+          <a class="forgot-password" routerLink="/forgot-password">Quên mật khẩu?</a>
+        </label>
+      </div>
+      
+      <p><button type="submit">Login</button></p>
+      <p style="text-align: center;">Bạn chưa có tài khoản? <a class="register-link" routerLink="/register">Đăng kí tại đây</a></p>
+      
+      <label class="or-login">
+        Hoặc đăng nhập bằng
+      </label>
+      
+      <div class="login-options">
+        <div class="login-option login-option-google">
+        </div>
+        <div class="login-option login-option-facebook"> 
+        </div>
+      </div>
+    </form>
+  </div>
+  
+  <div class="login-image"></div>
+</div>
