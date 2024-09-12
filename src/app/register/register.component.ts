@@ -1,19 +1,29 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  //styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
   name: string = '';
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
+  errorMessage: string = ''; // Biến để lưu thông báo lỗi
+
+  constructor(private router: Router) { }
+
+  navigateToLogin() {
+    this.router.navigate(['/login']);
+  }
 
   onSubmit() {
+    this.errorMessage = ''; // Reset thông báo lỗi
+
     if (this.password !== this.confirmPassword) {
-      alert('Passwords do not match!');
+      this.errorMessage = 'Mật khẩu không khớp!';
       return;
     }
 
@@ -25,9 +35,18 @@ export class RegisterComponent {
     };
 
     // Thực hiện logic gửi dữ liệu đến backend ở đây
-    console.log('Registration Data:', registrationData);
+    console.log('Dữ liệu đăng ký:', registrationData);
 
-    // Nếu thành công, bạn có thể điều hướng đến trang đăng nhập
-    // this.router.navigate(['/login']);
+    // Ví dụ: Gửi dữ liệu đến API và điều hướng nếu thành công
+    // this.registrationService.register(registrationData).subscribe(
+    //   response => {
+    //     // Nếu thành công
+    //     this.router.navigate(['/login']);
+    //   },
+    //   error => {
+    //     // Xử lý lỗi
+    //     this.errorMessage = 'Có lỗi xảy ra, vui lòng thử lại.';
+    //   }
+    // );
   }
 }
