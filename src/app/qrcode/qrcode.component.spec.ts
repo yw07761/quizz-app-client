@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { QRcodeComponent } from './qrcode.component';
+import { beforeEach, describe, it } from 'node:test';
 
 describe('QRcodeComponent', () => {
   let component: QRcodeComponent;
