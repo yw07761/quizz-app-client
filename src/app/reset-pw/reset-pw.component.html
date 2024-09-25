@@ -1,21 +1,27 @@
-
-<div class="reset-pw-container">
-  <div class="reset-pw-form">
-    <h2>Đặt lại mật khẩu</h2>
-    <p style="color: #888">Yêu cầu đặt lại mật khẩu của bạn đã được xác minh. Hãy đặt lại mật khẩu mới</p>
-    <form>
-      <label for="password">Tạo mật khẩu:</label>
-      <input type="password" id="password" required>
-      <br> <br>
-
-      <label for="password">Nhập lại mật khẩu:</label>
-      <input type="password" id="password" required>
-      <br> <br>
-
-      <p><button type="submit">Đặt lại mật khẩu</button></p>
-    </form>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="row w-100">
+    <div class="col-md-6">
+      <p class="text-start">
+        <a routerLink="/login" class="text-dark">
+          <i class="fa-solid fa-chevron-left me-2"></i>Quay lại
+        </a>        
+      </p>
+      <h2>Đặt lại mật khẩu</h2>
+      <p class="text-muted">Yêu cầu đặt lại mật khẩu của bạn đã được xác minh. Hãy đặt lại mật khẩu mới</p>
+      <form>
+        <div class="mb-3">
+          <label for="password" class="form-label">Tạo mật khẩu:</label>
+          <input type="password" id="password" class="form-control" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Nhập lại mật khẩu:</label>
+          <input type="password" id="password" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Đặt lại mật khẩu</button>
+      </form>
+    </div>
+    <div class="col-md-6 d-none d-md-block">
+      <div class="reset-pw-image"></div>
+    </div>    
   </div>
-  
-  <div class="reset-pw-image"></div>
 </div>
-

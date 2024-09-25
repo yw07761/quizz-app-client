@@ -1,19 +1,25 @@
 
-<div class="forgot-pw-container">
-  <div class="forgot-pw-form">
-    <p class="back-to-login">
-      <a routerLink="/login">Quay lại đăng nhập</a>
-    </p>
-    <h2>Mã xác minh</h2>
-    <p style="color: #888">Mã tự động được gửi vào mail của bạn</p>
-    <form>
-      <label for="text">Nhập mã</label>
-      <input type="text" id="text" required>
-      <p>Bạn chưa nhận được mã xác minh? <a class="resend">Gửi lại</a></p>
-      <p><button type="submit">Xác minh</button></p>
-    </form>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="row w-100">
+    <div class="col-md-6">
+      <p class="text-start">
+        <a routerLink="/login" class="text-dark">
+          <i class="fa-solid fa-chevron-left me-2"></i>Quay lại đăng nhập
+        </a>        
+      </p>
+      <h2>Mã xác minh</h2>
+      <p class="text-muted">Mã tự động được gửi vào mail của bạn</p>
+      <form>
+        <div class="mb-3">
+          <label for="pincode" class="form-label">Nhập mã:</label>
+          <input type="text" id="pincode" class="form-control" required>
+        </div>
+        <p>Bạn chưa nhận được mã xác minh? <a class="forgot-password text-danger">Gửi lại</a></p>
+        <button type="submit" class="btn btn-primary w-100">Chấp nhận</button>
+      </form>
+    </div>
+    <div class="col-md-6 d-none d-md-block">
+      <div class="forgot-pw-image"></div>
+    </div>    
   </div>
-  
-  <div class="forgot-pw-image"></div>
 </div>
-
