@@ -1,3 +1,4 @@
+<div class="body">
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
         <a class="navbar-brand text-primary" href="/home">English</a>
@@ -7,16 +8,16 @@
                     <a class="nav-link active" aria-current="page" href="/home">TRANG CHỦ</a>
                 </li>
                 <li class="nav-item ms-4">
-                    <a class="nav-link" href="#feature-section">TÍNH NĂNG</a> <!-- Ensure this href matches -->
+                    <a class="nav-link" (click)="scrollToSection('feature-section')">TÍNH NĂNG</a> <!-- Ensure this href matches -->
                 </li>
                 <li class="nav-item ms-4">
-                    <a class="nav-link" href="#">BLOG</a>
+                    <a class="nav-link" (click)="scrollToSection('feature-section')">BLOG</a>
                 </li>
                 <li class="nav-item ms-4">
-                    <a class="nav-link" href="#">CHÍNH SÁCH</a>
+                    <a class="nav-link" (click)="scrollToSection('contact')">CHÍNH SÁCH</a>
                 </li>
                 <li class="nav-item ms-4">
-                    <a class="nav-link" href="#">LIÊN HỆ</a>
+                    <a class="nav-link" (click)="scrollToSection('contact')">LIÊN HỆ</a>
                 </li>
             </ul>
             <a class="nav-link text-primary" href="/register">ĐĂNG KÝ/</a>
@@ -194,7 +195,7 @@
     </div>
 </div>
 
-<div style="padding-top: 20px; padding-bottom: 100px;"></div>
+<div style="padding-top: 20px; padding-bottom: 100px;" id="contact">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6 text-start">
@@ -203,7 +204,7 @@
                     <p><i class="fa-solid fa-phone" style="margin-right: 5px;"></i>
                         0123456789</p>
                     <p><i class="fa-solid fa-envelope" style="margin-right: 5px;"></i>
-                        enggmail.com</p>
+                        {{email}}</p>
                     <p><i class="fa-solid fa-location-dot" style="margin-right: 5px;"></i>
                         179 Đặng Thùy Trâm, phường 13, quận Bình Thạnh, tp HCM</p>
                 </div>
@@ -211,27 +212,35 @@
             <div class="col-md-6">
                 <h1 class="my-4">Điều khoản và hướng dẫn</h1>
                 <div class="text-start">
-                    <p><a href="#">Điều khoản sử dụng/ bảo mật thông tin</a></p>
-                    <p><a href="#">Hướng dẫn</a></p>
-                    <p><a href="#">Liên hệ hỗ trợ</a></p>
+                    <p><a href="/terms">Điều khoản sử dụng</a><a href="/privacy">/ bảo mật thông tin</a></p>
+                    <p><a href="/guide">Hướng dẫn</a></p>
+                    <p><a href="/contact">Liên hệ hỗ trợ</a></p>
             </div>
         </div>
     </div>
-<hr style="border: 1px solid #000; margin: 0;"/> <!-- Adjust color and margin as needed -->
-<footer class="bg-light text-black text-center py-3">
-    <div class="container">
-        <p>&copy; 2024 Group 77 | All Rights Reserved</p>
-        <a href="#">Privacy Policy</a> |
-        <a href="#">Terms of Service</a>
-    </div>
-</footer>
+    <hr style="border: 1px solid #000; margin: 0;" />
+    <footer class="text-black text-center py-3 footer">
+        <div class="container">
+            <p>&copy; 2024 Group 77 | All Rights Reserved</p>
+            <a href="#">Privacy Policy</a> |
+            <a href="#">Terms of Service</a>
+            
+            
+            
+        </div>
+    </footer>
+    </div>    
+    <script>
+        
     
-   
-<script>
-    document.querySelector('a[href="#feature-section"]').addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent default anchor click behavior
-        document.querySelector('#feature-section').scrollIntoView({
-            behavior: 'smooth'
+        // Smooth scroll functionality for the feature section
+        document.querySelector('a[href="#feature-section"]').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.querySelector('#feature-section').scrollIntoView({
+                behavior: 'smooth'
+            });
         });
-    });
-</script>
+    </script>
+    
+    
+
