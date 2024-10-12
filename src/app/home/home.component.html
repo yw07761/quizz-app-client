@@ -1,0 +1,246 @@
+<div class="body">
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+        <a class="navbar-brand text-primary" href="/home">English</a>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <ul class="navbar-nav me-auto mb-4 mb-lg-0">
+                <li class="nav-item ms-4">
+                    <a class="nav-link active" aria-current="page" href="/home">TRANG CHỦ</a>
+                </li>
+                <li class="nav-item ms-4">
+                    <a class="nav-link" (click)="scrollToSection('feature-section')">TÍNH NĂNG</a> <!-- Ensure this href matches -->
+                </li>
+                <li class="nav-item ms-4">
+                    <a class="nav-link" (click)="scrollToSection('feature-section')">BLOG</a>
+                </li>
+                <li class="nav-item ms-4">
+                    <a class="nav-link" (click)="scrollToSection('contact')">CHÍNH SÁCH</a>
+                </li>
+                <li class="nav-item ms-4">
+                    <a class="nav-link" (click)="scrollToSection('contact')">LIÊN HỆ</a>
+                </li>
+            </ul>
+            <a class="nav-link text-primary" href="/register">ĐĂNG KÝ/</a>
+            <a class="nav-link text-danger ms-2" href="/login">ĐĂNG NHẬP</a>
+        </div>
+    </div>
+</nav>
+
+
+<div style="background-color: #b3ffff; padding-top: 200px; padding-bottom: 200px;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img class="img-responsive" src="../../assets/" width="500" height="500">
+            </div>
+            <div class="col-md-6 text-center">
+                <h1 class="my-4">ĐĂNG KÝ ĐỂ HỌC THỬ MIỄN PHÍ CÙNG CHÚNG TÔI</h1>
+                <div class="text-center">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <a href="/register" class="btn btn-primary btn-lg w-50 shadow-lg" tabindex="-1" role="button" aria-disabled="true">Bắt đầu</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <a href="/login" class="btn btn-light btn-lg w-50 shadow-lg" tabindex="-1" role="button" aria-disabled="true">Tôi đã có tài khoản</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="padding-top: 20px; padding-bottom: 100px;" id="feature-section"> <!-- ID should match exactly -->
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-start">
+                <h1 class="my-4">TẠO BÀI THI TRẮC NGHIỆM ONLINE MIỄN PHÍ VÀ DỄ SỬ DỤNG</h1>
+                <div class="text-start">
+                    <p><i class="fa-solid fa-circle-check" style="color: #00ff04; margin-right: 5px;"></i>Dễ dàng tạo hoặc upload file câu hỏi trắc nghiệm</p>
+                    <p><i class="fa-solid fa-circle-check" style="color: #00ff04; margin-right: 5px;"></i>Nhiều tùy chọn trộn câu hỏi và tự động chấm bài làm</p>
+                    <p><i class="fa-solid fa-circle-check" style="color: #00ff04; margin-right: 5px;"></i>Tạo bài thi lấy ngẫu nhiên từ ngân hàng câu hỏi trắc nghiệm của bạn</p>
+                    <p><i class="fa-solid fa-circle-check" style="color: #00ff04; margin-right: 5px;"></i>Tích hợp Chat GPT giúp bạn tự động tạo câu hỏi trắc nghiệm</p>
+                    <p><i class="fa-solid fa-circle-check" style="color: #00ff04; margin-right: 5px;"></i>Triển khai thi online hoặc làm bài thi online không cần cài đặt ứng dụng</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img src="../../assets/img/doll.png" alt="Description" class="img-fluid" width="400" height="400"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div style="padding-top: 20px; padding-bottom: 100px;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="../../assets/img/image1.png" alt="Description" class="img-fluid" />
+            </div>
+            <div class="col-md-6 text-start">
+                <h1 class="my-4">THÊM CÂU HỎI VÀ BÀI THI ĐƠN GIẢN HƠN BAO GIỜ HẾT!</h1>
+                <div class="text-start">
+                    <p><i class="fa-solid fa-circle-check" style="color: #00ff04; margin-right: 5px;"></i>
+                        Thêm câu hỏi trắc nghiệm bằng tay với nhiều dạng câu hỏi như: 
+                        câu hỏi lựa chọn một đáp án, câu hỏi lựa chọn nhiều đáp án, 
+                        câu hỏi upload file...</p>
+                    <p><i class="fa-solid fa-circle-check" style="color: #00ff04; margin-right: 5px;"></i>
+                        Thêm câu hỏi từ Ngân Hàng câu hỏi trắc nghiệm, bạn có thể lấy câu hỏi chỉ định từ 
+                        ngân hàng câu hỏi hoặc cài đặt bài thi online lấy số lượng câu hỏi ngẫu nhiên từ 
+                        thư viện câu hỏi cho mỗi bài làm khác nhau.</p>
+                    <p><i class="fa-solid fa-circle-check" style="color: #00ff04; margin-right: 5px;"></i>
+                        Tải file danh sách câu hỏi trắc nghiệm có sẵn lên, 
+                        Ninequiz hỗ trợ các file word, excel, pdf.</p>
+                    <p><i class="fa-solid fa-circle-check" style="color: #00ff04; margin-right: 5px;"></i>
+                        Sử dụng AI tạo câu hỏi theo chủ đề của bạn</p>
+                    <p><i class="fa-solid fa-circle-check" style="color: #00ff04; margin-right: 5px;"></i>
+                        Tạo câu hỏi từ nội dung của bạn bằng AI, sau khi bạn cung cấp nội dung cho AI, 
+                        hệ thống sẽ tự động tạo câu hỏi trắc nghiệm từ nội dung tài liệu của bạn.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="padding-top: 20px; padding-bottom: 100px;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-start">
+                <h1 class="my-4">LÊN TRƯỚC LỊCH THI ONLINE HOẶC GIỚI HẠN THỜI GIAN LÀM BÀI THI</h1>
+                <div class="text-start">
+                    <p>
+                        <i class="fa-solid fa-circle-check" style="color: #00ff04; margin-right: 5px;"></i>
+                        Bạn có thể cài đặt thời gian để học sinh chỉ làm bài thi online trong khung thời gian qui định:
+                    </p>
+                    <ul>
+                        <li>
+                            Qui định thời gian cho bài làm (10’, 15’, 45’...)
+                        </li>
+                        <li>
+                            Qui định thời gian có thể bắt đầu làm bài
+                        </li>
+                        <li>
+                            Qui định thời gian kết thúc hiệu lực làm bài
+                        </li>
+                    </ul>
+                    <p>
+                        <i class="fa-solid fa-circle-check" style="color: #00ff04; margin-right: 5px;"></i>
+                        Hoặc bỏ cài đặt thời gian để học sinh có thể làm bài bất kỳ lúc nào cho đến khi nộp bài thành công.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img src="../../assets/img/image4.png" alt="Description" class="img-fluid" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="padding-top: 20px; padding-bottom: 100px;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="../../assets/img/image2.png" alt="Description" class="img-fluid" />
+            </div>
+            <div class="col-md-6 text-start">
+                <h1 class="my-4">CHIA SẺ BÀI THI VÀ QUẢN LÍ USER CÓ THỂ LÀM BÀI THI</h1>
+                <div class="text-start">
+                    <p><i class="fa-solid fa-circle-check" style="color: #00ff04; margin-right: 5px;"></i>
+                        Chia sẻ public: Bạn chỉ việc sao chép đường dẫn chia sẻ và gửi cho đối tượng cần làm 
+                        bài thi hoặc tải và chia sẻ qr code cho học sinh quét qr code truy cập trực tiếp vào bài thi</p>
+                    <p><i class="fa-solid fa-circle-check" style="color: #00ff04; margin-right: 5px;"></i>
+                        Bạn có thể quản lý bài kiểm tra với từng nhóm hoặc lớp bằng cách tạo lớp và thêm học sinh vào lớp</p>
+                        <ul>
+                            <li>
+                                Quản lý nhóm và lên lịch thi riêng cho từng nhóm, user ngoài danh sách chỉ định sẽ không truy 
+                                cập bài thi được
+                            </li>
+                            <li>
+                                Khi triển khai bài thi chỉ định user thì các user sẽ nhận được thông báo về bài thi
+                            </li>
+                            
+                        </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div style="padding-top: 20px; padding-bottom: 100px;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-start">
+                <h1 class="my-4">HỌC SINH LÀM BÀI KHÔNG CẦN CÀI ĐẶT THÊM ỨNG DỤNG</h1>
+                <div class="text-start">
+                    <p><i class="fa-solid fa-circle-check " style="color: #00ff04; margin-right: 5px;"></i>
+                        Học sinh dể dàng truy cập và làm bài thi trắc nghiệm online mà không cần cài đặt thêm ứng dụng</p>
+                    <p><i class="fa-solid fa-circle-check" style="color: #00ff04; margin-right: 5px;"></i>
+                        Giao diện làm bài trắc nghiệm online trực quan và dể tương tác</p>
+                    <p><i class="fa-solid fa-circle-check" style="color: #00ff04; margin-right: 5px;"></i>
+                        Giao diện tuỳ biến theo kích thước màn hình mà không làm thay đổi chất lượng hình ảnh</p>
+                    <p><i class="fa-solid fa-circle-check" style="color: #00ff04; margin-right: 5px;"></i>
+                        Chỉ cần scan qr code bài thi trắc nghiệm online hoặc truy cập link bài thi và 
+                        làm bài mà không cần cài đặt ứng dụng</p>
+                    <p><i class="fa-solid fa-circle-check" style="color: #00ff04; margin-right: 5px;"></i>
+                        Trả lời bài thi tự luận bằng cách chụp ảnh bài làm hoặc upload file word</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <img src="../../assets/img/image3.png" alt="Description" class="img-fluid" width="600" height="600"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="padding-top: 20px; padding-bottom: 100px;" id="contact">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 text-start">
+                <h1 class="my-4">Thông tin liên hệ</h1>
+                <div class="text-start">
+                    <p><i class="fa-solid fa-phone" style="margin-right: 5px;"></i>
+                        0123456789</p>
+                    <p><i class="fa-solid fa-envelope" style="margin-right: 5px;"></i>
+                        {{email}}</p>
+                    <p><i class="fa-solid fa-location-dot" style="margin-right: 5px;"></i>
+                        179 Đặng Thùy Trâm, phường 13, quận Bình Thạnh, tp HCM</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h1 class="my-4">Điều khoản và hướng dẫn</h1>
+                <div class="text-start">
+                    <p><a href="/terms">Điều khoản sử dụng</a><a href="/privacy">/ bảo mật thông tin</a></p>
+                    <p><a href="/guide">Hướng dẫn</a></p>
+                    <p><a href="/contact">Liên hệ hỗ trợ</a></p>
+            </div>
+        </div>
+    </div>
+    <hr style="border: 1px solid #000; margin: 0;" />
+    <footer class="text-black text-center py-3 footer">
+        <div class="container">
+            <p>&copy; 2024 Group 77 | All Rights Reserved</p>
+            <a href="#">Privacy Policy</a> |
+            <a href="#">Terms of Service</a>
+            
+            
+            
+        </div>
+    </footer>
+    </div>    
+    <script>
+        
+    
+        // Smooth scroll functionality for the feature section
+        document.querySelector('a[href="#feature-section"]').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.querySelector('#feature-section').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    </script>
+    
+    
+

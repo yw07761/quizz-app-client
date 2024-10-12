@@ -1,0 +1,50 @@
+<div class="container d-flex justify-content-center align-items-center min-vh-100 ">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="login-form bg-white p-4 rounded shadow">
+        <h2 class="text-center">Đăng nhập</h2>
+        <p class="text-muted text-center">Đăng nhập để truy cập tài khoản của bạn</p>
+        
+        <form #frm1="ngForm" (ngSubmit)="onSubmit()">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" [(ngModel)]="email" name="email" id="email" class="form-control" required>
+          </div>
+          
+          <div class="mb-3">
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" [(ngModel)]="password" name="password" id="password" class="form-control" required>
+          </div>
+          
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <input type="checkbox" id="remember" class="me-1">
+              <label for="remember">Lưu mật khẩu</label>
+            </div>
+            <a class="forgot-password text-danger" routerLink="/forgot-password">Quên mật khẩu?</a>
+          </div>
+          
+          <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
+          
+          <p class="text-center mt-3">Bạn chưa có tài khoản? <a routerLink="/register" class="text-danger">Đăng kí tại đây</a></p>
+          
+          <p class="text-center or-login text-muted ">Hoặc đăng nhập bằng</p>
+          
+          <div class="login-options d-flex justify-content-between mt-2">
+            <div class="login-option login-option-google d-flex align-items-center justify-content-center">
+                <i class="fa-brands fa-google" style="color: #fd4c00;"></i>
+            </div>
+            <div class="login-option login-option-facebook d-flex align-items-center justify-content-center"> 
+                <i class="fa-brands fa-facebook-f" style="color: #0062ad;"></i>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <div class="col-md-6 d-none d-md-block d-flex align-items-center justify-content-center" style="padding-left: 150px;padding-top: 50px;">
+      <img src="../../assets/img/login.png" alt="Description" class="img-fluid" width="500" height="500"/>
+    </div>
+    
+  </div>
+</div>

@@ -1,16 +1,16 @@
 import { Routes} from '@angular/router';
-import { Exam_studentComponent } from './screens/exam_student/exam_student.component';
-import { LoginComponent } from './screens/login/login.component';
-import { RegisterComponent } from './screens/register/register.component';
-import { ForgotPasswordComponent } from './screens/forgot-password/forgot-password.component';
-import {QRcodeComponent} from './screens/qrcode/qrcode.component';
-import {ResetPWComponent} from './screens/reset-pw/reset-pw.component';
-import { HomeComponent } from './screens/home/home.component';
-import { Library_teacherComponent } from './screens/Library _ teacher/Library _ teacher.component';
-import { TermsComponent } from './screens/terms/terms.component';
-import { PrivacyComponent } from './screens/privacy/privacy.component';
-import { GuideComponent } from './screens/guide/guide.component';
-import { ContactComponent } from './screens/contact/contact.component';
+import { Exam_studentComponent } from './exam_student/exam_student.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import {QRcodeComponent} from './qrcode/qrcode.component';
+import {ResetPWComponent} from './reset-pw/reset-pw.component';
+import { HomeComponent } from './home/home.component';
+import { Library_teacherComponent } from './Library _ teacher/Library _ teacher.component';
+import { TermsComponent } from './terms/terms.component';
+import { PrivacyComponent } from './privacy/privacy.component';
+import { GuideComponent } from './guide/guide.component';
+import { ContactComponent } from './contact/contact.component';
 
 const routes: Routes = [
   { path: 'exam', component: Exam_studentComponent },
