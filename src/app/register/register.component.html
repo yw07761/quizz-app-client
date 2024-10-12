@@ -4,7 +4,7 @@
       <h2>Đăng ký</h2>
       <p class="text-muted">Tạo tài khoản để trải nghiệm lộ trình học hot nhất</p>
       
-      <form>
+      <form #frm1="ngForm" (ngSubmit)="onSubmit(frm1.value)">
         <div class="mb-6">
           <label for="fname" class="form-label">Họ:</label>
           <input type="text" id="fname" class="form-control" required>
@@ -12,22 +12,22 @@
 
         <div class="mb-6">
           <label for="lname" class="form-label">Tên:</label>
-          <input type="text" id="lname" class="form-control" required>
+          <input type="text" [(ngModel)]="lname" name="lname"  id="lname" class="form-control" required>
         </div>
 
         <div class="mb-6">
           <label for="email" class="form-label">Email:</label>
-          <input type="email" id="email" class="form-control" required>
+          <input type="email" [(ngModel)]="email" name="email" id="email" class="form-control" required>
         </div>
 
         <div class="mb-6">
           <label for="password" class="form-label">Mật khẩu:</label>
-          <input type="password" id="password" class="form-control" required>
+          <input type="password" [(ngModel)]="password" name="password" id="password" class="form-control" required>
         </div>
 
         <div class="mb-3">
           <label for="confirm-password" class="form-label">Nhập lại mật khẩu:</label>
-          <input type="password" id="confirm-password" class="form-control" required>
+          <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" id="confirm-password" class="form-control" required>
         </div>
 
         <div class="form-check mb-3">
