@@ -1,0 +1,58 @@
+input.form-control {
+  border: 2px solid #86c0ff; /* Đặt màu viền và độ dày */
+  border-radius: 4px; /* Giữ viền bo góc */
+}
+
+input.form-control:focus {
+  border-color: #0056b3; /* Màu viền khi focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Hiệu ứng bóng khi focus */
+}
+.login-options {
+  display: flex;
+  flex-direction: space-between;
+  align-items: center;
+  margin-top: 20px;
+
+  .login-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    width: 50%;
+    max-width: 300px;
+    padding: 20px;
+    border-radius: 4px;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    transition: background-color 0.2s, box-shadow 0.2s;
+
+    &:hover {
+      background-color: #f0f0f0;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+ 
+}
+
+.register-link {
+  color: #ff0000;
+  text-decoration: none;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.forgot-password {
+  color: #ff0000;
+  text-decoration: none;
+  
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+
