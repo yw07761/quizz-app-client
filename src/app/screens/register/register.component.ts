@@ -1,18 +1,16 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  template: `
-    <a routerLink="/register">register</a>
-  `, 
-  imports: [RouterLink, RouterOutlet],
+  imports: [RouterLink,FormsModule, RouterOutlet],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-  name: string = '';
+  lname: string = '';
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
@@ -24,24 +22,21 @@ export class RegisterComponent {
     this.router.navigate(['/login']);
   }
 
-  onSubmit() {
+  onSubmit(frm1 :any) {
+    console.log('đăng ký thành công !')
     this.errorMessage = ''; // Reset thông báo lỗi
 
     if (this.password !== this.confirmPassword) {
       this.errorMessage = 'Mật khẩu không khớp!';
       return;
     }
-
-    // Giả sử bạn muốn gửi dữ liệu đăng ký đến một API
     const registrationData = {
-      name: this.name,
-      email: this.email,
-      password: this.password
+      lname: frm1.lname,
+      email: frm1.email,
+      password: frm1.password
     };
-
-    // Thực hiện logic gửi dữ liệu đến backend ở đây
     console.log('Dữ liệu đăng ký:', registrationData);
-
+    
     // Ví dụ: Gửi dữ liệu đến API và điều hướng nếu thành công
     // this.registrationService.register(registrationData).subscribe(
     //   response => {

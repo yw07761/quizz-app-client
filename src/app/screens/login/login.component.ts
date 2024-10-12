@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
@@ -10,7 +11,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
     <a routerLink="/register">register</a>
     <a routerLink="/forgot-password">forgot-password</a>
   `, 
-  imports: [RouterLink, RouterOutlet],
+  imports: [RouterLink, FormsModule , RouterOutlet],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 
@@ -18,15 +19,17 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 })
 export class LoginComponent {
   loginForm: FormGroup;
-
+  email: string = '';
+  password: string = '';
   constructor() {
     this.loginForm = new FormGroup({
-      username: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required)
     });
   }
-
+  
   onSubmit() {
-    // Handle form submission here
-  }
+    console.log('Thành công');
+    console.log('Form Submitted', this.email, this.password)
+    }
 }
