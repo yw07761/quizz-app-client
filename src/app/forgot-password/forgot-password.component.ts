@@ -1,37 +1,32 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  template: `
-    <a routerLink="/login">login</a>
-  `, 
-  imports: [RouterLink, RouterOutlet],
-  templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss']
+  templateUrl: './forgot-password.component.html', // Moved templateUrl here
+  styleUrls: ['./forgot-password.component.scss'],
+  imports: [RouterLink, RouterOutlet, RouterModule, FormsModule]
 })
 export class ForgotPasswordComponent {
   email: string = '';
 
-  onSubmit() {
-    if (!this.email) {
+  constructor(private router: Router) {}
+
+  onSubmit(frm1: any) {
+    if (!frm1.email) {
       alert('Please enter your email address!');
       return;
     }
 
-    // Giả sử bạn có một API để gửi yêu cầu đặt lại mật khẩu
     const forgotPasswordData = {
-      email: this.email
+      email: frm1.email
     };
 
-    // Thực hiện logic gửi dữ liệu đến backend ở đây
     console.log('Forgot Password Data:', forgotPasswordData);
-
-    // Thông báo cho người dùng rằng yêu cầu đã được gửi
-    alert('A password reset link has been sent to your email address.');
-
-    // Có thể điều hướng người dùng về trang đăng nhập
-    // this.router.navigate(['/login']);
+    alert('Một liên kết đặt lại mật khẩu đã được gửi đến địa chỉ email của bạn.');
+    
+    this.router.navigate(['/reset-password']);
   }
 }

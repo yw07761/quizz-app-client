@@ -8,14 +8,14 @@
       </p>
       <h2>Đặt lại mật khẩu</h2>
       <p class="text-muted">Yêu cầu đặt lại mật khẩu của bạn đã được xác minh. Hãy đặt lại mật khẩu mới</p>
-      <form>
+      <form #frm1="ngForm" (ngSubmit)="onSubmit(frm1.value)">
         <div class="mb-3">
           <label for="password" class="form-label">Tạo mật khẩu:</label>
-          <input type="password" id="password" class="form-control" required>
+          <input type="password" [(ngModel)]="password" name="password" id="password" class="form-control" required>
         </div>
         <div class="mb-3">
-          <label for="password" class="form-label">Nhập lại mật khẩu:</label>
-          <input type="password" id="password" class="form-control" required>
+          <label for="confirm-password" class="form-label">Nhập lại mật khẩu:</label>
+          <input type="password" [(ngModel)]="confirmPassword" name="confirmPassword" id="confirm-password" class="form-control" required>
         </div>
         <button type="submit" class="btn btn-primary w-100">Đặt lại mật khẩu</button>
       </form>
