@@ -1,0 +1,86 @@
+.container {
+    padding: 20px;
+    margin: 10px;
+    padding: auto 0px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile img {
+    width: 5px;
+    height: 5px;
+    border-radius: 100%;
+}
+
+.search-section {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+}
+
+.content {
+    border: 1px solid #ddd;
+    padding: 20px;
+}
+
+.exam-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.course-info {
+    display: flex;
+    gap: 20px;
+}
+
+.course-info img {
+    width: 100px;
+    height: 100px;
+}
+
+.exam-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.start-btn {
+    background-color: #f0e68c;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.timer {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.timer img {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+}
