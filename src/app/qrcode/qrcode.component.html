@@ -9,10 +9,10 @@
       </p>
       <h2>Mã xác minh</h2>
       <p class="text-muted">Mã tự động được gửi vào mail của bạn</p>
-      <form>
+      <form #frm1="ngForm" (ngSubmit)="onSubmit(frm1.value)">
         <div class="mb-3">
           <label for="pincode" class="form-label">Nhập mã:</label>
-          <input type="text" id="pincode" class="form-control" required>
+          <input type="text" [(ngModel)]="pincode" name="pincode" id="pincode" class="form-control" required>
         </div>
         <p>Bạn chưa nhận được mã xác minh? <a class="forgot-password text-danger">Gửi lại</a></p>
         <button type="submit" class="btn btn-primary w-100">Chấp nhận</button>

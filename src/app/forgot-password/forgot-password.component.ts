@@ -27,6 +27,6 @@ export class ForgotPasswordComponent {
     console.log('Forgot Password Data:', forgotPasswordData);
     alert('Một liên kết đặt lại mật khẩu đã được gửi đến địa chỉ email của bạn.');
     
-    this.router.navigate(['/reset-password']);
+    this.router.navigate(['/qrcode']);
   }
 }
