@@ -48,6 +48,8 @@ class JavaScriptTransformer {
             // Shutdown idle threads after 1 second of inactivity
             idleTimeout: 1000,
             recordTiming: false,
+            // Prevent passing `--import` (loader-hooks) from parent to child worker.
+            execArgv: [],
         });
         return this.#workerPool;
     }

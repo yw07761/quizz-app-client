@@ -11,8 +11,10 @@ import { TermsComponent } from './terms/terms.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { GuideComponent } from './guide/guide.component';
 import { ContactComponent } from './contact/contact.component';
+import { RoleComponent } from './role/role.component';
 
 const routes: Routes = [
+  { path: 'role', component: RoleComponent },
   { path: 'exam', component: Exam_studentComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },

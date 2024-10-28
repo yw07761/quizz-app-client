@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { HttpClientModule, HttpErrorResponse } from '@angular/common/http'; 
 
 @Component({
   selector: 'app-login',
@@ -11,25 +13,39 @@ import { FormsModule } from '@angular/forms';
     <a routerLink="/register">register</a>
     <a routerLink="/forgot-password">forgot-password</a>
   `, 
-  imports: [RouterLink, FormsModule , RouterOutlet],
+  imports: [RouterLink, FormsModule, ReactiveFormsModule, RouterOutlet, HttpClientModule], // Đảm bảo HttpClientModule được thêm vào đây
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-
-
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  email: string = '';
-  password: string = '';
-  constructor() {
-    this.loginForm = new FormGroup({
-      email: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required)
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
     });
   }
-  
+
   onSubmit() {
-    console.log('Thành công');
-    console.log('Form Submitted', this.email, this.password)
+    if (this.loginForm.valid) {
+      console.log('Đang thực hiện gửi biểu mẫu:', this.loginForm.value);
+      this.authService.signIn(this.loginForm.value).subscribe({
+        next: (response) => {
+          console.log('Đăng nhập thành công:', response);
+          this.router.navigate(['/role']);
+        },
+        error: (err) => {
+          console.error('Đăng nhập thất bại:', err);
+        }
+      });
+    } else {
+      console.log('Form không hợp lệ');
     }
+  }
+  
 }
