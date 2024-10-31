@@ -6,6 +6,7 @@ import { tap, catchError } from 'rxjs/operators';
 interface User {
   _id: string;
   username: string;
+  password: string;
   email: string;
   role: string;
   token?: string; // Token có thể không có nếu không được trả về
@@ -57,10 +58,10 @@ export class AuthService {
 
   // Phương thức đăng ký
   register(userData: { username: string; email: string; password: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/sign-up`, userData).pipe(
-      catchError(this.handleError) // Sử dụng phương thức xử lý lỗi
-    );
+    return this.http.post(`${this.apiUrl}/sign-up`, userData);
   }
+  
+
 
   // Phương thức cập nhật vai trò người dùng
   updateUserRole(userId: string, role: string): Observable<AuthResponse> {

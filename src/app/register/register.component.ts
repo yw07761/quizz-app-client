@@ -22,7 +22,7 @@ export class RegisterComponent {
   constructor(private router: Router, private authService: AuthService) { }
 
   navigateToLogin() {
-    this.router.navigate(['/role']);
+    this.router.navigate(['/login']);
   }
 
   onSubmit() {
@@ -43,7 +43,7 @@ export class RegisterComponent {
     this.authService.register(registrationData).subscribe({
       next: (response) => {
         console.log('Đăng ký thành công:', response);
-        this.router.navigate(['/role']);
+        this.router.navigate(['/login']);
       },
       error: (error) => {
         console.error('Đăng ký thất bại:', error);

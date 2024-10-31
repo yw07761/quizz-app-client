@@ -24,7 +24,7 @@ export class RoleComponent implements OnInit {
     // Check if the user is logged in
     const user = this.authService.getCurrentUser();
     if (!user) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/register']);
       return;
     }
   }

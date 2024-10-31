@@ -1,20 +1,19 @@
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http'; // Nhập HttpClientModule
+import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+
 import { AppComponent } from './app.component';
-import { RouterModule } from '@angular/router';
+import { AuthService } from '../services/auth.service'; // Import AuthService
 
 @NgModule({
   declarations: [
-    AppComponent,
-    // Các component khác
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule, // Thêm HttpClientModule vào imports
-    RouterModule.forRoot([]) // Khai báo các routes
+    HttpClientModule // Đảm bảo rằng HttpClientModule được import
   ],
-  providers: [],
+  providers: [AuthService], // Đăng ký AuthService
   bootstrap: [AppComponent]
 })
 export class AppModule { }
