@@ -1,52 +1,55 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [RouterLink,FormsModule, RouterOutlet],
+  imports: [RouterLink, FormsModule, RouterOutlet, HttpClientModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-  lname: string = '';
+  firstName: string = ''; 
+  lastName: string = '';  
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
-  errorMessage: string = ''; // Biến để lưu thông báo lỗi
+  errorMessage: string = '';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) { }
 
   navigateToLogin() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/role']);
   }
 
-  onSubmit(frm1 :any) {
-    console.log('đăng ký thành công !')
-    this.errorMessage = ''; // Reset thông báo lỗi
+  onSubmit() {
+    this.errorMessage = '';
 
     if (this.password !== this.confirmPassword) {
       this.errorMessage = 'Mật khẩu không khớp!';
+      alert("Mật khẩu không khớp!");
       return;
     }
+
     const registrationData = {
-      lname: frm1.lname,
-      email: frm1.email,
-      password: frm1.password
+      username: `${this.firstName} ${this.lastName}`, // Kết hợp họ và tên
+      email: this.email,
+      password: this.password
     };
-    console.log('Dữ liệu đăng ký:', registrationData);
-    
-    // Ví dụ: Gửi dữ liệu đến API và điều hướng nếu thành công
-    // this.registrationService.register(registrationData).subscribe(
-    //   response => {
-    //     // Nếu thành công
-    //     this.router.navigate(['/login']);
-    //   },
-    //   error => {
-    //     // Xử lý lỗi
-    //     this.errorMessage = 'Có lỗi xảy ra, vui lòng thử lại.';
-    //   }
-    // );
+
+    this.authService.register(registrationData).subscribe({
+      next: (response) => {
+        console.log('Đăng ký thành công:', response);
+        this.router.navigate(['/role']);
+      },
+      error: (error) => {
+        console.error('Đăng ký thất bại:', error);
+        this.errorMessage = 'Có lỗi xảy ra, vui lòng thử lại.';
+        alert("Trùng email");
+      }
+    });
   }
 }
