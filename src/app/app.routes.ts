@@ -12,7 +12,8 @@ import { PrivacyComponent } from './privacy/privacy.component';
 import { GuideComponent } from './guide/guide.component';
 import { ContactComponent } from './contact/contact.component';
 import { RoleComponent } from './role/role.component';
-
+import { StudentDashboardComponent } from './student-dashboard/student-dashboard.component';
+import { TeacherDashboardComponent } from './teacher-dashboard/teacher-dashboard.component';
 const routes: Routes = [
   { path: 'role', component: RoleComponent },
   { path: 'exam', component: Exam_studentComponent },
@@ -27,6 +28,8 @@ const routes: Routes = [
   { path: 'privacy', component: PrivacyComponent },
   { path: 'guide', component: GuideComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'student-dashboard', component: StudentDashboardComponent },
+  { path: 'teacher-dashboard', component: TeacherDashboardComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' } // Route không tìm thấy
 ];

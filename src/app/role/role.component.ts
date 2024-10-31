@@ -48,11 +48,11 @@ export class RoleComponent implements OnInit {
         localStorage.setItem('user', JSON.stringify(response.user));
         this.isLoading = false;
         
-        // Navigate based on the selected role
+        // Navigate based on role
         if (role === 'student') {
-          this.router.navigate(['/home']);
+          this.router.navigate(['/student-dashboard']);
         } else {
-          this.router.navigate(['/home']);
+          this.router.navigate(['/teacher-dashboard']);
         }
       },
       error: (error) => {

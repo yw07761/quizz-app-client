@@ -1,0 +1,74 @@
+<div class="dashboard-container">
+    <nav class="navbar">
+      <div class="navbar-brand">
+        <img src="assets/logo.png" alt="Logo" class="logo">
+        <span>Teacher Dashboard</span>
+      </div>
+      <div class="navbar-menu">
+        <ul class="nav-links">
+          <li><a routerLink="/manage-tests">Manage Tests</a></li>
+          <li><a routerLink="/manage-classes">Classes</a></li>
+          <li><a routerLink="/results">Results</a></li>
+          <li><a routerLink="/reports">Reports</a></li>
+        </ul>
+        <div class="user-menu">
+          <span>Welcome, {{user?.username}}</span>
+          <button (click)="logout()">Logout</button>
+        </div>
+      </div>
+    </nav>
+  
+    <div class="dashboard-content">
+      <div class="welcome-section">
+        <h1>Teacher Management Dashboard</h1>
+        <p>Manage your classes and tests</p>
+      </div>
+  
+      <div class="action-buttons">
+        <button class="action-btn" (click)="createNewTest()">
+          <i class="fas fa-plus"></i>
+          Create New Test
+        </button>
+        <button class="action-btn" (click)="viewResults()">
+          <i class="fas fa-chart-bar"></i>
+          View Results
+        </button>
+        <button class="action-btn" (click)="manageClasses()">
+          <i class="fas fa-users"></i>
+          Manage Classes
+        </button>
+      </div>
+  
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>Active Tests</h3>
+          <p class="stat-number">8</p>
+          <p>Currently Running</p>
+        </div>
+        <div class="stat-card">
+          <h3>Students</h3>
+          <p class="stat-number">120</p>
+          <p>Total Enrolled</p>
+        </div>
+        <div class="stat-card">
+          <h3>Classes</h3>
+          <p class="stat-number">5</p>
+          <p>Active Classes</p>
+        </div>
+      </div>
+  
+      <div class="recent-activity">
+        <h2>Recent Activity</h2>
+        <div class="activity-list">
+          <div class="activity-item">
+            <span class="activity-date">Today</span>
+            <p>Created new test: Angular Fundamentals</p>
+          </div>
+          <div class="activity-item">
+            <span class="activity-date">Yesterday</span>
+            <p>Graded 25 submissions</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
