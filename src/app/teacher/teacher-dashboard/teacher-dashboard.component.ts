@@ -1,22 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-teacher-dashboard',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
   templateUrl: './teacher-dashboard.component.html',
   styleUrls: ['./teacher-dashboard.component.scss']
 })
 export class TeacherDashboardComponent implements OnInit {
   user: any = null;
+  isDropdownActive = false;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
     this.user = this.authService.getCurrentUser();
+  }
+
+  toggleDropdown() {
+    this.isDropdownActive = !this.isDropdownActive;
   }
 
   logout() {
@@ -28,18 +29,5 @@ export class TeacherDashboardComponent implements OnInit {
         console.error('Logout error:', error);
       }
     });
-  }
-
-  // Thêm các phương thức khác cho giáo viên
-  createNewTest() {
-    // Logic tạo bài kiểm tra mới
-  }
-
-  viewResults() {
-    // Logic xem kết quả học sinh
-  }
-
-  manageClasses() {
-    // Logic quản lý lớp học
   }
 }

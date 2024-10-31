@@ -1,0 +1,55 @@
+<div class="navbar">
+  <div class="logo">
+    <img src="../../assets/img/qye-challenge-logo.png" alt="Logo" height="30" width="30">
+    <span>Quiz your English Challenge</span>
+  </div>
+  <div class="nav-links">
+    <a href="/teacher-dashboard" class="active">Bài kiểm tra</a>
+    <a href="#">Thư viện câu hỏi</a>
+    <a href="#">Lớp</a>
+    <a href="#">Tổng kết</a>
+  </div>
+  <div class="user-menu">
+    <i class="fas fa-question-circle" style="margin-right: 20px;"></i>
+    <i class="fas fa-bell" style="margin-right: 20px;"></i>
+    <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="40" width="40" (click)="toggleDropdown()">
+    <div class="dropdown" [class.active]="isDropdownActive">
+      <div class="profile">
+        <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="50" width="50">
+        <div class="info">
+          <div class="name">{{ user?.username }}</div>
+          <div class="email">{{ user?.email }}</div>
+        </div>
+        <a href="#" class="view-profile">Xem hồ sơ</a>
+      </div>
+      <div class="menu">
+        <a href="#"><i class="fas fa-user-graduate"></i> Thông tin cá nhân</a>
+        <a href="#"><i class="fas fa-cog"></i> Cài đặt chung</a>
+        <a href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+  <div style="display: flex; justify-content: flex-end;">
+    <button class="create-button">
+      Tạo bài kiểm tra
+      <i class="fas fa-plus"></i>
+    </button>
+  </div>
+  <div class="section">
+    <h2>Đang diễn ra</h2>
+    <div class="empty-state">
+      <img src="../../assets/img/pic01.png" alt="No Schedule" height="100" width="100">
+      <div>Hiện tại không có bài trắc nghiệm nào trong lịch sử gần đây</div>
+    </div>
+  </div>
+  <div class="section">
+    <h2>Đang soạn</h2>
+    <div class="empty-state">
+      <img src="../../assets/img/pic02.png" alt="No Tests" height="100" width="100">
+      <div>Hiện tại không có bài trắc nghiệm nào trong lịch sử gần đây</div>
+    </div>
+  </div>
+</div>
