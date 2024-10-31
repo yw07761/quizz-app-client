@@ -128,7 +128,7 @@ async function renderPages(sourcemap, allRoutes, maxThreads, workspaceRoot, outp
                 }
             })
                 .catch((err) => {
-                errors.push(`An error occurred while prerendering route '${route}'.\n\n${err.stack}`);
+                errors.push(`An error occurred while prerendering route '${route}'.\n\n${err.stack ?? err.message ?? err.code ?? err}`);
                 void renderWorker.destroy();
             });
             renderingPromises.push(renderResult);
@@ -185,7 +185,7 @@ async function getAllRoutes(workspaceRoot, outputFilesForWorker, assetFilesForWo
     const { routes: extractedRoutes, warnings } = await renderWorker
         .run({})
         .catch((err) => {
-        errors.push(`An error occurred while extracting routes.\n\n${err.stack}`);
+        errors.push(`An error occurred while extracting routes.\n\n${err.stack ?? err.message ?? err.code ?? err}`);
     })
         .finally(() => {
         void renderWorker.destroy();

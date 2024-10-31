@@ -1,21 +1,27 @@
 <div class="container">
     <div class="logo">
-        <img alt="Quizz App" height="150" src=".../../../../assets/img/logo2.png" width="150"/>
+        <img alt="Quizz App" height="150" src="../../../assets/img/logo2.png" width="150"/>
     </div>
     <div class="title">
         Bạn tham gia <a href="#">QUIZ</a> với hình thức nào?
     </div>
     <div class="options">
         <div class="option" (click)="handleOptionClick('student')" [class.selected]="selectedRole === 'student'">
-            <img alt="Student participating in quiz" height="100" src=".../../../../assets/img/pic2.png" width="100"/>
+            <img alt="Student participating in quiz" height="100" src="../../../assets/img/pic2.png" width="100"/>
             <p>Học viên tham gia làm bài trắc nghiệm</p>
         </div>
         <div class="option" (click)="handleOptionClick('teacher')" [class.selected]="selectedRole === 'teacher'">
-            <img alt="Teacher creating quiz" height="100" src=".../../../../assets/img/pic3.png" width="100"/>
+            <img alt="Teacher creating quiz" height="100" src="../../../assets/img/pic3.png" width="100"/>
             <p>Giáo viên tạo và quản lý bài trắc nghiệm Online</p>
         </div>
     </div>        
 </div>
+
 <div class="footer">
-    <img alt="Rocket and gears illustration" height="200" src=".../../../../assets/img/footer.png" width="200"/>
+    <img alt="Rocket and gears illustration" height="200" src="../../../assets/img/footer.png" width="200"/>
+</div>
+
+<!-- Loading Indicator -->
+<div *ngIf="isLoading" class="loading-indicator">
+    Đang xử lý... <i class="fa fa-spinner fa-spin"></i>
 </div>

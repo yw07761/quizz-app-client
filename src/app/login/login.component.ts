@@ -4,7 +4,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { HttpClientModule, HttpErrorResponse } from '@angular/common/http'; 
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +13,7 @@ import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
     <a routerLink="/register">register</a>
     <a routerLink="/forgot-password">forgot-password</a>
   `, 
-  imports: [RouterLink, FormsModule, ReactiveFormsModule, RouterOutlet, HttpClientModule], // Đảm bảo HttpClientModule được thêm vào đây
+  imports: [RouterLink, FormsModule, ReactiveFormsModule, RouterOutlet, HttpClientModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
@@ -47,5 +47,4 @@ export class LoginComponent {
       console.log('Form không hợp lệ');
     }
   }
-  
 }
