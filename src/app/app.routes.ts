@@ -15,6 +15,10 @@ import { RoleComponent } from './role/role.component';
 import { StudentDashboardComponent } from './student/student-dashboard/student-dashboard.component';
 import { TeacherDashboardComponent } from './teacher/teacher-dashboard/teacher-dashboard.component';
 import { TeacherLibraryComponent } from './teacher/teacher-library/teacher-library.component';
+import { TeacherClassComponent } from './teacher/teacher-class/teacher-class.component';
+import { TeacherStatisticsComponent } from './teacher/teacher-statistics/teacher-statistics.component';
+import { TeacherCategoryComponent } from './teacher/teacher-category/teacher-category.component';
+import { TeacherGroupComponent } from './teacher/teacher-group/teacher-group.component';
 
 
 const routes: Routes = [
@@ -34,6 +38,11 @@ const routes: Routes = [
   { path: 'student-dashboard', component: StudentDashboardComponent },
   { path: 'teacher-dashboard', component: TeacherDashboardComponent },
   { path: 'teacher-library', component: TeacherLibraryComponent },
+  { path: 'teacher-class', component: TeacherClassComponent },
+  { path: 'teacher-statistics', component: TeacherStatisticsComponent },
+  { path: 'teacher-category', component: TeacherCategoryComponent },
+  { path: 'teacher-group', component: TeacherGroupComponent },
+
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' } // Route không tìm thấy
 ];
