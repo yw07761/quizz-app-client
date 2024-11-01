@@ -1,1 +1,142 @@
-<p>exam-create works!</p>
+<div class="exam-create-container">
+    <div class="header">
+        <h1>Tạo bài thi mới</h1>
+        <button class="back-button" (click)="navigateBack()"><i class="fas fa-arrow-left"></i> Quay lại</button>
+    </div>
+
+    <form (ngSubmit)="onSubmit()">
+        <!-- Phần thông tin chung của bài thi -->
+        <div class="section-header" (click)="toggleSection('general')">
+            <i [ngClass]="isSectionOpen['general'] ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
+            <h2>Thông tin chung của bài thi</h2>
+        </div>
+        <div *ngIf="isSectionOpen['general']" class="section-content">
+            <div class="form-group">
+                <label for="examName">Tên bài thi</label>
+                <input type="text" id="examName" [(ngModel)]="exam.name" name="examName" required />
+            </div>
+
+            <div class="form-group">
+                <label for="description">Mô tả</label>
+                <textarea id="description" [(ngModel)]="exam.description" name="description"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="startDate">Ngày bắt đầu</label>
+                <input type="datetime-local" id="startDate" [(ngModel)]="exam.startDate" name="startDate" required />
+            </div>
+
+            <div class="form-group">
+                <label for="endDate">Ngày kết thúc</label>
+                <input type="datetime-local" id="endDate" [(ngModel)]="exam.endDate" name="endDate" required />
+            </div>
+
+            <div class="form-group">
+                <label for="maxAttempts">Số lần thi tối đa</label>
+                <input type="number" id="maxAttempts" [(ngModel)]="exam.maxAttempts" name="maxAttempts" min="1" />
+            </div>
+
+            <div class="form-group">
+                <label for="duration">Thời gian làm bài (phút)</label>
+                <input type="number" id="duration" [(ngModel)]="exam.duration" name="duration" min="1" required />
+            </div>
+        </div>
+
+        <!-- Phần cài đặt nâng cao -->
+        <div class="section-header" (click)="toggleSection('advanced')">
+            <i [ngClass]="isSectionOpen['advanced'] ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
+            <h2>Cài đặt nâng cao</h2>
+        </div>
+        <div *ngIf="isSectionOpen['advanced']" class="section-content">
+            <div class="advanced-settings">
+                <div class="form-group">
+                    <label for="maxScore">Điểm tối đa cho bài kiểm tra</label>
+                    <input type="number" id="maxScore" [(ngModel)]="exam.maxScore" name="maxScore" min="0" required />
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label>
+                        <span class="checkbox-label">Hệ thống sẽ tự động chia điểm bài thi  </span>
+                        <input type="checkbox" [(ngModel)]="exam.autoDistributeScore" name="autoDistributeScore">
+                    </label>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label>
+                        <span class="checkbox-label">Cho phép hiển thị bài làm của học viên</span>
+                        <input type="checkbox" [(ngModel)]="exam.showStudentResult" name="showStudentResult">
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="displayResults">Kết quả sẽ hiển thị</label>
+                    <select id="displayResults" [(ngModel)]="exam.displayResults" name="displayResults">
+                        <option value="afterGrading">Sau khi giáo viên chấm bài</option>
+                        <option value="afterSubmission">Sau khi nộp bài</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="questionOrder">Số thứ tự câu hỏi</label>
+                    <select id="questionOrder" [(ngModel)]="exam.questionOrder" name="questionOrder">
+                        <option value="A, B, C">A, B, C...</option>
+                        <option value="1, 2, 3">1, 2, 3...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="questionsPerPage">Số câu hỏi trên trang làm bài</label>
+                    <input type="number" id="questionsPerPage" [(ngModel)]="exam.questionsPerPage"
+                        name="questionsPerPage" min="1" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Phần thêm câu hỏi -->
+        <h2>Thêm câu hỏi</h2>
+        <div *ngFor="let section of sections; let sectionIndex = index" class="section-container">
+            <div class="section-header" (click)="toggleSection('section' + sectionIndex)">
+                <i [ngClass]="isSectionOpen['section' + sectionIndex] ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
+                <h3>Phần {{ sectionIndex + 1 }}</h3>
+            </div>
+
+            <div *ngIf="isSectionOpen['section' + sectionIndex]" class="section-content">
+                <input type="text" placeholder="Nhập tiêu đề phần" [(ngModel)]="section.title"
+                    name="sectionTitle{{sectionIndex}}" />
+                <textarea placeholder="Nhập mô tả" [(ngModel)]="section.description"
+                    name="sectionDescription{{sectionIndex}}"></textarea>
+                <button type="button" (click)="addQuestionToSection(sectionIndex)">+ Thêm câu hỏi</button>
+
+                <div *ngFor="let question of section.questions; let questionIndex = index" class="question-container">
+                    <label>Câu hỏi {{ questionIndex + 1 }}:</label>
+                    <input type="text" [(ngModel)]="question.content"
+                        name="questionContent{{sectionIndex}}{{questionIndex}}" placeholder="Nhập nội dung câu hỏi" />
+
+                    <div *ngFor="let answer of question.answers; let answerIndex = index" class="answer-container">
+                        <input type="radio" name="correctAnswer{{sectionIndex}}{{questionIndex}}"
+                            [(ngModel)]="question.correctAnswer" [value]="answerIndex" />
+                        <input type="text" [(ngModel)]="question.answers[answerIndex]"
+                            name="answer{{sectionIndex}}{{questionIndex}}{{answerIndex}}" placeholder="Câu trả lời..." />
+                    </div>
+                    <button type="button" (click)="addAnswerToQuestion(sectionIndex, questionIndex)">+ Thêm câu trả
+                        lời</button>
+
+                    <div class="score-container">
+                        <label>Điểm:</label>
+                        <input type="number" [(ngModel)]="question.score"
+                            name="score{{sectionIndex}}{{questionIndex}}" min="0" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nút để thêm phần mới -->
+        <div class="actions">
+            <button type="button" (click)="addSection()">+ Thêm phần</button>
+        </div>
+
+        <div class="actions">
+            <button type="submit" class="create-button">Tạo bài thi</button>
+        </div>
+    </form>
+</div>
