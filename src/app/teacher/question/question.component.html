@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="header">
+        <h1>Thêm câu hỏi vào thư viện</h1>
+        <span class="close-btn" (click)="closeForm()">&times;</span>
+    </div>
+    <div class="input-group">
+        <input type="text" placeholder="Danh mục" [(ngModel)]="category">
+        <select [(ngModel)]="group">
+            <option value="" disabled selected>Nhóm câu hỏi</option>
+            <option *ngFor="let g of groups" [value]="g">{{ g }}</option>
+        </select>
+    </div>
+    <div class="question-content">
+        <textarea rows="3" placeholder="Nhập nội dung câu hỏi" [(ngModel)]="question.text"></textarea>
+    </div>
+    <div class="answer-options">
+        <div *ngFor="let answer of question.answers; let i = index">
+            <label>
+                <input type="text" placeholder="Câu trả lời..." [(ngModel)]="answer.text">
+                <div class="toggle-btn">
+                    <i class="fas" [ngClass]="answer.isCorrect ? 'fa-toggle-on' : 'fa-toggle-off'" (click)="toggleAnswer(i)"></i>
+                </div>
+                <i class="fas fa-trash-alt icon" (click)="removeAnswer(i)"></i>
+            </label>
+        </div>
+        <button (click)="addAnswer()">Thêm câu trả lời</button>
+    </div>
+    <div class="footer">
+        <button class="upload-btn">Tải file lên</button>
+        <button class="save-btn" (click)="saveQuestion()">Lưu câu hỏi</button>
+        <button class="add-btn" (click)="resetForm()">Thêm câu hỏi mới</button>
+    </div>
+</div>

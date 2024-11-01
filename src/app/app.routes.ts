@@ -15,6 +15,7 @@ import { RoleComponent } from './role/role.component';
 import { StudentDashboardComponent } from './student/student-dashboard/student-dashboard.component';
 import { TeacherDashboardComponent } from './teacher/teacher-dashboard/teacher-dashboard.component';
 import { TeacherLibraryComponent } from './teacher/teacher-library/teacher-library.component';
+import { QuestionComponent } from './teacher/question/question.component';
 import { TeacherClassComponent } from './teacher/teacher-class/teacher-class.component';
 import { TeacherClassDetailComponent } from './teacher/teacher-class-detail/teacher-class-detail.component';
 import { TeacherStatisticsComponent } from './teacher/teacher-statistics/teacher-statistics.component';
@@ -39,6 +40,7 @@ const routes: Routes = [
   { path: 'student-dashboard', component: StudentDashboardComponent },
   { path: 'teacher-dashboard', component: TeacherDashboardComponent },
   { path: 'teacher-library', component: TeacherLibraryComponent },
+  { path: 'question', component: QuestionComponent },
   { path: 'teacher-class', component: TeacherClassComponent },
   { path: 'teacher-class-detail', component: TeacherClassDetailComponent },
   { path: 'teacher-statistics', component: TeacherStatisticsComponent },
@@ -46,7 +48,7 @@ const routes: Routes = [
   { path: 'teacher-group', component: TeacherGroupComponent },
 
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', redirectTo: '/home' } // Route không tìm thấy
+  { path: '**', redirectTo: '/teacher-class-detail' } // Route không tìm thấy
 ];
 
 export { routes }; // Export routes để có thể sử dụng trong các file khác

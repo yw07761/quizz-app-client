@@ -1,1 +1,14 @@
-<p>teacher-class-detail works!</p>
+<div class="class-detail" *ngIf="classDetail">
+    <h2>{{ classDetail.name }}</h2>
+    <p><strong>Code:</strong> {{ classDetail.code }}</p>
+    <p><strong>Description:</strong> {{ classDetail.description }}</p>
+    <p><strong>Students:</strong></p>
+    <ul>
+      <li *ngFor="let student of classDetail.students">{{ student }}</li>
+    </ul>
+  </div>
+  
+  <div *ngIf="!classDetail">
+    <p>Class not found.</p>
+  </div>
+  

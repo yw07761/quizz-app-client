@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
+import { Router } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router'; // Import RouterModule
 
 @Component({
   selector: 'app-teacher-class',
   templateUrl: './teacher-class.component.html',
   styleUrls: ['./teacher-class.component.scss'],
   standalone: true,
-  imports: [FormsModule, CommonModule]
+  imports: [FormsModule, CommonModule, RouterModule] // Add RouterModule here
 })
 export class TeacherClassComponent implements OnInit {
   user: any = null;
@@ -24,7 +26,11 @@ export class TeacherClassComponent implements OnInit {
   // Array to hold the classes dynamically
   classes: Array<{ id: number; code: string; name: string; description: string; students: string[] }> = [];
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
+
+  viewClassDetails(classId: number) {
+    this.router.navigate(['/teacher-class-detail', classId]);
+  }
 
   ngOnInit() {
     this.user = this.authService.getCurrentUser();
