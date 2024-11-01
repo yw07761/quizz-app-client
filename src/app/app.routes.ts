@@ -12,7 +12,6 @@ import { PrivacyComponent } from './privacy/privacy.component';
 import { GuideComponent } from './guide/guide.component';
 import { ContactComponent } from './contact/contact.component';
 import { RoleComponent } from './role/role.component';
-import { StudentDashboardComponent } from './student/student-dashboard/student-dashboard.component';
 import { TeacherDashboardComponent } from './teacher/teacher-dashboard/teacher-dashboard.component';
 import { ExamCreateComponent } from './teacher/exam-create/exam-create.component';
 import { TeacherLibraryComponent } from './teacher/teacher-library/teacher-library.component';
@@ -22,6 +21,10 @@ import { TeacherClassDetailComponent } from './teacher/teacher-class-detail/teac
 import { TeacherStatisticsComponent } from './teacher/teacher-statistics/teacher-statistics.component';
 import { TeacherCategoryComponent } from './teacher/teacher-category/teacher-category.component';
 import { TeacherGroupComponent } from './teacher/teacher-group/teacher-group.component';
+import { StudentDashboardComponent } from './student/student-dashboard/student-dashboard.component';
+import {ClassComponent} from './student/class/class.component';
+import {ExamHistoryComponent} from './student/exam-history/exam-history.component';
+import {SummaryComponent} from './student/summary/summary.component';
 
 
 const routes: Routes = [
@@ -38,7 +41,6 @@ const routes: Routes = [
   { path: 'privacy', component: PrivacyComponent },
   { path: 'guide', component: GuideComponent },
   { path: 'contact', component: ContactComponent },
-  { path: 'student-dashboard', component: StudentDashboardComponent },
   { path: 'teacher-dashboard', component: TeacherDashboardComponent },
   { path: 'exam-create', component: ExamCreateComponent },
   { path: 'teacher-library', component: TeacherLibraryComponent },
@@ -48,6 +50,11 @@ const routes: Routes = [
   { path: 'teacher-statistics', component: TeacherStatisticsComponent },
   { path: 'teacher-category', component: TeacherCategoryComponent },
   { path: 'teacher-group', component: TeacherGroupComponent },
+  { path: 'class-student', component: ClassComponent },
+  { path: 'exam-student', component: ExamHistoryComponent },
+  { path: 'summary-student', component: SummaryComponent },
+  { path: 'student-dashboard', component: StudentDashboardComponent },
+
 
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/teacher-class-detail' } // Route không tìm thấy

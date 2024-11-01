@@ -1,1 +1,78 @@
-<p>class works!</p>
+<div class="navbar">
+    <div class="logo">
+      <img src="../../assets/img/qye-challenge-logo.png" alt="Logo" height="30" width="30">
+      <span>Quiz your English Challenge</span>
+    </div>
+    <div class="nav-links">
+      <a href="/student-dashboard">Bài kiểm tra</a>
+      <a href="/exam-student">Lịch sử làm bài</a>
+      <a href="/class-student" class="active">Lớp</a>
+      <a href="/summary-student">Tổng kết</a>
+    </div>
+    <div class="user-menu">
+      <i class="fas fa-question-circle" style="margin-right: 20px;"></i>
+      <i class="fas fa-bell" style="margin-right: 20px;"></i>
+      <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="40" width="40" (click)="toggleDropdown()">
+      <div class="dropdown" [class.active]="isDropdownActive">
+        <div class="profile">
+          <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="50" width="50">
+          <div class="info">
+            <div class="name">{{ user?.username }}</div>
+            <div class="email">{{ user?.email }}</div>
+          </div>
+          <a href="#" class="view-profile">Xem hồ sơ</a>
+        </div>
+        <div class="menu">
+          <a href="#"><i class="fas fa-user-graduate"></i> Thông tin cá nhân</a>
+          <a href="#"><i class="fas fa-cog"></i> Cài đặt chung</a>
+          <a href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="content">
+    <div class="container">
+      <div class="header">
+        <a href="/class-student" class="active">Danh sách lớp</a>
+      </div>
+      <div class="tab">
+        <div class="search-bar">
+          <input type="text" placeholder="Nhập từ khóa">
+          <i class="fas fa-search"></i>
+        </div>
+        <div class="actions">
+          <button class="create" (click)="openAddClassModal()">Tham gia lớp <i class="fas fa-plus"></i></button>
+        </div>
+      </div>
+  
+      <div class="card-container">
+        <!-- Class cards dynamically generated -->
+        <div class="card" *ngFor="let cls of classes">
+          <img alt="Illustration" height="200"
+               src="https://storage.googleapis.com/a1aa/image/N9crpBdqrwYLGdA10qiYfESD2c8v9ZwH4kZUTVg4fw0fBLZnA.jpg"
+               width="300" />
+          <div class="code">{{ cls.code }}</div>
+          <div class="title">{{ cls.name }}</div>
+          <div class="description">{{ cls.description }}</div>
+          <div class="members">{{ cls.students.length }} thành viên</div>
+        </div>
+      </div>
+  
+      <!-- Join Class Modal -->
+      <div class="modal-overlay" [class.active]="isAddClassModalVisible">
+        <div class="modal-content">
+          <h2>Tham gia lớp</h2>
+          <div class="input-group">
+            <label for="classCode">Mã lớp</label>
+            <input id="classCode" type="text" placeholder="Mã lớp" [(ngModel)]="classCode">
+          </div>
+          <div class="modal-actions">
+            <button (click)="closeAddClassModal()">Đóng</button>
+            <button [disabled]="!classCode" (click)="joinClass()">Tham gia</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
