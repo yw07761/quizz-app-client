@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { QuestionService } from '../../../services/question.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -22,11 +22,11 @@ interface Question {
   styleUrls: ['./question.component.scss'],
   standalone: true,
   imports: [
-    CommonModule,  // Để sử dụng ngClass, ngIf, ngFor, v.v.
+    CommonModule,  // Để sử dụng ngClass, ngIf, ngFor, etc.
     FormsModule    // Để sử dụng [(ngModel)] cho form
   ]
 })
-export class QuestionComponent {
+export class QuestionComponent implements OnInit {
   question: Question = {
     text: '',
     answers: [{ text: '', isCorrect: false }, { text: '', isCorrect: false }],
@@ -36,6 +36,15 @@ export class QuestionComponent {
   groups: string[] = ['Nhóm 1', 'Nhóm 2', 'Nhóm 3'];
 
   constructor(private questionService: QuestionService, private router: Router) {}
+
+  ngOnInit() {
+    const state = history.state as any;
+    if (state.question) {
+      this.question = state.question;
+      this.category = this.question.category || '';
+      this.group = this.question.group || '';
+    }
+  }
 
   addAnswer() {
     this.question.answers.push({ text: '', isCorrect: false });
@@ -52,7 +61,11 @@ export class QuestionComponent {
   saveQuestion() {
     this.question.category = this.category;
     this.question.group = this.group;
-    this.questionService.addQuestion(this.question);
+
+    if (!this.questionService.getQuestions().includes(this.question)) {
+      this.questionService.addQuestion(this.question);
+    }
+
     alert('Câu hỏi đã được lưu vào thư viện');
     this.router.navigate(['/teacher-library']);
   }

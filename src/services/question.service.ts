@@ -25,4 +25,8 @@ export class QuestionService {
   getQuestions(): Question[] {
     return this.questions;
   }
+
+  setQuestions(questions: Question[]) {
+    this.questions = questions;
+  }
 }

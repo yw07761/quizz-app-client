@@ -44,19 +44,38 @@
         <i class="fas fa-search"></i>
       </div>
       <div class="actions">
+        <button class="filter" (click)="toggleFilterDropdown()">Lọc <i class="fa-solid fa-filter"></i></button>
         <button class="create" (click)="navigateToCreateQuestion()">Tạo câu hỏi <i class="fas fa-plus"></i></button>
       </div>
     </div>
     <div class="question-list">
-      <div *ngFor="let question of questions" class="question-item">
+      <div *ngFor="let question of filteredQuestions; let i = index" class="question-item">
         <i class="fas fa-clipboard"></i>
         <div class="question-text">{{ question.text }}</div>
         <div class="category">{{ question.category || 'Chưa phân loại' }}</div>
         <div class="actions">
-          <i class="fas fa-edit edit"></i>
-          <i class="fas fa-trash delete"></i>
+          <i class="fas fa-edit edit" (click)="editQuestion(i)"></i>
+          <i class="fas fa-trash delete" (click)="deleteQuestion(i)"></i>
         </div>
       </div>
     </div>
+
+    <!-- Dropdown menu cho lọc -->
+    <div class="filter-dropdown" *ngIf="isFilterDropdownVisible">
+      <div class="filter-options">
+        <select [(ngModel)]="selectedCategory">
+          <option value="">Tất cả danh mục</option>
+          <option *ngFor="let category of uniqueCategories" [value]="category">{{ category }}</option>
+        </select>
+
+        <select [(ngModel)]="selectedGroup">
+          <option value="">Tất cả nhóm</option>
+          <option *ngFor="let group of uniqueGroups" [value]="group">{{ group }}</option>
+        </select>
+
+        <button (click)="filterQuestions()">Áp dụng lọc</button>
+      </div>
+    </div>
+
   </div>
 </div>
