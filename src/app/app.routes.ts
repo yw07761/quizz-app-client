@@ -14,6 +14,7 @@ import { ContactComponent } from './contact/contact.component';
 import { RoleComponent } from './role/role.component';
 import { StudentDashboardComponent } from './student/student-dashboard/student-dashboard.component';
 import { TeacherDashboardComponent } from './teacher/teacher-dashboard/teacher-dashboard.component';
+import { ExamCreateComponent } from './teacher/exam-create/exam-create.component';
 import { TeacherLibraryComponent } from './teacher/teacher-library/teacher-library.component';
 import { QuestionComponent } from './teacher/question/question.component';
 import { TeacherClassComponent } from './teacher/teacher-class/teacher-class.component';
@@ -39,6 +40,7 @@ const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'student-dashboard', component: StudentDashboardComponent },
   { path: 'teacher-dashboard', component: TeacherDashboardComponent },
+  { path: 'exam-create', component: ExamCreateComponent },
   { path: 'teacher-library', component: TeacherLibraryComponent },
   { path: 'question', component: QuestionComponent },
   { path: 'teacher-class', component: TeacherClassComponent },
