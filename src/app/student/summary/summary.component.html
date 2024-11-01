@@ -1,1 +1,39 @@
-<p>summary works!</p>
+<div class="navbar">
+    <div class="logo">
+      <img src="../../assets/img/qye-challenge-logo.png" alt="Logo" height="30" width="30">
+      <span>Quiz your English Challenge</span>
+    </div>
+    <div class="nav-links">
+      <a href="/student-dashboard" >Bài kiểm tra</a>
+      <a href="/exam-student">Lịch sử làm bài</a>
+      <a href="/class-student">Lớp</a>
+      <a href="/summary-student" class="active">Tổng kết</a>
+    </div>
+    <div class="user-menu">
+      <i class="fas fa-question-circle" style="margin-right: 20px;"></i>
+      <i class="fas fa-bell" style="margin-right: 20px;"></i>
+      <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="40" width="40" (click)="toggleDropdown()">
+      <div class="dropdown" [class.active]="isDropdownActive">
+        <div class="profile">
+          <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="50" width="50">
+          <div class="info">
+            <div class="name">{{ user?.username }}</div>
+            <div class="email">{{ user?.email }}</div>
+          </div>
+          <a href="#" class="view-profile">Xem hồ sơ</a>
+        </div>
+        <div class="menu">
+          <a href="#"><i class="fas fa-user-graduate"></i> Thông tin cá nhân</a>
+          <a href="#"><i class="fas fa-cog"></i> Cài đặt chung</a>
+          <a href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="content">
+    <div class="section">
+      <h2>Tổng kết</h2>
+      
+    </div>
+  </div>
