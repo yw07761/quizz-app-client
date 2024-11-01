@@ -3,42 +3,40 @@ import { AuthService } from '../../../services/auth.service';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-teacher-class',
   templateUrl: './teacher-class.component.html',
   styleUrls: ['./teacher-class.component.scss'],
   standalone: true,
-  imports: [FormsModule, CommonModule] 
-
+  imports: [FormsModule, CommonModule]
 })
 export class TeacherClassComponent implements OnInit {
   user: any = null;
   isDropdownActive = false;
   isInviteModalVisible = false;
   isAddClassModalVisible = false;
-  selectedClass: string | null = null;
+  selectedClass: number | null = null; // Changed to number to maintain consistency
   email: string = '';
   className: string = '';
   classDescription: string = '';
 
-  // Danh sách học viên tĩnh cho từng lớp
-  classStudents: { [key: string]: string[] } = {
-    'ENG101': ['Học viên 1', 'Học viên 2', 'Học viên 3', 'Học viên 4', 'Học viên 5'],
-    'ENG202': ['Học viên 6', 'Học viên 7', 'Học viên 8', 'Học viên 9', 'Học viên 10']
-  };
+  // Array to hold the classes dynamically
+  classes: Array<{ id: number; code: string; name: string; description: string; students: string[] }> = [];
 
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
     this.user = this.authService.getCurrentUser();
+    this.loadClasses();
   }
 
   toggleDropdown() {
     this.isDropdownActive = !this.isDropdownActive;
   }
 
-  openInviteModal(classCode: string) {
-    this.selectedClass = classCode;
+  openInviteModal(classId: number) {
+    this.selectedClass = classId; // Keep as number for easier reference
     this.isInviteModalVisible = true;
   }
 
@@ -48,10 +46,14 @@ export class TeacherClassComponent implements OnInit {
   }
 
   addStudent() {
-    if (this.email && this.selectedClass) {
-      console.log(`Thêm học viên ${this.email} vào lớp ${this.selectedClass}`);
-      this.classStudents[this.selectedClass].push(this.email);
-      this.closeInviteModal();
+    if (this.email && this.selectedClass !== null) {
+      const selectedClass = this.classes.find(cls => cls.id === this.selectedClass);
+      if (selectedClass) {
+        console.log(`Thêm học viên ${this.email} vào lớp ${selectedClass.name}`);
+        selectedClass.students.push(this.email);
+        this.saveClasses();
+        this.closeInviteModal();
+      }
     }
   }
 
@@ -67,10 +69,27 @@ export class TeacherClassComponent implements OnInit {
 
   addClass() {
     if (this.className && this.classDescription) {
-      console.log(`Thêm lớp với tên: ${this.className} và mô tả: ${this.classDescription}`);
-      // Thêm lớp mới vào danh sách lớp với danh sách học viên trống
-      this.classStudents[this.className] = [];
+      const newClass = {
+        id: this.classes.length + 1,
+        code: `CLASS${this.classes.length + 1}`,
+        name: this.className.trim(),
+        description: this.classDescription.trim(),
+        students: []
+      };
+      this.classes.push(newClass);
+      this.saveClasses();
       this.closeAddClassModal();
+    }
+  }
+
+  private saveClasses() {
+    localStorage.setItem('classes', JSON.stringify(this.classes));
+  }
+
+  private loadClasses() {
+    const savedClasses = localStorage.getItem('classes');
+    if (savedClasses) {
+      this.classes = JSON.parse(savedClasses);
     }
   }
 

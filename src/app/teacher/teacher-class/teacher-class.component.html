@@ -12,8 +12,7 @@
     <div class="user-menu">
         <i class="fas fa-question-circle" style="margin-right: 20px;"></i>
         <i class="fas fa-bell" style="margin-right: 20px;"></i>
-        <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="40" width="40"
-            (click)="toggleDropdown()">
+        <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="40" width="40" (click)="toggleDropdown()">
         <div class="dropdown" [class.active]="isDropdownActive">
             <div class="profile">
                 <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="50" width="50">
@@ -35,7 +34,7 @@
 <div class="content">
     <div class="container">
         <div class="header">
-            <a href="/teacher-class" class="active">Danh sách</a>
+            <a href="/teacher-class" class="active">Danh sách lớp</a>
         </div>
         <div class="tab">
             <div class="search-bar">
@@ -46,27 +45,20 @@
                 <button class="create" (click)="openAddClassModal()">Tạo lớp <i class="fas fa-plus"></i></button>
             </div>
         </div>
+
         <div class="card-container">
-            <!-- Thẻ card cho lớp ENG101 -->
-            <div class="card">
+            <!-- Class cards dynamically generated -->
+            <div class="card" *ngFor="let cls of classes">
                 <img alt="Illustration" height="200" src="https://storage.googleapis.com/a1aa/image/N9crpBdqrwYLGdA10qiYfESD2c8v9ZwH4kZUTVg4fw0fBLZnA.jpg" width="300" />
-                <div class="code">ENG101</div>
-                <div class="title">Class ENG101</div>
-                <div class="members">{{ classStudents['ENG101'].length }} thành viên</div>
-                <button class="invite-button" (click)="openInviteModal('ENG101')">Mời thành viên</button>
-            </div>
-        
-            <!-- Thẻ card cho lớp ENG202 -->
-            <div class="card">
-                <img alt="Illustration" height="200" src="https://storage.googleapis.com/a1aa/image/N9crpBdqrwYLGdA10qiYfESD2c8v9ZwH4kZUTVg4fw0fBLZnA.jpg" width="300" />
-                <div class="code">ENG202</div>
-                <div class="title">Class ENG202</div>
-                <div class="members">{{ classStudents['ENG202'].length }} thành viên</div>
-                <button class="invite-button" (click)="openInviteModal('ENG202')">Mời thành viên</button>
+                <div class="code">{{ cls.code }}</div>
+                <div class="title">{{ cls.name }}</div>
+                <div class="description">{{ cls.description }}</div>
+                <div class="members">{{ cls.students.length }} thành viên</div>
+                <button class="invite-button" (click)="openInviteModal(cls.id)">Mời thành viên</button>
             </div>
         </div>
-        
-        <!-- Modal Mời thành viên -->
+
+        <!-- Invite Student Modal -->
         <div class="modal-overlay" [class.active]="isInviteModalVisible">
             <div class="modal-content">
                 <h2>Thêm học viên</h2>
@@ -81,7 +73,7 @@
             </div>
         </div>
 
-        <!-- Modal Thêm lớp -->
+        <!-- Add Class Modal -->
         <div class="modal-overlay" [class.active]="isAddClassModalVisible">
             <div class="modal-content">
                 <h2>Thêm lớp</h2>
@@ -99,6 +91,5 @@
                 </div>
             </div>
         </div>
-                             
     </div>
 </div>
