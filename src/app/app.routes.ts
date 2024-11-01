@@ -25,6 +25,7 @@ import { StudentDashboardComponent } from './student/student-dashboard/student-d
 import {ClassComponent} from './student/class/class.component';
 import {ExamHistoryComponent} from './student/exam-history/exam-history.component';
 import {SummaryComponent} from './student/summary/summary.component';
+import {ProfileComponent} from './profile/profile.component'
 
 
 const routes: Routes = [
@@ -54,6 +55,7 @@ const routes: Routes = [
   { path: 'exam-student', component: ExamHistoryComponent },
   { path: 'summary-student', component: SummaryComponent },
   { path: 'student-dashboard', component: StudentDashboardComponent },
+  { path: 'profile', component: ProfileComponent },
 
 
   { path: '', redirectTo: '/home', pathMatch: 'full' },

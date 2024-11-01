@@ -1,12 +1,15 @@
+import { createRequire } from 'module';const require = createRequire(import.meta.url);
 import {
-  BehaviorSubject,
-  Subject,
-  Subscription,
+  require_cjs
+} from "./chunk-5IW5ZEPE.js";
+import {
+  require_operators
+} from "./chunk-UOPINYA3.js";
+import {
   __spreadProps,
   __spreadValues,
-  first,
-  map
-} from "./chunk-32LHFCYG.js";
+  __toESM
+} from "./chunk-NQ4HTGF6.js";
 
 // node_modules/@angular/core/fesm2022/primitives/signals.mjs
 function defaultEquals(a, b) {
@@ -372,6 +375,10 @@ var WATCH_NODE = (() => {
     cleanupFn: NOOP_CLEANUP_FN
   });
 })();
+
+// node_modules/@angular/core/fesm2022/core.mjs
+var import_rxjs = __toESM(require_cjs(), 1);
+var import_operators = __toESM(require_operators(), 1);
 
 // node_modules/@angular/core/fesm2022/primitives/event-dispatch.mjs
 var Attribute = {
@@ -5458,7 +5465,7 @@ var PendingTasks = class _PendingTasks {
   constructor() {
     this.taskId = 0;
     this.pendingTasks = /* @__PURE__ */ new Set();
-    this.hasPendingTasks = new BehaviorSubject(false);
+    this.hasPendingTasks = new import_rxjs.BehaviorSubject(false);
   }
   get _hasPendingTasks() {
     return this.hasPendingTasks.value;
@@ -5511,7 +5518,7 @@ var ExperimentalPendingTasks = class _ExperimentalPendingTasks {
     });
   }
 };
-var EventEmitter_ = class extends Subject {
+var EventEmitter_ = class extends import_rxjs.Subject {
   constructor(isAsync = false) {
     super();
     this.destroyRef = void 0;
@@ -5558,7 +5565,7 @@ var EventEmitter_ = class extends Subject {
       error: errorFn,
       complete: completeFn
     });
-    if (observerOrNext instanceof Subscription) {
+    if (observerOrNext instanceof import_rxjs.Subscription) {
       observerOrNext.add(sink);
     }
     return sink;
@@ -20217,11 +20224,11 @@ var ApplicationRef = class _ApplicationRef {
     this.dirtyFlags = 0;
     this.deferredDirtyFlags = 0;
     this.externalTestViews = /* @__PURE__ */ new Set();
-    this.beforeRender = new Subject();
-    this.afterTick = new Subject();
+    this.beforeRender = new import_rxjs.Subject();
+    this.afterTick = new import_rxjs.Subject();
     this.componentTypes = [];
     this.components = [];
-    this.isStable = inject(PendingTasks).hasPendingTasks.pipe(map((pending) => !pending));
+    this.isStable = inject(PendingTasks).hasPendingTasks.pipe((0, import_operators.map)((pending) => !pending));
     this._injector = inject(EnvironmentInjector);
   }
   /** @internal */
@@ -20561,7 +20568,7 @@ function whenStable(applicationRef) {
   if (cachedWhenStable) {
     return cachedWhenStable;
   }
-  const whenStablePromise = applicationRef.isStable.pipe(first((isStable) => isStable)).toPromise().then(() => void 0);
+  const whenStablePromise = applicationRef.isStable.pipe((0, import_operators.first)((isStable) => isStable)).toPromise().then(() => void 0);
   whenStableStore.set(applicationRef, whenStablePromise);
   applicationRef.onDestroy(() => whenStableStore?.delete(applicationRef));
   return whenStablePromise;
@@ -20823,7 +20830,7 @@ function getNgZoneOptions(options) {
 }
 var ZoneStablePendingTask = class _ZoneStablePendingTask {
   constructor() {
-    this.subscription = new Subscription();
+    this.subscription = new import_rxjs.Subscription();
     this.initialized = false;
     this.zone = inject(NgZone);
     this.pendingTasks = inject(PendingTasks);
@@ -20907,7 +20914,7 @@ var ChangeDetectionSchedulerImpl = class _ChangeDetectionSchedulerImpl {
         "__scheduler_tick__": true
       }
     }];
-    this.subscriptions = new Subscription();
+    this.subscriptions = new import_rxjs.Subscription();
     this.angularZoneId = this.zoneIsDefined ? this.ngZone._inner?.get(angularZoneInstanceIdProperty) : null;
     this.scheduleInRootZone = !this.zonelessEnabled && this.zoneIsDefined && (inject(SCHEDULE_IN_ROOT_ZONE, {
       optional: true
@@ -24541,4 +24548,4 @@ export {
    * found in the LICENSE file at https://angular.dev/license
    *)
 */
-//# sourceMappingURL=chunk-ZFCZWVEC.js.map
+//# sourceMappingURL=chunk-DDME52US.js.map
