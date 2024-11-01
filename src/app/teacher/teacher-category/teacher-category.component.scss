@@ -214,66 +214,137 @@ body {
     }
     
 
-    .question-list {
+    .category-list {
         margin-top: 20px;
-    }
-
-    .question-item {
+      }
+      
+      .category-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        margin-bottom: 10px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        border: 1px solid #e9ecef;
+        transition: all 0.3s ease;
+      
+        &:hover {
+          background-color: #e9ecef;
+        }
+      }
+      
+      .category-content {
         display: flex;
         align-items: center;
-        padding: 15px 0;
-        border-bottom: 1px solid #ddd;
-
+        gap: 10px;
+      
         i {
+          color: #4a3aff;
+        }
+      
+        .category-name {
+          font-size: 16px;
+          color: #333;
+        }
+      }
+      
+      .category-actions {
+        display: flex;
+        gap: 10px;
+      
+        button {
+          background: none;
+          border: none;
+          padding: 5px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+      
+          &.edit-btn i {
             color: #4a3aff;
-            margin-right: 10px;
+          }
+      
+          &.delete-btn i {
+            color: #dc3545;
+          }
+      
+          &:hover {
+            transform: scale(1.1);
+          }
         }
-
-        .category-text {
-            flex: 1;
-            font-size: 16px;
-            color: #333;
+      }
+      
+      .empty-state {
+        text-align: center;
+        padding: 40px;
+        color: #6c757d;
+      
+        i {
+          font-size: 48px;
+          margin-bottom: 20px;
         }
-
-        .actions {
+      
+        p {
+          font-size: 16px;
+        }
+      }
+      
+      .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      
+        .modal-content {
+          background: white;
+          padding: 20px;
+          border-radius: 8px;
+          width: 400px;
+          max-width: 90%;
+      
+          h2  {
+            margin-top: 0;
+          }
+      
+          input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+          }
+      
+          .modal-actions {
             display: flex;
-            align-items: center;
-
-            i {
-                color: #aaa;
-                margin-left: 20px;
-                cursor: pointer;
-
-                &:hover {
-                    color: #333;
-                }
+            justify-content: flex-end;
+            gap: 10px;
+      
+            button {
+              padding: 10px 20px;
+              border: none;
+              border-radius: 8px;
+              cursor: pointer;
+              transition: all 0.3s ease;
+      
+              &.cancel-btn {
+                background-color: #e9ecef;
+                color: #333;
+              }
+      
+              &.confirm-btn {
+                background-color: #4a3aff;
+                color: white;
+              }
+      
+              &:hover {
+                transform: scale(1.1);
+              }
             }
-
-            .edit {
-                color: #4a3aff;
-            }
-
-            .delete {
-                color: #ff4a4a;
-            }
+          }
         }
-    }
-}
-
-.create-button {
-    background-color: #3f51b5;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
-    margin-bottom: 20px;
-}
-
-.create-button i {
-    margin-left: 10px;
-}
+      }}

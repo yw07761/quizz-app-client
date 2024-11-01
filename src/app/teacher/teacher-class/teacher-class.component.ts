@@ -2,10 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-teacher-class',
   templateUrl: './teacher-class.component.html',
-  styleUrls: ['./teacher-class.component.scss']
+  styleUrls: ['./teacher-class.component.scss'],
+  standalone: true,
+  imports: [FormsModule, CommonModule] 
+
 })
 export class TeacherClassComponent implements OnInit {
   user: any = null;

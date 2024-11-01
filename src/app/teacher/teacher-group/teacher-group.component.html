@@ -1,77 +1,98 @@
 <div class="navbar">
-    <div class="logo">
-      <img src="../../assets/img/qye-challenge-logo.png" alt="Logo" height="30" width="30">
-      <span>Quiz your English Challenge</span>
-    </div>
-    <div class="nav-links">
-      <a href="/teacher-dashboard" >Bài kiểm tra</a>
-      <a href="/teacher-library" class="active">Thư viện câu hỏi</a>
-      <a href="/teacher-class">Lớp</a>
-      <a href="/teacher-statistics">Tổng kết</a>
-    </div>
-    <div class="user-menu">
-      <i class="fas fa-question-circle" style="margin-right: 20px;"></i>
-      <i class="fas fa-bell" style="margin-right: 20px;"></i>
-      <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="40" width="40" (click)="toggleDropdown()">
-      <div class="dropdown" [class.active]="isDropdownActive">
-        <div class="profile">
-          <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="50" width="50">
-          <div class="info">
-            <div class="name">{{ user?.username }}</div>
-            <div class="email">{{ user?.email }}</div>
-          </div>
-          <a href="#" class="view-profile">Xem hồ sơ</a>
+  <div class="logo">
+    <img src="../../assets/img/qye-challenge-logo.png" alt="Logo" height="30" width="30">
+    <span>Quiz your English Challenge</span>
+  </div>
+  <div class="nav-links">
+    <a href="/teacher-dashboard" >Bài kiểm tra</a>
+    <a href="/teacher-library"  class="active">Thư viện câu hỏi</a>
+    <a href="/teacher-class">Lớp</a>
+    <a href="/teacher-statistics">Tổng kết</a>
+  </div>
+  <div class="user-menu">
+    <i class="fas fa-question-circle" style="margin-right: 20px;"></i>
+    <i class="fas fa-bell" style="margin-right: 20px;"></i>
+    <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="40" width="40" (click)="toggleDropdown()">
+    <div class="dropdown" [class.active]="isDropdownActive">
+      <div class="profile">
+        <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="50" width="50">
+        <div class="info">
+          <div class="name">{{ user?.username }}</div>
+          <div class="email">{{ user?.email }}</div>
         </div>
-        <div class="menu">
-          <a href="#"><i class="fas fa-user-graduate"></i> Thông tin cá nhân</a>
-          <a href="#"><i class="fas fa-cog"></i> Cài đặt chung</a>
-          <a href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+        <a href="#" class="view-profile">Xem hồ sơ</a>
+      </div>
+      <div class="menu">
+        <a href="#"><i class="fas fa-user-graduate"></i> Thông tin cá nhân</a>
+        <a href="#"><i class="fas fa-cog"></i> Cài đặt chung</a>
+        <a href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+  <div class="container">
+    <div class="header">
+      <a href="/teacher-library">Câu hỏi</a>
+      <a href="/teacher-category">Danh mục</a>
+      <a href="/teacher-group" class="active">Nhóm</a>
+    </div>
+    <div class="tab">
+      <div class="search-bar">
+        <input type="text" placeholder="Nhập từ khóa">
+        <i class="fas fa-search"></i>
+      </div>
+      <div class="actions">
+        <button class="create" (click)="openAddGroupModal()">
+          Tạo nhóm <i class="fas fa-plus"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Group List -->
+    <div class="group-list" *ngIf="groups.length > 0">
+      <div class="group-item" *ngFor="let group of groups">
+        <div class="group-content">
+          <i class="fa-solid fa-folder-tree"></i>                
+          <span class="group-name">{{ group.name }}</span>
+        </div>
+        <div class="group-actions">
+          <button class="edit-btn" (click)="editGroup(group)">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="delete-btn" (click)="deleteGroup(group)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="groups.length === 0">
+      <i class="fas fa-folder-open"></i>
+      <p>No groups found. Click "Tạo nhóm" to add one.</p>
+    </div>
+
+    <!-- Add Group Modal -->
+    <div class="modal" *ngIf="isAddGroupModalOpen">
+      <div class="modal-content">
+        <h2>Thêm nhóm</h2>
+        <input 
+          type="text" 
+          [(ngModel)]="newGroupName" 
+          placeholder="Tên nhóm"
+          (keyup.enter)="addGroup()">
+        <div class="modal-actions">
+          <button class="cancel-btn" (click)="closeAddGroupModal()">Đóng</button>
+          <button 
+            class="confirm-btn" 
+            (click)="addGroup()"
+            [disabled]="!newGroupName.trim()">
+            Thêm
+          </button>
         </div>
       </div>
     </div>
   </div>
-  
-  <div class="content">
-    <div class="container">
-        <div class="header">
-            <a href="/teacher-library">Câu hỏi</a>
-            <a href="/teacher-category">Danh mục</a>
-            <a href="/teacher-group" class="active">Nhóm</a>
-        </div>
-        <div class="tab">
-        <div class="search-bar">
-            <input type="text" placeholder="Nhập từ khóa">
-            <i class="fas fa-search"></i>
-        </div>
-        <div class="actions">
-            <button class="create">Tạo nhóm <i class="fas fa-plus"></i></button>
-        </div>
-        </div>
-        <div class="group-list">
-            <div class="group-item">
-                <i class="fa-solid fa-folder-tree"></i>                
-                <div class="group-text">Tenses </div>
-                <div class="actions">
-                    <i class="fas fa-edit edit"></i>
-                    <i class="fas fa-trash delete"></i>
-                </div>
-            </div>
-            <div class="group-item">
-                <i class="fa-solid fa-folder-tree"></i>                
-                <div class="group-text">Phrasal Verbs </div>
-                <div class="actions">
-                    <i class="fas fa-edit edit"></i>
-                    <i class="fas fa-trash delete"></i>
-                </div>
-            </div>
-            <div class="group-item">
-                <i class="fa-solid fa-folder-tree"></i>                
-                <div class="group-text">Idioms and Expressions </div>
-                <div class="actions">
-                    <i class="fas fa-edit edit"></i>
-                    <i class="fas fa-trash delete"></i>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
