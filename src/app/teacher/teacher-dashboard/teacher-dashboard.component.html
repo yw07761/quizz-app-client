@@ -36,18 +36,44 @@
       <i class="fas fa-plus"></i>
     </button>
   </div>
+  
   <div class="section">
     <h2>Đang diễn ra</h2>
-    <div class="empty-state">
-      <img src="../../assets/img/pic01.png" alt="No Schedule" height="100" width="100">
-      <div>Hiện tại không có bài trắc nghiệm nào trong lịch sử gần đây</div>
+    <div *ngIf="activeExams.length > 0; else noActiveExams">
+      <div *ngFor="let exam of activeExams" class="exam-item">
+        <h3>{{ exam.name }}</h3>
+        <p>{{ exam.description }}</p>
+        <p>Thời gian: {{ exam.startDate | date }} - {{ exam.endDate | date }}</p>
+        <p>Thời lượng: {{ exam.duration }} phút</p>
+        <p>Điểm tối đa: {{ exam.maxScore }}</p>
+        <!-- Thêm các thông tin khác nếu cần -->
+      </div>
     </div>
+    <ng-template #noActiveExams>
+      <div class="empty-state">
+        <img src="../../assets/img/pic01.png" alt="No Active Exams" height="100" width="100">
+        <div>Hiện tại không có bài thi nào đang diễn ra</div>
+      </div>
+    </ng-template>
   </div>
+  
   <div class="section">
     <h2>Đang soạn</h2>
-    <div class="empty-state">
-      <img src="../../assets/img/pic02.png" alt="No Tests" height="100" width="100">
-      <div>Hiện tại không có bài trắc nghiệm nào trong lịch sử gần đây</div>
+    <div *ngIf="draftExams.length > 0; else noDraftExams">
+      <div *ngFor="let exam of draftExams" class="exam-item">
+        <h3>{{ exam.name }}</h3>
+        <p>{{ exam.description }}</p>
+        <p>Dự kiến bắt đầu: {{ exam.startDate | date }}</p>
+        <p>Thời lượng: {{ exam.duration }} phút</p>
+        <p>Điểm tối đa: {{ exam.maxScore }}</p>
+        <!-- Thêm các thông tin khác nếu cần -->
+      </div>
     </div>
+    <ng-template #noDraftExams>
+      <div class="empty-state">
+        <img src="../../assets/img/pic02.png" alt="No Draft Exams" height="100" width="100">
+        <div>Hiện tại không có bài thi nào đang soạn</div>
+      </div>
+    </ng-template>
   </div>
 </div>
