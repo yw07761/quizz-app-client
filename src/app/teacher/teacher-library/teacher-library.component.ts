@@ -1,31 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
-import { QuestionService } from '../../../services/question.service';
+import { QuestionService, Question } from '../../../services/question.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface Answer {
-  text: string;
-  isCorrect: boolean;
-}
-
-interface Question {
-  text: string;
-  answers: Answer[];
-  category?: string;
-  group?: string;
-}
 
 @Component({
   selector: 'app-teacher-library',
   templateUrl: './teacher-library.component.html',
   styleUrls: ['./teacher-library.component.scss'],
   standalone: true,
-  imports: [
-    CommonModule,  // Import để sử dụng ngClass, ngIf, ngFor, etc.
-    FormsModule    // Import để sử dụng [(ngModel)] cho các form
-  ]
+  imports: [CommonModule, FormsModule]
 })
 export class TeacherLibraryComponent implements OnInit {
   user: any = null;
@@ -36,7 +21,7 @@ export class TeacherLibraryComponent implements OnInit {
   selectedGroup: string = '';
   uniqueCategories: string[] = [];
   uniqueGroups: string[] = [];
-  isFilterDropdownVisible: boolean = false; // Điều khiển hiển thị dropdown lọc
+  isFilterDropdownVisible: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -46,18 +31,25 @@ export class TeacherLibraryComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.authService.getCurrentUser();
-    this.questions = this.questionService.getQuestions();
-    this.filteredQuestions = this.questions;
+    this.loadQuestions();
+  }
 
-    if (this.questions && this.questions.length > 0) {
-      this.uniqueCategories = [
-        ...new Set(this.questions.map(q => q.category).filter(Boolean) as string[])
-      ];
+  loadQuestions() {
+    this.questionService.getQuestions().subscribe({
+      next: (questions) => {
+        this.questions = questions;
+        this.filteredQuestions = questions;
+        this.updateUniqueFilters();
+      },
+      error: (error) => {
+        console.error('Error loading questions:', error);
+      }
+    });
+  }
 
-      this.uniqueGroups = [
-        ...new Set(this.questions.map(q => q.group).filter(Boolean) as string[])
-      ];
-    }
+  updateUniqueFilters() {
+    this.uniqueCategories = [...new Set(this.questions.map(q => q.category).filter(Boolean) as string[])];
+    this.uniqueGroups = [...new Set(this.questions.map(q => q.group).filter(Boolean) as string[])];
   }
 
   toggleFilterDropdown() {
@@ -65,34 +57,62 @@ export class TeacherLibraryComponent implements OnInit {
   }
 
   filterQuestions() {
-    // Lọc câu hỏi dựa trên danh mục và nhóm đã chọn
     this.filteredQuestions = this.questions.filter(question => {
       const categoryMatch = this.selectedCategory ? question.category === this.selectedCategory : true;
       const groupMatch = this.selectedGroup ? question.group === this.selectedGroup : true;
       return categoryMatch && groupMatch;
     });
-
-    // Đóng dropdown sau khi áp dụng lọc
     this.isFilterDropdownVisible = false;
   }
 
-  editQuestion(index: number) {
-    const question = this.filteredQuestions[index];
+  editQuestion(question: Question) {
     this.router.navigate(['/question'], { state: { question } });
   }
 
-  deleteQuestion(index: number) {
-    const questionToDelete = this.filteredQuestions[index];
-    const confirmDelete = window.confirm('Bạn có chắc muốn xóa câu hỏi này không?');
-    if (confirmDelete) {
-      this.questions = this.questions.filter(q => q !== questionToDelete);
-      this.filteredQuestions = this.filteredQuestions.filter(q => q !== questionToDelete);
-      this.questionService.setQuestions(this.questions);
+  deleteQuestion(question: Question) {
+    if (question._id && confirm('Bạn có chắc muốn xóa câu hỏi này không?')) {
+      this.questionService.deleteQuestion(question._id).subscribe({
+        next: () => {
+          this.questions = this.questions.filter(q => q._id !== question._id);
+          this.filteredQuestions = this.filteredQuestions.filter(q => q._id !== question._id);
+          this.updateUniqueFilters();
+          alert('Câu hỏi đã được xóa');
+        },
+        error: (error) => {
+          console.error('Error deleting question:', error);
+          alert('Có lỗi xảy ra khi xóa câu hỏi');
+        }
+      });
     }
   }
 
   toggleDropdown() {
     this.isDropdownActive = !this.isDropdownActive;
+  }
+
+  clearFilters() {
+    this.selectedCategory = '';
+    this.selectedGroup = '';
+    this.filteredQuestions = this.questions;
+    this.isFilterDropdownVisible = false;
+  }
+
+  searchQuestions(event: any) {
+    const searchTerm = event.target.value.toLowerCase();
+    if (!searchTerm) {
+      this.filteredQuestions = this.questions;
+      return;
+    }
+
+    this.filteredQuestions = this.questions.filter(question => 
+      question.text.toLowerCase().includes(searchTerm) ||
+      question.category?.toLowerCase().includes(searchTerm) ||
+      question.group?.toLowerCase().includes(searchTerm)
+    );
+  }
+
+  createNewQuestion() {
+    this.router.navigate(['/question']);
   }
 
   logout() {
@@ -106,7 +126,21 @@ export class TeacherLibraryComponent implements OnInit {
     });
   }
 
-  navigateToCreateQuestion() {
-    this.router.navigate(['/question']);
+  // Phương thức để định dạng hiển thị câu trả lời
+  getCorrectAnswers(question: Question): string {
+    const correctAnswers = question.answers
+      .filter(answer => answer.isCorrect)
+      .map(answer => answer.text);
+    return correctAnswers.join(', ');
+  }
+
+  // Phương thức để đếm số câu trả lời đúng
+  countCorrectAnswers(question: Question): number {
+    return question.answers.filter(answer => answer.isCorrect).length;
+  }
+
+  // Phương thức để lấy tổng số câu trả lời
+  getTotalAnswers(question: Question): number {
+    return question.answers.length;
   }
 }

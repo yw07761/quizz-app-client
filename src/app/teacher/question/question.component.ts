@@ -1,30 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { QuestionService } from '../../../services/question.service';
+import { QuestionService, Question } from '../../../services/question.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface Answer {
-  text: string;
-  isCorrect: boolean;
-}
-
-interface Question {
-  text: string;
-  answers: Answer[];
-  category?: string;
-  group?: string;
-}
 
 @Component({
   selector: 'app-question',
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.scss'],
   standalone: true,
-  imports: [
-    CommonModule,  // Để sử dụng ngClass, ngIf, ngFor, etc.
-    FormsModule    // Để sử dụng [(ngModel)] cho form
-  ]
+  imports: [CommonModule, FormsModule]
 })
 export class QuestionComponent implements OnInit {
   question: Question = {
@@ -62,12 +47,31 @@ export class QuestionComponent implements OnInit {
     this.question.category = this.category;
     this.question.group = this.group;
 
-    if (!this.questionService.getQuestions().includes(this.question)) {
-      this.questionService.addQuestion(this.question);
+    if (this.question._id) {
+      // Cập nhật câu hỏi hiện có
+      this.questionService.updateQuestion(this.question).subscribe({
+        next: () => {
+          alert('Câu hỏi đã được cập nhật');
+          this.router.navigate(['/teacher-library']);
+        },
+        error: (error) => {
+          console.error('Error updating question:', error);
+          alert('Có lỗi xảy ra khi cập nhật câu hỏi');
+        }
+      });
+    } else {
+      // Thêm câu hỏi mới
+      this.questionService.addQuestion(this.question).subscribe({
+        next: () => {
+          alert('Câu hỏi đã được lưu vào thư viện');
+          this.router.navigate(['/teacher-library']);
+        },
+        error: (error) => {
+          console.error('Error saving question:', error);
+          alert('Có lỗi xảy ra khi lưu câu hỏi');
+        }
+      });
     }
-
-    alert('Câu hỏi đã được lưu vào thư viện');
-    this.router.navigate(['/teacher-library']);
   }
 
   resetForm() {

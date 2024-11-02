@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-interface Answer {
+export interface Answer {
   text: string;
   isCorrect: boolean;
 }
 
-interface Question {
+export interface Question {
+  _id?: string;
   text: string;
   answers: Answer[];
   category?: string;
@@ -16,17 +19,27 @@ interface Question {
   providedIn: 'root'
 })
 export class QuestionService {
-  private questions: Question[] = [];
+  private apiUrl = 'http://localhost:3000/questions'; // URL của server API
 
-  addQuestion(question: Question) {
-    this.questions.push(question);
+  constructor(private http: HttpClient) {}
+
+  // Lấy danh sách câu hỏi từ server
+  getQuestions(): Observable<Question[]> {
+    return this.http.get<Question[]>(this.apiUrl);
   }
 
-  getQuestions(): Question[] {
-    return this.questions;
+  // Thêm câu hỏi mới vào server
+  addQuestion(question: Question): Observable<Question> {
+    return this.http.post<Question>(this.apiUrl, question);
   }
 
-  setQuestions(questions: Question[]) {
-    this.questions = questions;
+  // Cập nhật câu hỏi hiện có trên server
+  updateQuestion(question: Question): Observable<Question> {
+    return this.http.put<Question>(`${this.apiUrl}/${question._id}`, question);
+  }
+
+  // Xóa câu hỏi theo ID từ server
+  deleteQuestion(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }
