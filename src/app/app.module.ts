@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -17,8 +16,7 @@ import { TeacherCategoryComponent } from './teacher/teacher-category/teacher-cat
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    HttpClientModule // Đảm bảo rằng HttpClientModule được import
+    FormsModule
   ],
   providers: [AuthService], // Đăng ký AuthService
   bootstrap: [AppComponent]
