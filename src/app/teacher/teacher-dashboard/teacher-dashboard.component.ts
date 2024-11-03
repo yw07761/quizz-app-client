@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
-import { Router } from '@angular/router'; // Import Router
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ExamService, Exam } from '../../../services/exam.service';
 
 @Component({
   selector: 'app-teacher-dashboard',
@@ -10,20 +11,39 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./teacher-dashboard.component.scss'],
   standalone: true,
   imports: [
-    CommonModule,  // Import để sử dụng ngClass, ngIf, ngFor, etc.
-    FormsModule    // Import để sử dụng [(ngModel)] cho các form
+    CommonModule,
+    FormsModule
   ]
 })
 export class TeacherDashboardComponent implements OnInit {
   user: any = null;
   isDropdownActive = false;
+  activeExams: Exam[] = [];
+  draftExams: Exam[] = [];
 
-  constructor(private authService: AuthService, private router: Router) {} // Inject Router
+  constructor(
+    private authService: AuthService, 
+    private router: Router,
+    private examService: ExamService
+  ) {}
 
   ngOnInit() {
     this.user = this.authService.getCurrentUser();
+    this.loadExams();
   }
 
+  loadExams() {
+    this.examService.getExams().subscribe({
+      next: (exams) => {
+        const now = new Date();
+        this.activeExams = exams.filter(exam => new Date(exam.startDate) <= now && new Date(exam.endDate) >= now);
+        this.draftExams = exams.filter(exam => new Date(exam.startDate) > now);
+      },
+      error: (error) => {
+        console.error('Error loading exams:', error);
+      }
+    });
+  }
   toggleDropdown() {
     this.isDropdownActive = !this.isDropdownActive;
   }
