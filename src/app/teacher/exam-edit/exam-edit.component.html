@@ -4,8 +4,8 @@
   </div>
 
   <div *ngIf="!isLoading && exam; else noExamFound" class="centered-content">
-    <h2>Chi tiết bài thi: </h2>
-    
+    <h2>Chi tiết bài thi: {{ exam.name }}</h2>
+
     <!-- Editable Fields for Exam Details -->
     <div class="exam-detail">
       <div>
@@ -87,11 +87,11 @@
         <div *ngIf="section.questions && section.questions.length > 0">
           <ul>
             <li *ngFor="let question of section.questions; let questionIndex = index">
-              <p><strong>Câu hỏi {{ questionIndex + 1 }}:</strong> {{ question.text }}</p>
-              <div *ngIf="question.answers">
+              <p><strong>Câu hỏi {{ questionIndex + 1 }}:</strong> {{ question.questionData?.text }}</p>
+              <div *ngIf="question.questionData?.answers">
                 <p><strong>Các đáp án:</strong></p>
                 <ul>
-                  <li *ngFor="let answer of question.answers">
+                  <li *ngFor="let answer of question.questionData.answers">
                     {{ answer.text }} <span *ngIf="answer.isCorrect">(Đáp án đúng)</span>
                   </li>
                 </ul>
@@ -109,7 +109,7 @@
     </div>
 
     <div class="actions">
-      <button type="submit" class="update-button" (click)="updateExam()">Cập nhật bài thi</button>
+      <button type="button" class="update-button" (click)="updateExam()">Cập nhật bài thi</button>
     </div>
 
     <button (click)="goBack()">Quay lại</button>

@@ -1,117 +1,150 @@
 .centered-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   padding: 20px;
-  background-color: #f9f9f9; /* Light background for better contrast */
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  max-width: 800px;
-  margin: auto;
-}
 
-.centered-content {
-  width: 100%;
-}
+  .exam-detail {
+    margin-bottom: 20px;
 
-h2 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
 
-h3 {
-  font-size: 20px;
-  margin: 15px 0;
-}
+    input[type="text"],
+    input[type="number"],
+    input[type="datetime-local"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
 
-h4 {
-  font-size: 18px;
-  margin: 10px 0;
-}
+    textarea {
+      height: 100px;
+    }
+  }
 
-label {
-  font-weight: bold;
-  margin-top: 10px;
-  display: block;
-}
+  .section-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    
+    h4 {
+      margin: 0 0 10px;
+    }
 
-input[type="text"],
-input[type="number"],
-input[type="datetime-local"],
-textarea,
-select {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-}
+    button {
+      background-color: #008CBA; // Blue background for buttons
+      color: white; // White text
+      border: none; // No border
+      padding: 10px 15px; // Padding for button
+      text-align: center; // Center text
+      text-decoration: none; // No underline
+      display: inline-block; // Align button inline
+      font-size: 14px; // Font size
+      margin: 5px 2px; // Margin around button
+      cursor: pointer; // Pointer cursor on hover
+      border-radius: 4px; // Rounded corners
+      transition: background-color 0.3s; // Smooth transition
 
-textarea {
-  resize: vertical; /* Allow vertical resizing only */
-}
+      &:hover {
+        background-color: #007B9E; // Darker blue on hover
+      }
+    }
+  }
 
-.section-header {
-  cursor: pointer;
-  background-color: #007bff; /* Bootstrap primary color */
-  color: white;
-  padding: 10px;
-  border-radius: 4px;
-  margin: 10px 0;
-  display: flex;
-  align-items: center;
-}
+  .actions {
+    display: flex; // Flex display for button group
+    justify-content: space-between; // Space between buttons
 
-.section-content {
-  padding: 15px;
-  background-color: #ffffff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 15px;
-}
+    .update-button {
+      background-color: #4CAF50; // Green background
+      color: white; // White text
+      border: none; // No border
+      padding: 10px 15px; // Padding for button
+      text-align: center; // Center text
+      text-decoration: none; // No underline
+      font-size: 14px; // Font size
+      cursor: pointer; // Pointer cursor on hover
+      border-radius: 4px; // Rounded corners
+      transition: background-color 0.3s; // Smooth transition
 
-.actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.update-button {
-  background-color: #28a745; /* Green for success */
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #218838; /* Darker green on hover */
+      &:hover {
+        background-color: #45a049; // Darker green on hover
+      }
+    }
   }
 }
+.centered-container {
+  padding: 20px; // Add padding to the container
 
-.remove-question {
-  background: none;
-  border: none;
-  color: #dc3545; /* Red for danger */
-  cursor: pointer;
-  margin-left: 10px;
-  font-size: 16px;
-}
+  .exam-detail {
+    margin-bottom: 20px; // Space below the exam detail section
+    div {
+      margin-bottom: 15px; // Space between each input group
+    }
+  }
 
-.remove-question:hover {
-  text-decoration: underline;
-}
+  .section-item {
+    border: 1px solid #ccc; // Add a border around each section
+    border-radius: 5px; // Rounded corners
+    padding: 15px; // Inner padding
+    margin-bottom: 20px; // Space between sections
+    background-color: #f9f9f9; // Light background color for sections
 
-.answer-item {
-  display: flex;
-  align-items: center;
-  margin: 5px 0;
-}
+    h4 {
+      margin: 0 0 10px; // Adjust margin for the section title
+    }
 
-.correct-answer {
-  font-weight: bold;
-  color: #28a745; /* Green for correct answers */
+    .form-group {
+      display: flex; // Flexbox for alignment
+      align-items: center; // Center items vertically
+      justify-content: space-between; // Space between label and input
+    }
+  }
+
+  button {
+    background-color: #008CBA; // Blue background for buttons
+    color: white; // White text
+    border: none; // No border
+    padding: 10px 15px; // Padding for button
+    text-align: center; // Center text
+    text-decoration: none; // No underline
+    display: inline-block; // Align button inline
+    font-size: 16px; // Font size
+    margin: 10px 2px; // Margin around button
+    cursor: pointer; // Pointer cursor on hover
+    border-radius: 5px; // Rounded corners
+    transition: background-color 0.3s; // Smooth transition
+
+    &:hover {
+      background-color: #007B9E; // Darker blue on hover
+    }
+
+    &.update-button {
+      background-color: #4CAF50; // Green background for update button
+    }
+
+    &.remove-question {
+      background-color: #f44336; // Red background for remove question button
+    }
+  }
+
+  .actions {
+    display: flex; // Flex display for button group
+    justify-content: space-between; // Space between buttons
+    margin-top: 20px; // Margin above button group
+  }
+
+  // Style for select dropdown
+  select {
+    padding: 10px; // Padding for dropdown
+    border-radius: 5px; // Rounded corners
+    border: 1px solid #ccc; // Border for dropdown
+    margin-right: 10px; // Space between dropdown and button
+  }
 }
