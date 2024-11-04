@@ -24,11 +24,11 @@
       <div *ngIf="section.questions && section.questions.length > 0">
         <ul>
           <li *ngFor="let question of section.questions; let questionIndex = index">
-            <p><strong>Câu hỏi {{ questionIndex + 1 }}:</strong> {{ question.text || 'Không có dữ liệu câu hỏi' }}</p>
-            <div *ngIf="question.answers">
+            <p><strong>Câu hỏi {{ questionIndex + 1 }}:</strong> {{ question.questionId?.text || 'Không có dữ liệu câu hỏi' }}</p>
+            <div *ngIf="question.questionId?.answers">
               <p><strong>Các đáp án:</strong></p>
               <ul>
-                <li *ngFor="let answer of question.answers">
+                <li *ngFor="let answer of question.questionId.answers">
                   {{ answer.text }} <span *ngIf="answer.isCorrect">(Đáp án đúng)</span>
                 </li>
               </ul>
@@ -36,12 +36,9 @@
           </li>
         </ul>
       </div>
-      <div *ngIf="!section.questions || section.questions.length === 0">
-        <p>Không có câu hỏi nào trong phần này.</p>
-      </div>
     </div>
   </div>
-  <div *ngIf="!exam.sections || exam.sections.length === 0">
+  <div *ngIf="!sections || sections.length === 0">
     <p>Không có phần thi nào trong bài thi này.</p>
   </div>
 
