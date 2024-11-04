@@ -1,50 +1,123 @@
-.section-item {
-  border: 1px solid #ddd;
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+/* Main container to center content horizontally */
+.centered-container {
+  max-width: 800px;
+  margin: 0 auto; /* Center horizontally */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center container */
 }
 
+/* Header for the page */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
+  
+  h1 {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .back-button {
+    padding: 8px 16px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .back-button i {
+    margin-right: 5px;
+  }
+  
+  .back-button:hover {
+    background-color: #5a6268;
+  }
+}
+
+/* Main section container styling */
+.section-item {
+  border: 1px solid #e0e0e0;
+  padding: 20px;
+  margin: 15px 0;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: left; /* Align text to the left */
+}
+
+.section-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Styling for each question */
 .question-details {
-  margin: 10px 0;
-  padding: 10px;
-  background-color: #fff;
-  border: 1px solid #eee;
-  border-radius: 4px;
+  margin: 15px 0;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .question-content {
   margin-top: 10px;
+  font-size: 1em;
+  color: #333;
 }
 
+/* Answer list styling */
 .answers-list {
-  margin-top: 5px;
+  margin-top: 10px;
+  padding-left: 20px;
 }
 
+/* Correct answer styling */
 .correct-answer {
-  color: #28a745;
+  color: #218838;
+  font-weight: bold;
 }
 
 .correct-badge {
   background-color: #28a745;
-  color: white;
-  padding: 2px 5px;
-  border-radius: 3px;
-  font-size: 0.8em;
-  margin-left: 5px;
+  color: #ffffff;
+  padding: 3px 7px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  margin-left: 8px;
 }
 
+/* General button styling */
 button {
   margin-top: 20px;
-  padding: 10px 15px;
+  padding: 10px 20px;
   background-color: #007bff;
-  color: white;
+  color: #ffffff;
   border: none;
   border-radius: 4px;
+  font-weight: 500;
+  font-size: 1em;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.15);
 }
 
 button:hover {
   background-color: #0056b3;
+  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.2);
+}
+
+.centered-content {
+  width: 100%;
+  text-align: left; /* Align text to the left */
 }
