@@ -327,3 +327,34 @@ body {
     margin-bottom: 10px;
   }
 }
+.exam-item {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 15px;
+
+  .exam-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+
+    button {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        opacity: 0.8;
+      }
+
+      &:nth-child(1) { background-color: #4a3aff; color: #fff; }  /* View button */
+      &:nth-child(2) { background-color: #ffc107; color: #333; }  /* Edit button */
+      &:nth-child(3) { background-color: #dc3545; color: #fff; }  /* Delete button */
+      &:nth-child(4) { background-color: #28a745; color: #fff; }  /* Update button */
+    }
+  }
+}

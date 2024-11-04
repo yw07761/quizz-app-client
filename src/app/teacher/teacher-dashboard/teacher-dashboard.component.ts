@@ -22,7 +22,7 @@ export class TeacherDashboardComponent implements OnInit {
   draftExams: Exam[] = [];
 
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private router: Router,
     private examService: ExamService
   ) {}
@@ -44,6 +44,7 @@ export class TeacherDashboardComponent implements OnInit {
       }
     });
   }
+
   toggleDropdown() {
     this.isDropdownActive = !this.isDropdownActive;
   }
@@ -51,7 +52,7 @@ export class TeacherDashboardComponent implements OnInit {
   logout() {
     this.authService.logout().subscribe({
       next: () => {
-        window.location.href = '/login';
+        this.router.navigate(['/login']);
       },
       error: (error) => {
         console.error('Logout error:', error);
@@ -60,7 +61,41 @@ export class TeacherDashboardComponent implements OnInit {
   }
 
   navigateToCreateExam() {
-    // Điều hướng tới trang tạo bài thi
     this.router.navigate(['/exam-create']);
+  }
+
+  viewExamDetails(exam: Exam) {
+    this.router.navigate(['/exam-details', exam._id]);
+  }
+
+  editExam(exam: Exam) {
+    this.router.navigate(['/exam-edit', exam._id]);
+  }
+
+  deleteExam(exam: Exam) {
+    if (confirm(`Are you sure you want to delete the exam "${exam.name}"?`)) {
+      this.examService.deleteExam(exam._id!).subscribe({
+        next: () => {
+          this.loadExams();
+          alert('Exam deleted successfully');
+        },
+        error: (error) => {
+          console.error('Error deleting exam:', error);
+        }
+      });
+    }
+  }
+
+  updateExamStatus(exam: Exam) {
+    exam.maxScore += 10;
+    this.examService.updateExam(exam._id!, exam).subscribe({
+      next: () => {
+        this.loadExams();
+        alert('Exam status updated successfully');
+      },
+      error: (error) => {
+        console.error('Error updating exam status:', error);
+      }
+    });
   }
 }

@@ -28,6 +28,10 @@ export class QuestionService {
     return this.http.get<Question[]>(this.apiUrl);
   }
 
+  getQuestionById(id: string): Observable<Question> {
+    return this.http.get<Question>(`${this.apiUrl}/${id}`);
+  }
+  
   // Thêm câu hỏi mới vào server
   addQuestion(question: Question): Observable<Question> {
     return this.http.post<Question>(this.apiUrl, question);

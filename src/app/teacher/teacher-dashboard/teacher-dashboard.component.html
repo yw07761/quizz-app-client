@@ -46,7 +46,14 @@
         <p>Thời gian: {{ exam.startDate | date }} - {{ exam.endDate | date }}</p>
         <p>Thời lượng: {{ exam.duration }} phút</p>
         <p>Điểm tối đa: {{ exam.maxScore }}</p>
-        <!-- Thêm các thông tin khác nếu cần -->
+  
+        <!-- Action Buttons -->
+        <div class="exam-actions">
+          <button (click)="viewExamDetails(exam)">Xem chi tiết</button>
+          <button (click)="editExam(exam)">Chỉnh sửa</button>
+          <button (click)="deleteExam(exam)">Xóa</button>
+          <button (click)="updateExamStatus(exam)">Cập nhật</button>
+        </div>
       </div>
     </div>
     <ng-template #noActiveExams>
@@ -66,7 +73,14 @@
         <p>Dự kiến bắt đầu: {{ exam.startDate | date }}</p>
         <p>Thời lượng: {{ exam.duration }} phút</p>
         <p>Điểm tối đa: {{ exam.maxScore }}</p>
-        <!-- Thêm các thông tin khác nếu cần -->
+  
+        <!-- Action Buttons -->
+        <div class="exam-actions">
+          <button (click)="viewExamDetails(exam)">Xem chi tiết</button>
+          <button (click)="editExam(exam)">Chỉnh sửa</button>
+          <button (click)="deleteExam(exam)">Xóa</button>
+          <button (click)="updateExamStatus(exam)">Cập nhật</button>
+        </div>
       </div>
     </div>
     <ng-template #noDraftExams>
@@ -76,4 +90,5 @@
       </div>
     </ng-template>
   </div>
+  
 </div>
