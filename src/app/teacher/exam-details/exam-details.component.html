@@ -17,37 +17,21 @@
   <p><strong>Số câu hỏi trên mỗi trang:</strong> {{ exam.questionsPerPage }}</p>
 
   <!-- Hiển thị các phần của bài thi -->
-  <div *ngIf="sections && sections.length > 0">
+  <div *ngIf="exam.sections && exam.sections.length > 0">
     <h3>Các phần thi:</h3>
-    <div *ngFor="let section of sections; let sectionIndex = index" class="section-item">
+    <div *ngFor="let section of exam.sections; let sectionIndex = index" class="section-item">
       <h4>Phần {{ sectionIndex + 1 }}: {{ section.title }}</h4>
-      <p><strong>Mô tả:</strong> {{ section.description }}</p>
       <div *ngIf="section.questions && section.questions.length > 0">
-        <p><strong>Các câu hỏi:</strong></p>
         <ul>
           <li *ngFor="let question of section.questions; let questionIndex = index">
-            <div class="question-details">
-              <p><strong>Câu hỏi {{ questionIndex + 1 }}:</strong></p>
-              <p><strong>Điểm:</strong> {{ question.score }}</p>
-
-              <!-- Hiển thị chi tiết câu hỏi nếu có dữ liệu -->
-              <!-- Hiển thị chi tiết câu hỏi nếu có dữ liệu -->
-              <div *ngIf="question.questionData" class="question-content">
-                <p><strong>Nội dung câu hỏi:</strong> {{ question.questionData.text }}</p>
-                <div class="answers-list">
-                  <p><strong>Các đáp án:</strong></p>
-                  <ul>
-                    <li *ngFor="let answer of question.questionData.answers" [class.correct-answer]="answer.isCorrect">
-                      {{ answer.text }}
-                      <span *ngIf="answer.isCorrect" class="correct-badge">(Đáp án đúng)</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div *ngIf="!question.questionData">
-                <p>Không thể tải thông tin chi tiết của câu hỏi.</p>
-              </div>
-
+            <p><strong>Câu hỏi {{ questionIndex + 1 }}:</strong> {{ question.text || 'Không có dữ liệu câu hỏi' }}</p>
+            <div *ngIf="question.answers">
+              <p><strong>Các đáp án:</strong></p>
+              <ul>
+                <li *ngFor="let answer of question.answers">
+                  {{ answer.text }} <span *ngIf="answer.isCorrect">(Đáp án đúng)</span>
+                </li>
+              </ul>
             </div>
           </li>
         </ul>
@@ -57,7 +41,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="!sections || sections.length === 0">
+  <div *ngIf="!exam.sections || exam.sections.length === 0">
     <p>Không có phần thi nào trong bài thi này.</p>
   </div>
 

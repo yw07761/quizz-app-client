@@ -55,7 +55,6 @@ export class ExamDetailsComponent implements OnInit {
       next: (exam: Exam) => {
         console.log('Loaded exam in component:', exam); // Log dữ liệu nhận được từ service
         this.exam = exam;
-        this.sections = exam.sections; // Gán `sections` từ `exam.sections`
         this.isLoading = false;
       },
       error: (error) => {
@@ -64,6 +63,7 @@ export class ExamDetailsComponent implements OnInit {
       }
     });
   }
+  
   
   
 
