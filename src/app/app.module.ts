@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { AuthService } from '../services/auth.service'; // Import AuthService
 import { TeacherClassComponent } from './teacher/teacher-class/teacher-class.component';
 import { TeacherCategoryComponent } from './teacher/teacher-category/teacher-category.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { TeacherCategoryComponent } from './teacher/teacher-category/teacher-cat
 
   ],
   imports: [
+    CommonModule, 
     BrowserModule,
     FormsModule
   ],

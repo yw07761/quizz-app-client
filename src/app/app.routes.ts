@@ -14,6 +14,7 @@ import { ContactComponent } from './contact/contact.component';
 import { RoleComponent } from './role/role.component';
 import { TeacherDashboardComponent } from './teacher/teacher-dashboard/teacher-dashboard.component';
 import { ExamCreateComponent } from './teacher/exam-create/exam-create.component';
+import { ExamDetailsComponent} from './teacher/exam-details/exam-details.component'
 import { TeacherLibraryComponent } from './teacher/teacher-library/teacher-library.component';
 import { QuestionComponent } from './teacher/question/question.component';
 import { TeacherClassComponent } from './teacher/teacher-class/teacher-class.component';
@@ -44,6 +45,7 @@ const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'teacher-dashboard', component: TeacherDashboardComponent },
   { path: 'exam-create', component: ExamCreateComponent },
+  { path: 'exam-details/:id', component: ExamDetailsComponent },
   { path: 'teacher-library', component: TeacherLibraryComponent },
   { path: 'question', component: QuestionComponent },
   { path: 'teacher-class', component: TeacherClassComponent },
@@ -59,7 +61,7 @@ const routes: Routes = [
 
 
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', redirectTo: '/teacher-class-detail' } // Route không tìm thấy
+  { path: '**', redirectTo: '/home' } // Route không tìm thấy
 ];
 
 export { routes }; // Export routes để có thể sử dụng trong các file khác
