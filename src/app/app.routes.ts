@@ -14,7 +14,8 @@ import { ContactComponent } from './contact/contact.component';
 import { RoleComponent } from './role/role.component';
 import { TeacherDashboardComponent } from './teacher/teacher-dashboard/teacher-dashboard.component';
 import { ExamCreateComponent } from './teacher/exam-create/exam-create.component';
-import { ExamDetailsComponent} from './teacher/exam-details/exam-details.component'
+import { ExamDetailsComponent} from './teacher/exam-details/exam-details.component';
+import { ExamEditComponent} from './teacher/exam-edit/exam-edit.component'
 import { TeacherLibraryComponent } from './teacher/teacher-library/teacher-library.component';
 import { QuestionComponent } from './teacher/question/question.component';
 import { TeacherClassComponent } from './teacher/teacher-class/teacher-class.component';
@@ -46,6 +47,7 @@ const routes: Routes = [
   { path: 'teacher-dashboard', component: TeacherDashboardComponent },
   { path: 'exam-create', component: ExamCreateComponent },
   { path: 'exam-details/:id', component: ExamDetailsComponent },
+  { path: 'exam-edit/:id', component: ExamEditComponent },
   { path: 'teacher-library', component: TeacherLibraryComponent },
   { path: 'question', component: QuestionComponent },
   { path: 'teacher-class', component: TeacherClassComponent },

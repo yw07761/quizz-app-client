@@ -1,0 +1,121 @@
+<div class="centered-container">
+  <div *ngIf="isLoading">
+    <p>Đang tải thông tin bài thi...</p>
+  </div>
+
+  <div *ngIf="!isLoading && exam; else noExamFound" class="centered-content">
+    <h2>Chi tiết bài thi: {{ exam.name }}</h2>
+
+    <!-- Editable Fields for Exam Details -->
+    <div class="exam-detail">
+      <div>
+        <label for="examName">Tên bài thi:</label>
+        <input type="text" id="examName" [(ngModel)]="exam.name" name="examName" required />
+      </div>
+      <div>
+        <label for="description">Mô tả:</label>
+        <textarea id="description" [(ngModel)]="exam.description" name="description"></textarea>
+      </div>
+      <div>
+        <label for="startDate">Thời gian bắt đầu:</label>
+        <input type="datetime-local" id="startDate" [(ngModel)]="exam.startDate" name="startDate" required />
+      </div>
+      <div>
+        <label for="endDate">Thời gian kết thúc:</label>
+        <input type="datetime-local" id="endDate" [(ngModel)]="exam.endDate" name="endDate" required />
+      </div>
+      <div>
+        <label for="duration">Thời lượng:</label>
+        <input type="number" id="duration" [(ngModel)]="exam.duration" name="duration" min="1" required />
+      </div>
+      <div>
+        <label for="maxScore">Điểm tối đa:</label>
+        <input type="number" id="maxScore" [(ngModel)]="exam.maxScore" name="maxScore" min="0" required />
+      </div>
+      <div>
+        <label for="maxAttempts">Số lần làm bài tối đa:</label>
+        <input type="number" id="maxAttempts" [(ngModel)]="exam.maxAttempts" name="maxAttempts" min="1" />
+      </div>
+      <div>
+        <label for="autoDistributeScore">Tự động phân phối điểm:</label>
+        <input type="checkbox" [(ngModel)]="exam.autoDistributeScore" name="autoDistributeScore">
+      </div>
+      <div>
+        <label for="showStudentResult">Hiển thị kết quả cho học sinh:</label>
+        <input type="checkbox" [(ngModel)]="exam.showStudentResult" name="showStudentResult">
+      </div>
+      <div>
+        <label for="displayResults">Chế độ hiển thị kết quả:</label>
+        <select id="displayResults" [(ngModel)]="exam.displayResults" name="displayResults">
+          <option value="afterGrading">Sau khi giáo viên chấm bài</option>
+          <option value="afterSubmission">Sau khi nộp bài</option>
+        </select>
+      </div>
+      <div>
+        <label for="questionOrder">Thứ tự câu hỏi:</label>
+        <select id="questionOrder" [(ngModel)]="exam.questionOrder" name="questionOrder">
+          <option value="A, B, C">A, B, C...</option>
+          <option value="1, 2, 3">1, 2, 3...</option>
+        </select>
+      </div>
+      <div>
+        <label for="questionsPerPage">Số câu hỏi trên mỗi trang:</label>
+        <input type="number" id="questionsPerPage" [(ngModel)]="exam.questionsPerPage" name="questionsPerPage" min="1" />
+      </div>
+    </div>
+
+    <!-- Display sections -->
+    <div *ngIf="exam.sections && exam.sections.length > 0">
+      <h3>Các phần thi:</h3>
+      <div *ngFor="let section of exam.sections; let sectionIndex = index" class="section-item">
+        <h4>Phần {{ sectionIndex + 1 }}: {{ section.title }}</h4>
+        <div>
+          <!-- Add Question to Section -->
+          <div class="form-group">
+            <label for="availableQuestions">Chọn câu hỏi:</label>
+            <select #questionSelect>
+              <option value="">Chọn câu hỏi</option>
+              <option *ngFor="let question of availableQuestions" [value]="question._id">
+                {{ question.text }}
+              </option>
+            </select>
+            <button type="button" (click)="addQuestionToSection(sectionIndex, questionSelect.value)">Thêm câu hỏi</button>
+          </div>
+        </div>
+
+        <!-- Display Questions in Section -->
+        <div *ngIf="section.questions && section.questions.length > 0">
+          <ul>
+            <li *ngFor="let question of section.questions; let questionIndex = index">
+              <p><strong>Câu hỏi {{ questionIndex + 1 }}:</strong> {{ question.questionData?.text }}</p>
+              <div *ngIf="question.questionData?.answers">
+                <p><strong>Các đáp án:</strong></p>
+                <ul>
+                  <li *ngFor="let answer of question.questionData.answers">
+                    {{ answer.text }} <span *ngIf="answer.isCorrect">(Đáp án đúng)</span>
+                  </li>
+                </ul>
+              </div>
+              <button type="button" (click)="removeQuestionFromSection(sectionIndex, questionIndex)">
+                Xóa câu hỏi
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!exam.sections || exam.sections.length === 0">
+      <p>Không có phần thi nào trong bài thi này.</p>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="update-button" (click)="updateExam()">Cập nhật bài thi</button>
+    </div>
+
+    <button (click)="goBack()">Quay lại</button>
+  </div>
+
+  <ng-template #noExamFound>
+    <p>Bài thi không tồn tại hoặc không thể tìm thấy thông tin chi tiết.</p>
+  </ng-template>
+</div>

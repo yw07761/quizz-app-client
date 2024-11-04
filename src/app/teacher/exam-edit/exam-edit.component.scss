@@ -1,0 +1,150 @@
+.centered-container {
+  padding: 20px;
+
+  .exam-detail {
+    margin-bottom: 20px;
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="datetime-local"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    textarea {
+      height: 100px;
+    }
+  }
+
+  .section-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    
+    h4 {
+      margin: 0 0 10px;
+    }
+
+    button {
+      background-color: #008CBA; // Blue background for buttons
+      color: white; // White text
+      border: none; // No border
+      padding: 10px 15px; // Padding for button
+      text-align: center; // Center text
+      text-decoration: none; // No underline
+      display: inline-block; // Align button inline
+      font-size: 14px; // Font size
+      margin: 5px 2px; // Margin around button
+      cursor: pointer; // Pointer cursor on hover
+      border-radius: 4px; // Rounded corners
+      transition: background-color 0.3s; // Smooth transition
+
+      &:hover {
+        background-color: #007B9E; // Darker blue on hover
+      }
+    }
+  }
+
+  .actions {
+    display: flex; // Flex display for button group
+    justify-content: space-between; // Space between buttons
+
+    .update-button {
+      background-color: #4CAF50; // Green background
+      color: white; // White text
+      border: none; // No border
+      padding: 10px 15px; // Padding for button
+      text-align: center; // Center text
+      text-decoration: none; // No underline
+      font-size: 14px; // Font size
+      cursor: pointer; // Pointer cursor on hover
+      border-radius: 4px; // Rounded corners
+      transition: background-color 0.3s; // Smooth transition
+
+      &:hover {
+        background-color: #45a049; // Darker green on hover
+      }
+    }
+  }
+}
+.centered-container {
+  padding: 20px; // Add padding to the container
+
+  .exam-detail {
+    margin-bottom: 20px; // Space below the exam detail section
+    div {
+      margin-bottom: 15px; // Space between each input group
+    }
+  }
+
+  .section-item {
+    border: 1px solid #ccc; // Add a border around each section
+    border-radius: 5px; // Rounded corners
+    padding: 15px; // Inner padding
+    margin-bottom: 20px; // Space between sections
+    background-color: #f9f9f9; // Light background color for sections
+
+    h4 {
+      margin: 0 0 10px; // Adjust margin for the section title
+    }
+
+    .form-group {
+      display: flex; // Flexbox for alignment
+      align-items: center; // Center items vertically
+      justify-content: space-between; // Space between label and input
+    }
+  }
+
+  button {
+    background-color: #008CBA; // Blue background for buttons
+    color: white; // White text
+    border: none; // No border
+    padding: 10px 15px; // Padding for button
+    text-align: center; // Center text
+    text-decoration: none; // No underline
+    display: inline-block; // Align button inline
+    font-size: 16px; // Font size
+    margin: 10px 2px; // Margin around button
+    cursor: pointer; // Pointer cursor on hover
+    border-radius: 5px; // Rounded corners
+    transition: background-color 0.3s; // Smooth transition
+
+    &:hover {
+      background-color: #007B9E; // Darker blue on hover
+    }
+
+    &.update-button {
+      background-color: #4CAF50; // Green background for update button
+    }
+
+    &.remove-question {
+      background-color: #f44336; // Red background for remove question button
+    }
+  }
+
+  .actions {
+    display: flex; // Flex display for button group
+    justify-content: space-between; // Space between buttons
+    margin-top: 20px; // Margin above button group
+  }
+
+  // Style for select dropdown
+  select {
+    padding: 10px; // Padding for dropdown
+    border-radius: 5px; // Rounded corners
+    border: 1px solid #ccc; // Border for dropdown
+    margin-right: 10px; // Space between dropdown and button
+  }
+}

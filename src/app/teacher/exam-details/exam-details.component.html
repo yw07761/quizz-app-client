@@ -1,69 +1,52 @@
-<div *ngIf="isLoading">
-  <p>Đang tải thông tin bài thi...</p>
-</div>
+<div class="centered-container">
+  <div *ngIf="isLoading">
+    <p>Đang tải thông tin bài thi...</p>
+  </div>
 
-<div *ngIf="!isLoading && exam; else noExamFound">
-  <h2>Chi tiết bài thi: {{ exam.name }}</h2>
-  <p><strong>Mô tả:</strong> {{ exam.description }}</p>
-  <p><strong>Thời gian bắt đầu:</strong> {{ exam.startDate | date }}</p>
-  <p><strong>Thời gian kết thúc:</strong> {{ exam.endDate | date }}</p>
-  <p><strong>Thời lượng:</strong> {{ exam.duration }} phút</p>
-  <p><strong>Điểm tối đa:</strong> {{ exam.maxScore }}</p>
-  <p><strong>Số lần làm bài tối đa:</strong> {{ exam.maxAttempts }}</p>
-  <p><strong>Tự động phân phối điểm:</strong> {{ exam.autoDistributeScore ? 'Có' : 'Không' }}</p>
-  <p><strong>Hiển thị kết quả cho học sinh:</strong> {{ exam.showStudentResult ? 'Có' : 'Không' }}</p>
-  <p><strong>Chế độ hiển thị kết quả:</strong> {{ exam.displayResults }}</p>
-  <p><strong>Thứ tự câu hỏi:</strong> {{ exam.questionOrder }}</p>
-  <p><strong>Số câu hỏi trên mỗi trang:</strong> {{ exam.questionsPerPage }}</p>
+  <div *ngIf="!isLoading && exam; else noExamFound" class="centered-content">
+    <h2>Chi tiết bài thi: {{ exam.name }}</h2>
+    <p><strong>Mô tả:</strong> {{ exam.description }}</p>
+    <p><strong>Thời gian bắt đầu:</strong> {{ exam.startDate | date }}</p>
+    <p><strong>Thời gian kết thúc:</strong> {{ exam.endDate | date }}</p>
+    <p><strong>Thời lượng:</strong> {{ exam.duration }} phút</p>
+    <p><strong>Điểm tối đa:</strong> {{ exam.maxScore }}</p>
+    <p><strong>Số lần làm bài tối đa:</strong> {{ exam.maxAttempts }}</p>
+    <p><strong>Tự động phân phối điểm:</strong> {{ exam.autoDistributeScore ? 'Có' : 'Không' }}</p>
+    <p><strong>Hiển thị kết quả cho học sinh:</strong> {{ exam.showStudentResult ? 'Có' : 'Không' }}</p>
+    <p><strong>Chế độ hiển thị kết quả:</strong> {{ exam.displayResults }}</p>
+    <p><strong>Thứ tự câu hỏi:</strong> {{ exam.questionOrder }}</p>
+    <p><strong>Số câu hỏi trên mỗi trang:</strong> {{ exam.questionsPerPage }}</p>
 
-  <!-- Hiển thị các phần của bài thi -->
-  <div *ngIf="sections && sections.length > 0">
-    <h3>Các phần thi:</h3>
-    <div *ngFor="let section of sections; let sectionIndex = index" class="section-item">
-      <h4>Phần {{ sectionIndex + 1 }}: {{ section.title }}</h4>
-      <p><strong>Mô tả:</strong> {{ section.description }}</p>
-      <div *ngIf="section.questions && section.questions.length > 0">
-        <p><strong>Các câu hỏi:</strong></p>
-        <ul>
-          <li *ngFor="let question of section.questions; let questionIndex = index">
-            <div class="question-details">
-              <p><strong>Câu hỏi {{ questionIndex + 1 }}:</strong></p>
-              <p><strong>Điểm:</strong> {{ question.score }}</p>
-
-              <!-- Hiển thị chi tiết câu hỏi nếu có dữ liệu -->
-              <!-- Hiển thị chi tiết câu hỏi nếu có dữ liệu -->
-              <div *ngIf="question.questionData" class="question-content">
-                <p><strong>Nội dung câu hỏi:</strong> {{ question.questionData.text }}</p>
-                <div class="answers-list">
-                  <p><strong>Các đáp án:</strong></p>
-                  <ul>
-                    <li *ngFor="let answer of question.questionData.answers" [class.correct-answer]="answer.isCorrect">
-                      {{ answer.text }}
-                      <span *ngIf="answer.isCorrect" class="correct-badge">(Đáp án đúng)</span>
-                    </li>
-                  </ul>
-                </div>
+    <!-- Display sections -->
+    <div *ngIf="exam.sections && exam.sections.length > 0">
+      <h3>Các phần thi:</h3>
+      <div *ngFor="let section of exam.sections; let sectionIndex = index" class="section-item">
+        <h4>Phần {{ sectionIndex + 1 }}: {{ section.title }}</h4>
+        <div *ngIf="section.questions && section.questions.length > 0">
+          <ul>
+            <li *ngFor="let question of section.questions; let questionIndex = index">
+              <p><strong>Câu hỏi {{ questionIndex + 1 }}:</strong> {{ question.questionId?.text || 'Không có dữ liệu câu hỏi' }}</p>
+              <div *ngIf="question.questionId?.answers">
+                <p><strong>Các đáp án:</strong></p>
+                <ul>
+                  <li *ngFor="let answer of question.questionId.answers">
+                    {{ answer.text }} <span *ngIf="answer.isCorrect">(Đáp án đúng)</span>
+                  </li>
+                </ul>
               </div>
-              <div *ngIf="!question.questionData">
-                <p>Không thể tải thông tin chi tiết của câu hỏi.</p>
-              </div>
-
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div *ngIf="!section.questions || section.questions.length === 0">
-        <p>Không có câu hỏi nào trong phần này.</p>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-  <div *ngIf="!sections || sections.length === 0">
-    <p>Không có phần thi nào trong bài thi này.</p>
+    <div *ngIf="!exam.sections || exam.sections.length === 0">
+      <p>Không có phần thi nào trong bài thi này.</p>
+    </div>
+
+    <button (click)="goBack()">Quay lại</button>
   </div>
 
-  <button (click)="goBack()">Quay lại</button>
+  <ng-template #noExamFound>
+    <p>Bài thi không tồn tại hoặc không thể tìm thấy thông tin chi tiết.</p>
+  </ng-template>
 </div>
-
-<ng-template #noExamFound>
-  <p>Bài thi không tồn tại hoặc không thể tìm thấy thông tin chi tiết.</p>
-</ng-template>
