@@ -80,7 +80,23 @@ export class AuthService {
     const userStr = localStorage.getItem('user'); // Lấy thông tin người dùng từ localStorage
     return userStr ? JSON.parse(userStr) : null; // Phân tích JSON nếu có người dùng
   }
+  // Method to update user information
+  updateUser(updatedUser: User): Observable<User> {
+    const token = this.getToken(); // Get token from localStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
 
+    return this.http.put<User>(`${this.apiUrl}/user/update`, updatedUser, { headers }).pipe(
+      tap((response) => {
+        // Optional: Update the local user data if the response contains it
+        if (response) {
+          localStorage.setItem('user', JSON.stringify(response)); // Update user info in localStorage
+        }
+      }),
+      catchError(this.handleError) // Use the error handling method
+    );
+  }
   // Phương thức lấy ID người dùng (_id)
   getUserId(): string | null {
     const user = this.getCurrentUser();
@@ -97,7 +113,7 @@ export class AuthService {
       catchError(this.handleError) // Sử dụng phương thức xử lý lỗi
     );
   }
-
+  
   // Phương thức xử lý lỗi
   private handleError(error: any): Observable<never> {
     console.error('Lỗi trong quá trình xử lý:', error);

@@ -24,14 +24,15 @@ import { TeacherStatisticsComponent } from './teacher/teacher-statistics/teacher
 import { TeacherCategoryComponent } from './teacher/teacher-category/teacher-category.component';
 import { TeacherGroupComponent } from './teacher/teacher-group/teacher-group.component';
 import { StudentDashboardComponent } from './student/student-dashboard/student-dashboard.component';
-import {ClassComponent} from './student/class/class.component';
-import {ExamHistoryComponent} from './student/exam-history/exam-history.component';
-import {SummaryComponent} from './student/summary/summary.component';
-import {ProfileComponent} from './profile/profile.component'
-
+import { ClassComponent} from './student/class/class.component';
+import { ExamHistoryComponent} from './student/exam-history/exam-history.component';
+import { SummaryComponent} from './student/summary/summary.component';
+import { ProfileComponent} from './profile/profile.component'
+import { SettingsComponent} from './settings/settings.component'
 
 const routes: Routes = [
   { path: 'role', component: RoleComponent },
+  { path: 'settings', component: SettingsComponent },
   { path: 'exam', component: Exam_studentComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
