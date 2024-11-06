@@ -1,36 +1,53 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
-import { NgModule } from '@angular/core';
+import { ClassService } from '../../../services/class.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router'; // Import RouterModule
 
 @Component({
   selector: 'app-teacher-class',
   templateUrl: './teacher-class.component.html',
   styleUrls: ['./teacher-class.component.scss'],
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule] // Add RouterModule here
+  imports: [FormsModule, CommonModule]
 })
 export class TeacherClassComponent implements OnInit {
   user: any = null;
   isDropdownActive = false;
   isInviteModalVisible = false;
   isAddClassModalVisible = false;
-  selectedClass: number | null = null; // Changed to number to maintain consistency
-  email: string = '';
+  selectedClassId: string | null = null;
+
+  // Form inputs
   className: string = '';
   classDescription: string = '';
+  startDate: string = '';
+  endDate: string = '';
+  maxStudents: number = 30;
+  location: string = 'Chưa có địa điểm';
+  status: string = 'open';
+  email: string = '';
 
-  // Array to hold the classes dynamically
-  classes: Array<{ id: number; code: string; name: string; description: string; students: string[] }> = [];
-
-  constructor(private authService: AuthService, private router: Router) {}
-
-  viewClassDetails(classId: number) {
-    this.router.navigate(['/teacher-class-detail', classId]);
-  }
+  classes: Array<{
+    id: string;
+    classId: string;
+    className: string;
+    schedule: string;
+    teacher: string;
+    students: string[];
+    startDate: string;
+    endDate: string;
+    maxStudents: number;
+    location: string;
+    status: string;
+  }> = [];
+  
+  constructor(
+    private authService: AuthService,
+    private classService: ClassService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.user = this.authService.getCurrentUser();
@@ -41,8 +58,53 @@ export class TeacherClassComponent implements OnInit {
     this.isDropdownActive = !this.isDropdownActive;
   }
 
-  openInviteModal(classId: number) {
-    this.selectedClass = classId; // Keep as number for easier reference
+  openAddClassModal() {
+    this.isAddClassModalVisible = true;
+  }
+
+  closeAddClassModal() {
+    this.isAddClassModalVisible = false;
+    this.clearClassForm();
+  }
+
+  addClass() {
+    if (this.className && this.classDescription) {
+      const teacherId = this.user?._id;
+      const classId = `CLASS${Date.now()}`;
+      const newClass = {
+        classId: classId,
+        className: this.className.trim(),
+        description: this.classDescription.trim(),
+        teacher: teacherId,
+        startDate: new Date(this.startDate).toISOString(),
+        endDate: this.endDate ? new Date(this.endDate).toISOString() : undefined,
+        maxStudents: this.maxStudents,
+        location: this.location.trim(),
+        status: this.status,
+      };
+
+      this.classService.addClass(newClass).subscribe({
+        next: () => {
+          console.log('Thêm lớp thành công');
+          this.loadClasses();
+          this.closeAddClassModal();
+        },
+        error: (error: any) => console.error('Lỗi khi thêm lớp:', error)
+      });
+    }
+  }
+
+  loadClasses() {
+    this.classService.getClasses().subscribe({
+      next: (data) => {
+        this.classes = data;
+      },
+      error: (error: any) => console.error('Lỗi khi tải danh sách lớp:', error)
+    });
+  }
+
+  openInviteModal(classId: string) {
+    this.selectedClassId = classId;
     this.isInviteModalVisible = true;
   }
 
@@ -52,61 +114,30 @@ export class TeacherClassComponent implements OnInit {
   }
 
   addStudent() {
-    if (this.email && this.selectedClass !== null) {
-      const selectedClass = this.classes.find(cls => cls.id === this.selectedClass);
-      if (selectedClass) {
-        console.log(`Thêm học viên ${this.email} vào lớp ${selectedClass.name}`);
-        selectedClass.students.push(this.email);
-        this.saveClasses();
-        this.closeInviteModal();
-      }
+    if (this.selectedClassId && this.email) {
+      this.classService.addStudent(this.selectedClassId, this.email).subscribe({
+        next: () => {
+          console.log('Thêm học viên thành công');
+          this.closeInviteModal();
+        },
+        error: (error: any) => console.error('Lỗi khi thêm học viên:', error)
+      });
     }
   }
 
-  openAddClassModal() {
-    this.isAddClassModalVisible = true;
+  // Phương thức đăng xuất
+  logout() {
+    this.authService.logout(); // Gọi phương thức logout từ AuthService
+    this.router.navigate(['/login']); // Chuyển hướng đến trang đăng nhập
   }
 
-  closeAddClassModal() {
-    this.isAddClassModalVisible = false;
+  private clearClassForm() {
     this.className = '';
     this.classDescription = '';
-  }
-
-  addClass() {
-    if (this.className && this.classDescription) {
-      const newClass = {
-        id: this.classes.length + 1,
-        code: `CLASS${this.classes.length + 1}`,
-        name: this.className.trim(),
-        description: this.classDescription.trim(),
-        students: []
-      };
-      this.classes.push(newClass);
-      this.saveClasses();
-      this.closeAddClassModal();
-    }
-  }
-
-  private saveClasses() {
-    localStorage.setItem('classes', JSON.stringify(this.classes));
-  }
-
-  private loadClasses() {
-    const savedClasses = localStorage.getItem('classes');
-    if (savedClasses) {
-      this.classes = JSON.parse(savedClasses);
-    }
-  }
-
-  logout() {
-    this.authService.logout().subscribe({
-      next: () => {
-        window.location.href = '/login';
-      },
-      error: (error) => {
-        console.error('Logout error:', error);
-      }
-    });
+    this.startDate = '';
+    this.endDate = '';
+    this.maxStudents = 30;
+    this.location = 'Chưa có địa điểm';
+    this.status = 'open';
   }
 }

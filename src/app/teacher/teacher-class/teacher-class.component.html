@@ -12,8 +12,7 @@
     <div class="user-menu">
         <i class="fas fa-question-circle" style="margin-right: 20px;"></i>
         <i class="fas fa-bell" style="margin-right: 20px;"></i>
-        <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="40" width="40"
-            (click)="toggleDropdown()">
+        <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="40" width="40" (click)="toggleDropdown()">
         <div class="dropdown" [class.active]="isDropdownActive">
             <div class="profile">
                 <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="50" width="50">
@@ -47,20 +46,23 @@
         </div>
 
         <div class="card-container">
-            <!-- Class cards dynamically generated -->
-            <div class="card" *ngFor="let cls of classes" [routerLink]="['/teacher-class-detail', cls.id]">
-                <img alt="Illustration" height="200"
-                    src="https://storage.googleapis.com/a1aa/image/N9crpBdqrwYLGdA10qiYfESD2c8v9ZwH4kZUTVg4fw0fBLZnA.jpg"
-                    width="300" />
-                <div class="code">{{ cls.code }}</div>
-                <div class="title">{{ cls.name }}</div>
-                <div class="description">{{ cls.description }}</div>
+            <div class="card" *ngFor="let cls of classes" >
+                <img alt="Illustration" height="200" src="https://storage.googleapis.com/a1aa/image/N9crpBdqrwYLGdA10qiYfESD2c8v9ZwH4kZUTVg4fw0fBLZnA.jpg" width="300" />
+                <div class="code">{{ cls.classId }}</div>
+                <div class="title">{{ cls.className }}</div>
+                <div class="description">{{ cls.schedule }}</div> <!-- Hiển thị schedule -->
                 <div class="members">{{ cls.students.length }} thành viên</div>
-                <button class="invite-button" (click)="openInviteModal(cls.id); $event.stopPropagation()">Mời thành
-                    viên</button>
+                <div class="location">Địa điểm: {{ cls.location }}</div> <!-- Hiển thị location -->
+                <div class="status">Trạng thái: {{ cls.status }}</div> <!-- Hiển thị status -->
+                <button class="invite-button" (click)="openInviteModal(cls.id); $event.stopPropagation()">Mời thành viên</button>
             </div>
         </div>
-
+        
+        <!-- Kiểm tra nếu không có lớp nào -->
+        <div *ngIf="classes.length === 0">
+            <p>Chưa có lớp nào được tạo.</p>
+        </div>
+        
 
         <!-- Invite Student Modal -->
         <div class="modal-overlay" [class.active]="isInviteModalVisible">
@@ -87,8 +89,31 @@
                 </div>
                 <div class="input-group">
                     <label for="classDescription">Mô tả ngắn gọn</label>
-                    <input id="classDescription" type="text" placeholder="Mô tả ngắn gọn"
-                        [(ngModel)]="classDescription">
+                    <input id="classDescription" type="text" placeholder="Mô tả ngắn gọn" [(ngModel)]="classDescription">
+                </div>
+                <div class="input-group">
+                    <label for="startDate">Ngày bắt đầu</label>
+                    <input id="startDate" type="date" [(ngModel)]="startDate">
+                </div>
+                <div class="input-group">
+                    <label for="endDate">Ngày kết thúc</label>
+                    <input id="endDate" type="date" [(ngModel)]="endDate">
+                </div>
+                <div class="input-group">
+                    <label for="maxStudents">Số lượng sinh viên tối đa</label>
+                    <input id="maxStudents" type="number" [(ngModel)]="maxStudents" placeholder="Số lượng sinh viên tối đa">
+                </div>
+                <div class="input-group">
+                    <label for="location">Địa điểm</label>
+                    <input id="location" type="text" [(ngModel)]="location" placeholder="Địa điểm học">
+                </div>
+                <div class="input-group">
+                    <label for="status">Trạng thái</label>
+                    <select id="status" [(ngModel)]="status">
+                        <option value="open">Mở</option>
+                        <option value="closed">Đóng</option>
+                        <option value="in-progress">Đang diễn ra</option>
+                    </select>
                 </div>
                 <div class="modal-actions">
                     <button (click)="closeAddClassModal()">Đóng</button>
