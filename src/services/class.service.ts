@@ -26,27 +26,29 @@ export class ClassService {
   }
 
   // Thêm mới một lớp học với các trường cần thiết
-  addClass(newClass: { 
-    classId: string; 
-    className: string; 
-    description: string; 
-    teacher: string; 
-    startDate: string; 
-    endDate?: string; 
-    maxStudents: number; 
-    location: string; 
-    status: string; 
-  }): Observable<any> {
-    const headers = this.getHeaders();
-    return this.http.post(this.baseUrl, newClass, { headers });
-  }
+// class.service.ts
+addClass(newClass: { 
+  classId: string; 
+  className: string; 
+  description: string; 
+  teacher: { _id: string; email: string; username: string }; // Cập nhật kiểu cho teacher
+  startDate: string; 
+  endDate?: string; 
+  maxStudents: number; 
+  location: string; 
+  status: string; 
+  currentStudents: number; // Thêm currentStudents nếu cần thiết
+}): Observable<any> {
+  const headers = this.getHeaders(); // Lấy header với token
+  return this.http.post(this.baseUrl, newClass, { headers });
+}
+
 
   // Thêm học viên vào lớp bằng cách cung cấp classId và email học viên
-  addStudent(classId: string, studentEmail: string): Observable<any> {
-    const headers = this.getHeaders();
-    const data = {
-      email: studentEmail.trim() // Đảm bảo email không có khoảng trắng
-    };
-    return this.http.post(`${this.baseUrl}/${classId}/add-student`, data, { headers });
-  }
+  // ClassService.ts
+addStudent(classId: string, studentData: { email: string }): Observable<any> {
+  const headers = this.getHeaders();
+  return this.http.post(`${this.baseUrl}/${classId}/add-student`, studentData, { headers });
+}
+
 }
