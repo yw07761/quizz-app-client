@@ -9,11 +9,11 @@ interface User {
   password: string;
   email: string;
   role: string;
-  token?: string; // Token có thể không có nếu không được trả về
+  token?: string;
 }
 
 interface AuthResponse {
-  token: any;
+  token: string;
   message: string;
   user: User;
 }
@@ -31,89 +31,83 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrl}/sign-in`, credentials).pipe(
       tap((response) => {
         console.log('Đăng nhập thành công:', response);
-        if (response.user) {
+        if (response.user && response.token) {
           localStorage.setItem('user', JSON.stringify(response.user)); // Lưu thông tin người dùng
-          
-          // Check if token exists on the response directly
-          if (response.token) { 
-            this.saveToken(response.token); // Lưu token vào localStorage
-          } else {
-            console.error('Token không có trong phản hồi');
-          }
+          this.saveToken(response.token); // Lưu token vào localStorage
+        } else {
+          console.error('Phản hồi đăng nhập không có token hoặc user');
         }
       }),
-      catchError(this.handleError) // Sử dụng phương thức xử lý lỗi
+      catchError(this.handleError)
     );
   }
-  
 
   // Phương thức để lưu token
-  saveToken(token: string): void {
-    localStorage.setItem('auth_token', token); // Lưu token vào localStorage
+  private saveToken(token: string): void {
+    localStorage.setItem('auth_token', token);
   }
 
   getToken(): string | null {
-    return localStorage.getItem('auth_token'); // Lấy token từ localStorage
+    return localStorage.getItem('auth_token');
   }
 
   // Phương thức đăng ký
   register(userData: { username: string; email: string; password: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/sign-up`, userData);
+    return this.http.post(`${this.apiUrl}/sign-up`, userData).pipe(catchError(this.handleError));
   }
-  
-
 
   // Phương thức cập nhật vai trò người dùng
   updateUserRole(userId: string, role: string): Observable<AuthResponse> {
-    const token = this.getToken(); // Lấy token từ localStorage
+    const token = this.getToken();
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`
     });
 
     return this.http.put<AuthResponse>(`${this.apiUrl}/users/${userId}/role`, { role }, { headers }).pipe(
-      catchError(this.handleError) // Sử dụng phương thức xử lý lỗi
+      catchError(this.handleError)
     );
   }
 
   // Phương thức lấy thông tin người dùng hiện tại
   getCurrentUser(): User | null {
-    const userStr = localStorage.getItem('user'); // Lấy thông tin người dùng từ localStorage
-    return userStr ? JSON.parse(userStr) : null; // Phân tích JSON nếu có người dùng
+    const userStr = localStorage.getItem('user');
+    return userStr ? JSON.parse(userStr) : null;
   }
-  // Method to update user information
+
+  // Phương thức cập nhật thông tin người dùng
   updateUser(updatedUser: User): Observable<User> {
-    const token = this.getToken(); // Get token from localStorage
+    const token = this.getToken();
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`
     });
 
     return this.http.put<User>(`${this.apiUrl}/user/update`, updatedUser, { headers }).pipe(
       tap((response) => {
-        // Optional: Update the local user data if the response contains it
         if (response) {
-          localStorage.setItem('user', JSON.stringify(response)); // Update user info in localStorage
+          localStorage.setItem('user', JSON.stringify(response)); // Cập nhật thông tin người dùng trong localStorage
         }
       }),
-      catchError(this.handleError) // Use the error handling method
+      catchError(this.handleError)
     );
   }
+
   // Phương thức lấy ID người dùng (_id)
   getUserId(): string | null {
     const user = this.getCurrentUser();
-    return user ? user._id : null; // Trả về ID người dùng hoặc null
+    return user ? user._id : null;
   }
 
   // Phương thức đăng xuất
   logout(): Observable<any> {
     return this.http.post(`${this.apiUrl}/logout`, {}).pipe(
       tap(() => {
-        localStorage.removeItem('user'); // Xóa thông tin người dùng từ localStorage
-        localStorage.removeItem('auth_token'); // Xóa token
+        localStorage.removeItem('user');
+        localStorage.removeItem('auth_token');
       }),
-      catchError(this.handleError) // Sử dụng phương thức xử lý lỗi
+      catchError(this.handleError)
     );
   }
-  
+
   // Phương thức xử lý lỗi
   private handleError(error: any): Observable<never> {
     console.error('Lỗi trong quá trình xử lý:', error);
