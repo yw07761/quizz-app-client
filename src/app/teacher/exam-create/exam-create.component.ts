@@ -3,9 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { QuestionService, Question } from '../../../services/question.service';
 import { ExamService } from '../../../services/exam.service';
+import { AuthService } from '../../../services/auth.service'; // Import AuthService
 import { Router } from '@angular/router';
 
-// Tạo interface mở rộng cho câu hỏi, bao gồm thuộc tính `score`
+// Interface for an extended question including `score` property
 interface ExtendedQuestion extends Question {
   score?: number;
 }
@@ -15,7 +16,6 @@ interface Section {
   description: string;
   questions: ExtendedQuestion[];
 }
-
 
 @Component({
   selector: 'app-exam-create',
@@ -44,19 +44,27 @@ export class ExamCreateComponent implements OnInit {
   };
 
   sections: Section[] = [];
-  availableQuestions: Question[] = []; // Dữ liệu từ service
+  availableQuestions: Question[] = [];
+  teacherId: string | undefined; // Store the teacher's ID here
 
-  // Tracking trạng thái của các section
   isSectionOpen: { [key: string]: boolean } = {
     general: true,
     advanced: true
   };
 
-  constructor(private questionService: QuestionService, private examService: ExamService, private router: Router
-  ) { }
+  constructor(
+    private questionService: QuestionService,
+    private examService: ExamService,
+    private authService: AuthService, // Inject AuthService to access user info
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    // Lấy danh sách câu hỏi từ dịch vụ
+    // Retrieve the teacher's ID from the AuthService
+    const user = this.authService.getCurrentUser();
+    this.teacherId = user?._id; // Assuming `_id` is the unique identifier for the teacher
+
+    // Fetch the list of questions from the QuestionService
     this.questionService.getQuestions().subscribe((questions) => {
       this.availableQuestions = questions;
     });
@@ -71,21 +79,17 @@ export class ExamCreateComponent implements OnInit {
     this.sections.push({ title: '', description: '', questions: [] });
   }
 
-  // Thêm câu hỏi từ danh sách có sẵn vào phần đang tạo
-  // Cập nhật phương thức addQuestionToSection
   addQuestionToSection(sectionIndex: number, questionId: string) {
     if (!questionId) return;
 
     const selectedQuestion = this.availableQuestions.find(q => q._id === questionId);
 
     if (selectedQuestion) {
-      // Kiểm tra xem câu hỏi đã tồn tại trong section chưa
       const questionExists = this.sections[sectionIndex].questions.some(
         q => q._id === selectedQuestion._id
       );
 
       if (!questionExists) {
-        // Thêm câu hỏi mới vào section với điểm mặc định là 0
         this.sections[sectionIndex].questions.push({
           ...selectedQuestion,
           score: 0
@@ -101,10 +105,12 @@ export class ExamCreateComponent implements OnInit {
       this.sections[sectionIndex].questions.splice(questionIndex, 1);
     }
   }
+
   saveExam() {
-    // Chuẩn bị dữ liệu bài thi
+    // Prepare exam data with teacherId
     const examData = {
       ...this.exam,
+      createdBy: this.teacherId, // Include the teacher's ID
       sections: this.sections.map(section => ({
         ...section,
         questions: section.questions.map(q => ({
@@ -113,13 +119,15 @@ export class ExamCreateComponent implements OnInit {
         }))
       }))
     };
-    console.log(examData);
-    // Gọi service để lưu bài thi
+
+    console.log("Exam data being sent:", examData);
+
+    // Call the service to save the exam
     this.examService.createExam(examData).subscribe({
       next: (response) => {
         console.log('Exam saved successfully:', response);
         alert('Bài thi đã được lưu thành công!');
-        this.router.navigate(['/teacher-dashboard']); // Điều hướng sau khi lưu
+        this.router.navigate(['/teacher-dashboard']); // Navigate after saving
       },
       error: (error) => {
         console.error('Error saving exam:', error);
@@ -127,7 +135,6 @@ export class ExamCreateComponent implements OnInit {
       }
     });
   }
-
 
   toggleSection(section: string) {
     this.isSectionOpen[section] = !this.isSectionOpen[section];

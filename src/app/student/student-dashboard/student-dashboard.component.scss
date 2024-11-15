@@ -2,19 +2,17 @@ body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f5f5f5;
+  background-color: #f9f9f9;
+  color: #333;
 }
-.nav-links a.active {
-  color: #007bff;
-  font-weight: bold;
-  border-bottom: 2px solid #007bff;
-}
+
 .navbar {
   display: flex;
   align-items: center;
   padding: 10px 20px;
-  background-color: white;
+  background-color: #fff;
   border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   .logo {
     display: flex;
@@ -41,9 +39,18 @@ body {
       text-decoration: none;
       color: #333;
       font-weight: 500;
+      padding-bottom: 5px;
+      transition: color 0.3s ease, border-bottom 0.3s ease;
+
+      &.active {
+        color: #007bff;
+        font-weight: bold;
+        border-bottom: 2px solid #007bff;
+      }
 
       &:hover {
         color: #007bff;
+        border-bottom: 2px solid #007bff;
       }
     }
   }
@@ -53,11 +60,27 @@ body {
     align-items: center;
     position: relative;
 
+    i {
+      color: #888;
+      margin-right: 15px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #007bff;
+      }
+    }
+
     img {
       height: 40px;
       width: 40px;
       border-radius: 50%;
       cursor: pointer;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.1);
+      }
     }
 
     .dropdown {
@@ -65,14 +88,20 @@ body {
       position: absolute;
       top: 50px;
       right: 0;
-      background-color: white;
+      background-color: #fff;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       border-radius: 5px;
-      width: 300px;
+      width: 250px;
       z-index: 1000;
+      transition: opacity 0.3s ease;
+      opacity: 0;
+      visibility: hidden;
 
       &.active {
         display: block;
+        opacity: 1;
+        visibility: visible;
+        animation: fadeIn 0.3s ease;
       }
 
       .profile {
@@ -100,16 +129,6 @@ body {
             color: #666;
           }
         }
-
-        .view-profile {
-          background-color: #007bff;
-          color: white;
-          padding: 5px 10px;
-          border-radius: 5px;
-          text-align: center;
-          text-decoration: none;
-          font-size: 12px;
-        }
       }
 
       .menu {
@@ -122,6 +141,7 @@ body {
           text-decoration: none;
           color: #333;
           font-size: 14px;
+          transition: color 0.3s ease;
 
           i {
             margin-right: 10px;
@@ -140,31 +160,83 @@ body {
   padding: 20px;
 
   .section {
-    background-color: white;
+    background-color: #fff;
     padding: 20px;
     margin-bottom: 20px;
-    border-radius: 5px;
+    border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
     h2 {
       margin-top: 0;
       font-size: 18px;
       font-weight: 500;
+      color: #007bff;
     }
 
     .empty-state {
       text-align: center;
-      color: #666;
+      color: #888;
 
       img {
         max-width: 100px;
         margin-bottom: 10px;
       }
     }
+
+    .exam-item {
+      padding: 15px;
+      border-bottom: 1px solid #e0e0e0;
+      &:last-child {
+        border-bottom: none;
+      }
+      h3 {
+        margin: 0;
+        color: #333;
+        font-size: 18px;
+      }
+      p {
+        margin: 5px 0;
+        color: #666;
+      }
+      .exam-actions {
+        margin-top: 10px;
+        button {
+          background-color: #007bff;
+          color: #fff;
+          border: none;
+          padding: 10px 15px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+
+          &:hover {
+            background-color: #0056b3;
+          }
+        }
+      }
+    }
   }
 }
 
-// Additional styles for responsiveness
+// Animations and Keyframes
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive Design
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
@@ -201,7 +273,30 @@ body {
   }
 }
 
-// Hover effects and transitions
+// Custom Scrollbar for Dropdown
+.dropdown .menu {
+  max-height: 300px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+
+// Interactive Effects
 .navbar {
   .nav-links a {
     transition: color 0.3s ease;
@@ -210,77 +305,14 @@ body {
   .user-menu {
     img {
       transition: transform 0.2s ease;
-
-      &:hover {
-        transform: scale(1.1);
-      }
     }
 
     .dropdown {
       transition: opacity 0.3s ease;
-      
+
       &.active {
         animation: fadeIn 0.3s ease;
       }
-    }
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-// Additional interactive elements
-.section {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-}
-
-// Status indicators
-.notification-badge {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background-color: #ff4444;
-  color: white;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-// Custom scrollbar for dropdown
-.dropdown {
-  .menu {
-    max-height: 300px;
-    overflow-y: auto;
-
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: #f1f1f1;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: #888;
-      border-radius: 3px;
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-      background: #555;
     }
   }
 }

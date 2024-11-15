@@ -1,0 +1,34 @@
+<div class="exam-container" *ngIf="exam">
+    <h2>{{ exam.name }}</h2>
+    
+    <div class="exam-info">
+      <p><strong>Mô tả:</strong> {{ exam.description }}</p>
+      <p><strong>Thời gian:</strong> {{ exam.startDate | date }} - {{ exam.endDate | date }}</p>
+      <p><strong>Thời lượng:</strong> {{ exam.duration }} phút</p>
+      <p><strong>Điểm tối đa:</strong> {{ exam.maxScore }}</p>
+    </div>
+  
+    <form (ngSubmit)="submitExam()">
+      <div class="exam-section" *ngFor="let section of exam.sections">
+        <h3>{{ section.title }}</h3>
+        <p>{{ section.description }}</p>
+  
+        <div class="question-container" *ngFor="let question of section.questions">
+          <h4>{{ question.questionId.text }}</h4>
+          <div class="answers-container">
+            <label *ngFor="let answer of question.questionId.answers">
+              <input type="radio" name="question{{ question._id }}" [value]="answer.text" />
+              {{ answer.text }}
+            </label>
+          </div>
+        </div>
+      </div>
+  
+      <button type="submit" class="submit-button">Nộp bài thi</button>
+    </form>
+  </div>
+  
+  <div class="loading-container" *ngIf="!exam">
+    <div class="spinner"></div>
+    <p>Đang tải dữ liệu bài thi...</p>
+  </div>

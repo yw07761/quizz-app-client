@@ -4,10 +4,10 @@
     <span>Quiz your English Challenge</span>
   </div>
   <div class="nav-links">
-    <a href="/student-dashboard" class="active">Bài kiểm tra</a>
-    <a href="/exam-student">Lịch sử làm bài</a>
-    <a href="/class-student">Lớp</a>
-    <a href="/summary-student">Tổng kết</a>
+    <a routerLink="/student-dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Bài kiểm tra</a>
+    <a routerLink="/exam-student" routerLinkActive="active">Lịch sử làm bài</a>
+    <a routerLink="/class-student" routerLinkActive="active">Lớp</a>
+    <a routerLink="/summary-student" routerLinkActive="active">Tổng kết</a>
   </div>
   <div class="user-menu">
     <i class="fas fa-question-circle" style="margin-right: 20px;"></i>
@@ -22,27 +22,37 @@
         </div>
       </div>
       <div class="menu">
-        <a href="/profile"><i class="fas fa-user-graduate"></i> Thông tin cá nhân</a>
-        <a href="/settings"><i class="fas fa-cog"></i> Cài đặt chung</a>
+        <a routerLink="/profile"><i class="fas fa-user-graduate"></i> Thông tin cá nhân</a>
+        <a routerLink="/settings"><i class="fas fa-cog"></i> Cài đặt chung</a>
         <a href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
       </div>
     </div>
   </div>
 </div>
-
 <div class="content">
+ 
+
   <div class="section">
-    <h2>Lịch học</h2>
-    <div class="empty-state">
-      <img src="../../assets/img/pic4.png" alt="No Schedule" height="100" width="100">
-      <div>Hiện tại không có lịch học</div>
+    <h2>Bài thi đang diễn ra</h2>
+    <div *ngIf="activeExams.length > 0; else noActiveExams">
+      <div *ngFor="let exam of activeExams" class="exam-item">
+        <h3>{{ exam.name }}</h3>
+        <p>{{ exam.description }}</p>
+        <p>Thời gian: {{ exam.startDate | date }} - {{ exam.endDate | date }}</p>
+        <p>Thời lượng: {{ exam.duration }} phút</p>
+        <p>Điểm tối đa: {{ exam.maxScore }}</p>
+
+        <!-- Action Buttons for student -->
+        <div class="exam-actions">
+          <button (click)="takeExam(exam)">Thực hiện bài thi</button>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="section">
-    <h2>Bài kiểm tra</h2>
-    <div class="empty-state">
-      <img src="../../assets/img/pic5.png" alt="No Tests" height="100" width="100">
-      <div>Hiện tại không có bài trắc nghiệm nào trong lịch sử gần đây</div>
-    </div>
+    <ng-template #noActiveExams>
+      <div class="empty-state">
+        <img src="../../assets/img/pic01.png" alt="No Active Exams" height="100" width="100">
+        <div>Hiện tại không có bài thi nào đang diễn ra</div>
+      </div>
+    </ng-template>
   </div>
 </div>
