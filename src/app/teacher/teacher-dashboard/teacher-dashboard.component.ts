@@ -86,11 +86,12 @@ export class TeacherDashboardComponent implements OnInit {
     }
   }
 
-  updateExamStatus(exam: Exam) {
-    exam.maxScore += 10;
-    this.examService.updateExam(exam._id!, exam).subscribe({
+  updateExamStatus(exam: any) {
+    exam.status = 'published'; // Set the status to 'published' when updating
+  
+    this.examService.updateExam(exam._id, exam).subscribe({
       next: () => {
-        this.loadExams();
+        this.loadExams(); // Reload exams to reflect changes
         alert('Exam status updated successfully');
       },
       error: (error) => {
@@ -98,4 +99,5 @@ export class TeacherDashboardComponent implements OnInit {
       }
     });
   }
+  
 }

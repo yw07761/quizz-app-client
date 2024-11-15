@@ -18,7 +18,7 @@ export class QuestionComponent implements OnInit {
   };
   category: string = '';
   group: string = '';
-  groups: string[] = ['Nhóm 1', 'Nhóm 2', 'Nhóm 3'];
+  groups: string[] = ['Grammar', 'Vocabulary', 'Word Usage', 'Reading Comprehension','Pronunciation','Listening Comprehension','Translation'];
 
   constructor(private questionService: QuestionService, private router: Router) {}
 

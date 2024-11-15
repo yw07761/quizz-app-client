@@ -1,0 +1,10 @@
+<!-- result.component.html -->
+<div *ngIf="result">
+    <h1>Kết quả bài thi</h1>
+    <p>Điểm của bạn: {{ result.score }}</p>
+    <h2>Câu hỏi</h2>
+    <div *ngFor="let question of result.questions">
+      <p>{{ question.text }}</p>
+      <p>Câu trả lời của bạn: {{ question.userAnswer ? 'Đúng' : 'Sai' }}</p>
+    </div>
+  </div>
