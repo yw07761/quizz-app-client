@@ -97,11 +97,17 @@ export class ExamService {
   }
 
   // Submit answers for an exam
-  submitExam(id: string, answers: { [key: string]: any }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${id}/submit`, { answers });
+  submitExam(id: string, answers: any): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.post(`${this.apiUrl}/${id}/submit`, { answers }, { headers }).pipe(
+      tap(response => console.log("Exam submitted successfully:", response)),
+      catchError(this.handleError)
+    );
   }
-  
-
+  private handleError(error: any): Observable<never> {
+    console.error("Error details:", error);
+    return throwError(error);
+  }
   // Fetch exam results
   getResult(id: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/${id}/results`);
@@ -109,6 +115,7 @@ export class ExamService {
 
   // Get exam history for a student
   getExamHistory(userId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}/results`);
+    const headers = this.getAuthHeaders();
+    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}/results`, { headers });
   }
-}
+}  

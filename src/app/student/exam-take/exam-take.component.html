@@ -17,7 +17,12 @@
           <h4>{{ question.questionId.text }}</h4>
           <div class="answers-container">
             <label *ngFor="let answer of question.questionId.answers">
-              <input type="radio" name="question{{ question._id }}" [value]="answer.text" />
+              <input 
+                type="radio" 
+                name="question{{ question._id }}" 
+                [value]="answer.text" 
+                (change)="onAnswerSelected(question._id, answer.text)" 
+              />
               {{ answer.text }}
             </label>
           </div>
@@ -32,3 +37,4 @@
     <div class="spinner"></div>
     <p>Đang tải dữ liệu bài thi...</p>
   </div>
+  

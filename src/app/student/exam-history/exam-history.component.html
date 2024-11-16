@@ -5,17 +5,17 @@
   </div>
   <div class="nav-links">
     <a href="/student-dashboard">Bài kiểm tra</a>
-    <a href="/exam-student" class="active">Lịch sử làm bài</a>
+    <a href="/exam-history" class="active">Lịch sử làm bài</a>
     <a href="/class-student">Lớp</a>
     <a href="/summary-student">Tổng kết</a>
   </div>
   <div class="user-menu">
     <i class="fas fa-question-circle" style="margin-right: 20px;"></i>
     <i class="fas fa-bell" style="margin-right: 20px;"></i>
-    <img src="../../assets/img/skeleton-icon.png" alt="User  Avatar" height="40" width="40" (click)="toggleDropdown()">
+    <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="40" width="40" (click)="toggleDropdown()">
     <div class="dropdown" [class.active]="isDropdownActive">
       <div class="profile">
-        <img src="../../assets/img/skeleton-icon.png" alt="User  Avatar" height="50" width="50">
+        <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="50" width="50">
         <div class="info">
           <div class="name">{{ user?.username }}</div>
           <div class="email">{{ user?.email }}</div>
@@ -43,15 +43,15 @@
       </div>
     </div>
 
-    <div *ngIf="examHistory.length > 0; else noExams">
+    <div *ngIf="filteredExamHistory.length > 0; else noExams">
       <ul class="exam-list">
-        <li *ngFor="let exam of examHistory">
-          <div class="exam-item">
+        <li *ngFor="let exam of filteredExamHistory" class="exam-item">
+          <div class="exam-details">
             <h3>{{ exam.name }}</h3>
-            <p>Điểm: {{ exam.score }}</p>
-            <p>Thời gian làm bài: {{ exam.submittedAt | date: 'short' }}</p>
-            <button (click)="viewExamDetails(exam.id)">Xem chi tiết</button>
+            <p><strong>Điểm:</strong> {{ exam.score }} / 100</p>
+            <p><strong>Thời gian làm bài:</strong> {{ exam.submittedAt | date: 'short' }}</p>
           </div>
+          <button (click)="viewExamDetails(exam.id)">Xem chi tiết</button>
         </li>
       </ul>
     </div>
@@ -59,7 +59,7 @@
     <ng-template #noExams>
       <div class="empty-state">
         <img src="../../assets/img/pic4.png" alt="No Schedule" height="100" width="100">
-        <div>Hiện tại không có bài thi trắc nghiệm nào</div>
+        <p>Hiện tại không có bài thi trắc nghiệm nào</p>
       </div>
     </ng-template>
   </div>
