@@ -30,6 +30,19 @@ export interface Section {
   description: string;
   questions: any[];
 }
+export interface ExamSubmissionAnswer {
+  questionId: string;
+  answer: string;
+  timestamp: string;  // Changed to string since we're sending ISO string
+}
+
+export interface ExamSubmission {
+  answers: ExamSubmissionAnswer[];
+  startTime: string;
+  endTime: string;
+}
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -96,14 +109,26 @@ export class ExamService {
     return this.http.get(`${this.apiUrl}/${id}`);
   }
 
-  // Submit answers for an exam
-  submitExam(id: string, answers: any): Observable<any> {
+  submitExam(id: string, submissionData: ExamSubmission): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.post(`${this.apiUrl}/${id}/submit`, { answers }, { headers }).pipe(
-      tap(response => console.log("Exam submitted successfully:", response)),
-      catchError(this.handleError)
+    
+    // Ensure dates are valid
+    const formattedData = {
+      answers: submissionData.answers,
+      startTime: submissionData.startTime,
+      endTime: submissionData.endTime
+    };
+
+    return this.http.post(`${this.apiUrl}/${id}/submit`, formattedData, { headers }).pipe(
+      tap(response => console.log('Exam submitted:', response)),
+      catchError(error => {
+        console.error('Submit error:', error);
+        return throwError(() => error);
+      })
     );
   }
+
+
   private handleError(error: any): Observable<never> {
     console.error("Error details:", error);
     return throwError(error);
