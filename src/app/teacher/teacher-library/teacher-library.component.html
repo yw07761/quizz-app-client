@@ -37,6 +37,9 @@
         <input type="text" placeholder="Nhập từ khóa" (input)="searchQuestions($event)">
         <i class="fas fa-search"></i>
       </div>
+      <div class="question-count">
+        Tổng số câu hỏi: {{ filteredQuestions.length }}
+      </div>
       <div class="actions">
         <button class="filter" (click)="toggleFilterDropdown()">
           Lọc <i class="fa-solid fa-filter"></i>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { AuthService } from './auth.service';
 import { catchError } from 'rxjs/operators';
@@ -30,6 +30,19 @@ export interface Section {
   description: string;
   questions: any[];
 }
+export interface ExamSubmissionAnswer {
+  questionId: string;
+  answer: string;
+  timestamp: string;  // Changed to string since we're sending ISO string
+}
+
+export interface ExamSubmission {
+  answers: ExamSubmissionAnswer[];
+  startTime: string;
+  endTime: string;
+}
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +60,27 @@ export class ExamService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
+    private handleError(error: HttpErrorResponse): Observable<never> {
+    console.error('API Error:', error);
+    let errorMessage: string;
+
+    if (error.status === 0) {
+      errorMessage = 'Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng.';
+    } else if (error.status === 401) {
+      errorMessage = 'Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.';
+      this.authService.logout();
+    } else if (error.status === 403) {
+      errorMessage = 'Bạn không có quyền truy cập tài nguyên này.';
+    } else if (error.status === 404) {
+      errorMessage = 'Không tìm thấy dữ liệu yêu cầu.';
+    } else if (error.status === 500) {
+      errorMessage = 'Lỗi server. Vui lòng thử lại sau.';
+    } else {
+      errorMessage = error.error?.message || 'Đã xảy ra lỗi không xác định.';
+    }
+
+    return throwError(() => new Error(errorMessage));
+  }
   // Create a new exam
   createExam(exam: Exam): Observable<any> {
     console.log("Exam data being sent:", exam);
@@ -96,11 +130,25 @@ export class ExamService {
     return this.http.get(`${this.apiUrl}/${id}`);
   }
 
-  // Submit answers for an exam
-  submitExam(id: string, answers: { [key: string]: any }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${id}/submit`, { answers });
+  submitExam(id: string, submissionData: ExamSubmission): Observable<any> {
+    const headers = this.getAuthHeaders();
+    
+    // Ensure dates are valid
+    const formattedData = {
+      answers: submissionData.answers,
+      startTime: submissionData.startTime,
+      endTime: submissionData.endTime
+    };
+
+    return this.http.post(`${this.apiUrl}/${id}/submit`, formattedData, { headers }).pipe(
+      tap(response => console.log('Exam submitted:', response)),
+      catchError(error => {
+        console.error('Submit error:', error);
+        return throwError(() => error);
+      })
+    );
   }
-  
+
 
   // Fetch exam results
   getResult(id: string): Observable<any> {
@@ -109,6 +157,7 @@ export class ExamService {
 
   // Get exam history for a student
   getExamHistory(userId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}/results`);
+    const headers = this.getAuthHeaders();
+    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}/results`, { headers });
   }
-}
+}  
