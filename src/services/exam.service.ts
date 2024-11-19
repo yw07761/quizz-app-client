@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { AuthService } from './auth.service';
 import { catchError } from 'rxjs/operators';
@@ -60,6 +60,27 @@ export class ExamService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
+    private handleError(error: HttpErrorResponse): Observable<never> {
+    console.error('API Error:', error);
+    let errorMessage: string;
+
+    if (error.status === 0) {
+      errorMessage = 'Không thể kết nối đến server. Vui lòng kiểm tra kết nối mạng.';
+    } else if (error.status === 401) {
+      errorMessage = 'Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.';
+      this.authService.logout();
+    } else if (error.status === 403) {
+      errorMessage = 'Bạn không có quyền truy cập tài nguyên này.';
+    } else if (error.status === 404) {
+      errorMessage = 'Không tìm thấy dữ liệu yêu cầu.';
+    } else if (error.status === 500) {
+      errorMessage = 'Lỗi server. Vui lòng thử lại sau.';
+    } else {
+      errorMessage = error.error?.message || 'Đã xảy ra lỗi không xác định.';
+    }
+
+    return throwError(() => new Error(errorMessage));
+  }
   // Create a new exam
   createExam(exam: Exam): Observable<any> {
     console.log("Exam data being sent:", exam);
@@ -129,10 +150,6 @@ export class ExamService {
   }
 
 
-  private handleError(error: any): Observable<never> {
-    console.error("Error details:", error);
-    return throwError(error);
-  }
   // Fetch exam results
   getResult(id: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/${id}/results`);

@@ -1,18 +1,25 @@
+<!-- exam-history.component.html -->
 <div class="navbar">
   <div class="logo">
     <img src="../../assets/img/qye-challenge-logo.png" alt="Logo" height="30" width="30">
     <span>Quiz your English Challenge</span>
   </div>
   <div class="nav-links">
-    <a href="/student-dashboard">Bài kiểm tra</a>
-    <a href="/exam-history" class="active">Lịch sử làm bài</a>
-    <a href="/class-student">Lớp</a>
-    <a href="/summary-student">Tổng kết</a>
+    <a routerLink="/student-dashboard">Bài kiểm tra</a>
+    <a routerLink="/exam-history" routerLinkActive="active">Lịch sử làm bài</a>
+    <a routerLink="/class-student">Lớp</a>
+    <a routerLink="/summary-student">Tổng kết</a>
   </div>
   <div class="user-menu">
     <i class="fas fa-question-circle" style="margin-right: 20px;"></i>
     <i class="fas fa-bell" style="margin-right: 20px;"></i>
-    <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="40" width="40" (click)="toggleDropdown()">
+    <img 
+      src="../../assets/img/skeleton-icon.png" 
+      alt="User Avatar" 
+      height="40" 
+      width="40" 
+      (click)="toggleDropdown()"
+    >
     <div class="dropdown" [class.active]="isDropdownActive">
       <div class="profile">
         <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="50" width="50">
@@ -22,44 +29,126 @@
         </div>
       </div>
       <div class="menu">
-        <a href="/profile"><i class="fas fa-user-graduate"></i> Thông tin cá nhân</a>
-        <a href="#"><i class="fas fa-cog"></i> Cài đặt chung</a>
-        <a href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+        <a routerLink="/profile">
+          <i class="fas fa-user-graduate"></i> Thông tin cá nhân
+        </a>
+        <a routerLink="/settings">
+          <i class="fas fa-cog"></i> Cài đặt chung
+        </a>
+        <a (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i> Đăng xuất
+        </a>
       </div>
     </div>
   </div>
 </div>
 
-<div class="content">
+<div class="container">
   <div class="section">
     <h2>Lịch sử làm bài</h2>
+    
+    <!-- Search and Filter Bar -->
     <div class="tab">
       <div class="search-bar">
-        <input type="text" placeholder="Nhập từ khóa" (input)="filterResults($event)">
+        <input 
+          type="text" 
+          placeholder="Nhập từ khóa"
+          (input)="filterResults($event)"
+        >
         <i class="fas fa-search"></i>
-      </div>
-      <div class="actions">
-        <button class="filter" (click)="applyFilter()">Lọc <i class="fa-solid fa-filter"></i></button>
       </div>
     </div>
 
-    <div *ngIf="filteredExamHistory.length > 0; else noExams">
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Đang tải dữ liệu...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error" class="error-state">
+      <i class="fas fa-exclamation-circle"></i>
+      <p>{{ error }}</p>
+    </div>
+
+    <!-- Exam History List -->
+    <div *ngIf="!loading && !error && filteredExamHistory.length > 0; else noExams">
       <ul class="exam-list">
-        <li *ngFor="let exam of filteredExamHistory" class="exam-item">
+        <li *ngFor="let result of filteredExamHistory" class="exam-item">
           <div class="exam-details">
-            <h3>{{ exam.name }}</h3>
-            <p><strong>Điểm:</strong> {{ exam.score }} / 100</p>
-            <p><strong>Thời gian làm bài:</strong> {{ exam.submittedAt | date: 'short' }}</p>
+            <div class="exam-header">
+              <h3>{{ result.examId.name }}</h3>
+              <span class="status-badge completed">
+                {{ getExamStatus(result) }}
+              </span>
+            </div>
+            
+            <p class="description">{{ result.examId.description }}</p>
+
+            <div class="exam-info">
+              <div class="info-row">
+                <span class="label">Thời gian:</span>
+                <span class="value">{{ formatDate(result.startTime) }} - {{ formatDate(result.endTime) }}</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Điểm số:</span>
+                <span class="value score">
+                  {{ formatScore(result) }}
+                </span>
+              </div>
+              <div class="info-row">
+                <span class="label">Thời gian làm bài:</span>
+                <span class="value">
+                  {{ formatDuration(result.timeSpent) }}
+                </span>
+              </div>
+              <div class="info-row">
+                <span class="label">Nộp bài lúc:</span>
+                <span class="value">
+                  {{ formatDate(result.submittedAt) }}
+                </span>
+              </div>
+              <div class="info-row">
+                <span class="label">Số câu trả lời:</span>
+                <span class="value">
+                  {{ result.numberOfAnswers }}/{{ result.totalQuestions }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Progress bar -->
+            <div class="progress-container">
+              <div class="progress-bar">
+                <div 
+                  class="progress" 
+                  [style.width.%]="result.percentageScore"
+                  [ngStyle]="{
+                    'background-color': result.percentageScore >= 80 ? '#10b981' : 
+                                      result.percentageScore >= 60 ? '#3b82f6' : 
+                                      result.percentageScore >= 40 ? '#f59e0b' : '#ef4444'
+                  }"
+                ></div>
+              </div>
+              <div class="progress-label">
+                {{ result.percentageScore.toFixed(1) }}%
+              </div>
+            </div>
           </div>
-          <button (click)="viewExamDetails(exam.id)">Xem chi tiết</button>
+          
+          <div class="exam-actions">
+            <button class="view-details" (click)="viewExamDetails(result._id)">
+              <i class="fas fa-eye"></i> Xem chi tiết kết quả
+            </button>
+          </div>
         </li>
       </ul>
     </div>
 
+    <!-- Empty State -->
     <ng-template #noExams>
-      <div class="empty-state">
-        <img src="../../assets/img/pic4.png" alt="No Schedule" height="100" width="100">
-        <p>Hiện tại không có bài thi trắc nghiệm nào</p>
+      <div class="empty-state" *ngIf="!loading && !error">
+        <img src="../../assets/img/pic4.png" alt="No Exams">
+        <p>Hiện tại không có bài thi nào trong lịch sử</p>
       </div>
     </ng-template>
   </div>

@@ -279,7 +279,6 @@ export class ExamTakeComponent implements OnInit, OnDestroy {
   
     this.isSubmitting = true;
   
-    // Format answers correctly
     const formattedAnswers: { questionId: any; answer: string; timestamp: string; }[] = [];
     
     this.exam.sections.forEach(section => {
@@ -301,14 +300,40 @@ export class ExamTakeComponent implements OnInit, OnDestroy {
       endTime: new Date().toISOString()
     };
   
-    console.log('Submitting data:', submissionData);
-  
     this.examService.submitExam(this.examId, submissionData).subscribe({
       next: (result) => {
         this.isSubmitting = false;
         this.clearSavedState();
-        localStorage.setItem('lastExamResult', JSON.stringify(result));
-        this.router.navigate(['/exams-history', result.id]);
+  
+        // Lưu exam và kết quả với đầy đủ thông tin
+        const examResult = {
+          _id: result.id,
+          examId: {
+            _id: this.examId,
+            name: this.exam?.name,
+            maxScore: this.exam?.maxScore
+          },
+          score: result.score,
+          maxScore: result.maxScore,
+          percentageScore: result.percentageScore,
+          startTime: submissionData.startTime,
+          endTime: submissionData.endTime,
+          answers: result.answers || []
+        };
+  
+        // Lưu vào sessionStorage
+        sessionStorage.setItem('lastExamResult', JSON.stringify(examResult));
+  
+        // Hiển thị thông báo kết quả
+        const message = `
+          Bài thi: ${this.exam?.name}
+          Điểm số: ${result.score}/${result.maxScore}
+          Tỷ lệ đúng: ${result.percentageScore.toFixed(1)}%
+        `;
+        alert(message);
+  
+        // Chuyển về dashboard để cập nhật trạng thái
+        this.router.navigate(['/student-dashboard']);
       },
       error: (error) => {
         this.isSubmitting = false;
@@ -317,7 +342,23 @@ export class ExamTakeComponent implements OnInit, OnDestroy {
       }
     });
   }
-
+  
+  // Thêm hàm format cho thông báo
+  private formatExamResult(result: any): string {
+    return `
+      Điểm số: ${result.score}/${result.maxScore}
+      Tỷ lệ đúng: ${result.percentageScore.toFixed(1)}%
+      Thời gian làm bài: ${this.formatDuration(result.duration)}
+    `;
+  }
+  
+  private formatDuration(minutes: number): string {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return hours > 0 
+      ? `${hours} giờ ${mins} phút`
+      : `${mins} phút`;
+  }
   confirmSubmit(): void {
     this.showConfirmSubmit = false;
     this.submitExam();
