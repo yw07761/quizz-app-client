@@ -24,7 +24,6 @@ import { TeacherGroupComponent } from './teacher/teacher-group/teacher-group.com
 import { StudentDashboardComponent } from './student/student-dashboard/student-dashboard.component';
 import { ClassComponent} from './student/class/class.component';
 import { ExamHistoryComponent} from './student/exam-history/exam-history.component';
-import { SummaryComponent} from './student/summary/summary.component';
 import { ProfileComponent} from './profile/profile.component'
 import { SettingsComponent} from './settings/settings.component'
 import { ExamTakeComponent } from './student/exam-take/exam-take.component';
@@ -57,7 +56,6 @@ const routes: Routes = [
   { path: 'teacher-group', component: TeacherGroupComponent },
   { path: 'class-student', component: ClassComponent },
   { path: 'exam-history', component: ExamHistoryComponent },
-  { path: 'summary-student', component: SummaryComponent },
   { path: 'student-dashboard', component: StudentDashboardComponent },
   { path: 'profile', component: ProfileComponent },
 

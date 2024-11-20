@@ -1,69 +1,69 @@
 <div class="container">
-  <!-- Nút Quay lại -->
-  <button class="go-back" (click)="goBack()">Quay lại</button>
-
-  <div *ngIf="loading" class="loading-state">
-    <div class="spinner"></div>
-    <p>Đang tải kết quả bài thi...</p>
-  </div>
-
-  <div *ngIf="error" class="error-state">
-    <p>{{ error }}</p>
-    <button (click)="goBack()">Quay lại</button>
-  </div>
-
-  <ng-container *ngIf="!loading && examResult">
-    <div class="exam-header">
-      <h1>{{ examResult.examId.name }}</h1>
-      <p><b>Mô tả: </b>{{ examResult.examId.description }}</p>
+    <!-- Nút Quay lại -->
+    <button class="go-back" (click)="goBack()">Quay lại</button>
+  
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Đang tải kết quả bài thi...</p>
     </div>
-
-    <!-- Tổng quan điểm -->
-    <div class="summary-card">
-      <h2>Kết quả tổng quan</h2>
-      <p>Số câu đúng: {{ examResult.score }}/{{ getTotalQuestions() }}</p>
-      <p>Tỷ lệ đúng: {{ examResult.percentageScore.toFixed(1) }}%</p>
-      <p>Thời gian bắt đầu: {{ formatDate(examResult.startTime) }}</p>
-      <p>Thời gian kết thúc: {{ formatDate(examResult.endTime) }}</p>
+  
+    <div *ngIf="error" class="error-state">
+      <p>{{ error }}</p>
+      <button (click)="goBack()">Quay lại</button>
     </div>
-
-    <!-- Các phần thi -->
-    <div class="sections">
-      <h2>Các phần thi</h2>
-      <div *ngFor="let section of examResult.examId.sections">
-        <h5>Mô tả: {{ section.title }}</h5>
-
-        <div *ngFor="let question of section.questions" class="question">
-          <p><strong>Câu hỏi {{ section.questions.indexOf(question) + 1 }}:</strong>
-             {{ question?.questionId?.text || 'Nội dung câu hỏi không khả dụng' }}</p>
-
-          
-             <div *ngIf="question?.questionId?.answers?.length > 0" class="answers">
-              <div *ngFor="let answer of question?.questionId?.answers"
-                   [ngClass]="{
-                     'correct': answer.isCorrect && answer.text === question.userAnswer,
-                     'incorrect': !answer.isCorrect && answer.text === question.userAnswer,
-                     'user-selected': answer.text === question.userAnswer,
-                     'correct-answer': answer.isCorrect && answer.text !== question.userAnswer
-                   }">
-                <label>
-                  <input type="radio" [checked]="answer.text === question.userAnswer" disabled />
-                  {{ answer.text }}
-                </label>
-                <span *ngIf="answer.isCorrect">✔</span>
-              </div>
-            </div>
+  
+    <ng-container *ngIf="!loading && examResult">
+      <div class="exam-header">
+        <h1>{{ examResult.examId.name }}</h1>
+        <p><b>Mô tả: </b>{{ examResult.examId.description }}</p>
+      </div>
+  
+      <!-- Tổng quan điểm -->
+      <div class="summary-card">
+        <h2>Kết quả tổng quan</h2>
+        <p>Số câu đúng: {{ examResult.score }}/{{ getTotalQuestions() }}</p>
+        <p>Tỷ lệ đúng: {{ examResult.percentageScore.toFixed(1) }}%</p>
+        <p>Thời gian bắt đầu: {{ formatDate(examResult.startTime) }}</p>
+        <p>Thời gian kết thúc: {{ formatDate(examResult.endTime) }}</p>
+      </div>
+  
+      <!-- Các phần thi -->
+      <div class="sections">
+        <h2>Các phần thi</h2>
+        <div *ngFor="let section of examResult.examId.sections">
+          <h5>Mô tả: {{ section.title }}</h5>
+  
+          <div *ngFor="let question of section.questions" class="question">
+            <p><strong>Câu hỏi {{ section.questions.indexOf(question) + 1 }}:</strong>
+               {{ question?.questionId?.text || 'Nội dung câu hỏi không khả dụng' }}</p>
+  
             
-          <p><strong>Đáp án của bạn: </strong>
-            <span *ngIf="question.userAnswer">{{ question.userAnswer }}</span>
-            <span *ngIf="!question.userAnswer">Chưa trả lời</span>
-          </p>
-
-          <p><strong>Đáp án đúng: </strong>
-            <span *ngIf="hasCorrectAnswer(question)">{{ getCorrectAnswer(question) }}</span>
-          </p>
+               <div *ngIf="question?.questionId?.answers?.length > 0" class="answers">
+                <div *ngFor="let answer of question?.questionId?.answers"
+                     [ngClass]="{
+                       'correct': answer.isCorrect && answer.text === question.userAnswer,
+                       'incorrect': !answer.isCorrect && answer.text === question.userAnswer,
+                       'user-selected': answer.text === question.userAnswer,
+                       'correct-answer': answer.isCorrect && answer.text !== question.userAnswer
+                     }">
+                  <label>
+                    <input type="radio" [checked]="answer.text === question.userAnswer" disabled />
+                    {{ answer.text }}
+                  </label>
+                  <span *ngIf="answer.isCorrect">✔</span>
+                </div>
+              </div>
+              
+            <p><strong>Đáp án của bạn: </strong>
+              <span *ngIf="question.userAnswer">{{ question.userAnswer }}</span>
+              <span *ngIf="!question.userAnswer">Chưa trả lời</span>
+            </p>
+  
+            <p><strong></strong>
+              <span *ngIf="hasCorrectAnswer(question)">{{ getCorrectAnswer(question) }}</span>
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  </ng-container>
-</div>
+    </ng-container>
+  </div>
