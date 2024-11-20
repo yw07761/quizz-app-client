@@ -1,29 +1,33 @@
-.correct {
-    color: green;
-    font-weight: bold;
+/* Styles for correct answers, incorrect answers, and user-selected answers */
+.answers {
+    label {
+      display: block;
+      padding: 5px;
+      margin: 5px;
+      cursor: pointer;
+    }
+  
+    .correct {
+      background-color: #4CAF50; /* Green for correct answer */
+      color: white;
+      font-weight: bold;
+    }
+  
+    .incorrect {
+      background-color: #F44336; /* Red for incorrect answer */
+      color: white;
+      font-weight: bold;
+    }
+  
+    .user-selected {
+      background-color: rgba(0, 0, 255, 0.2); /* Blue for user-selected answer */
+      color: blue;
+      font-weight: bold;
+      opacity: 0.7; /* Make the user-selected answer slightly faded */
+    }
   }
   
-  .incorrect {
-    color: red;
-    font-weight: bold;
-  }
-  
-  .answers label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .summary-card {
-    background-color: #f5f5f5;
-    padding: 15px;
+  .question {
     margin-bottom: 20px;
-    border-radius: 8px;
-  }
-  .correct {
-    color: green;
-  }
-  
-  .incorrect {
-    color: red;
   }
   

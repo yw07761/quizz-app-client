@@ -4,7 +4,9 @@ import { Observable, tap } from 'rxjs';
 import { AuthService } from './auth.service';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { Question } from './question.service';
 export interface Exam {
+  results: any[];
   _id?: string;
   name: string;
   description: string;
@@ -101,6 +103,10 @@ export class ExamService {
     return this.http.get<Exam[]>(url);
   }
 
+  getExamQuestionById(questionId: string): Observable<Question> {
+    return this.http.get<Question>(`${this.apiUrl}/questions/${questionId}`);
+  }
+  
   // Get details of a specific exam by _id
   getExamById(_id: string): Observable<Exam> {
     console.log("Fetching exam by ID:", _id);
@@ -150,7 +156,7 @@ export class ExamService {
     );
   }
 
-
+  
   // Fetch exam results
   getResult(id: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/${id}/results`);
@@ -161,6 +167,12 @@ export class ExamService {
     const headers = this.getAuthHeaders();
     return this.http.get<any[]>(`${this.apiUrl}/user/${userId}/results`, { headers });
   }
+
+  getExamResult(resultId: string): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<any>(`${this.apiUrl}/results/${resultId}`, { headers });
+  }
+
   getExamDetails(examId: string): Observable<any> {
     const url = `${this.apiUrl}/${examId}`;
     console.log('Fetching exam details from URL:', url); // Debug the URL
@@ -168,4 +180,4 @@ export class ExamService {
   }
   
   
-}  
+}

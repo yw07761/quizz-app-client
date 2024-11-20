@@ -114,25 +114,22 @@ export class ExamResultDetailComponent implements OnInit {
   mapUserAnswers(result: any) {
     let correctAnswers = 0;
     let totalQuestions = 0;
-  
+
     result.examId.sections.forEach((section: any) => {
       section.questions.forEach((question: any) => {
         const userAnswer = result.answers.find(
           (a: { questionId: string }) => a.questionId === question._id
         );
-  
+
         question.userAnswer = userAnswer?.answer || null;
-  
-        // Check if answers exist and are correctly structured
+
         if (Array.isArray(question.answers)) {
           totalQuestions++;
-  
-          // Check if the user's answer matches the correct one
           if (userAnswer) {
             const isCorrect = question.answers.some(
               (answer: any) => answer.text === userAnswer.answer && answer.isCorrect
             );
-  
+
             if (isCorrect) {
               correctAnswers++;
             }
@@ -142,18 +139,13 @@ export class ExamResultDetailComponent implements OnInit {
         }
       });
     });
-  
+
     result.correctAnswers = correctAnswers;
     result.totalQuestions = totalQuestions;
-  
+
     this.examResult = result;
     console.log('Processed Exam Result:', this.examResult);
   }
-  
-  
-  
-  
-  
 
   formatDate(date: Date | string): string {
     return new Date(date).toLocaleString('vi-VN', {
@@ -168,4 +160,30 @@ export class ExamResultDetailComponent implements OnInit {
   goBack() {
     this.router.navigate(['/student-dashboard']);
   }
+
+  getCorrectAnswer(question: any): string {
+    if (question && Array.isArray(question.answers)) {
+      const correctAnswer = question.answers.find((answer: any) => answer.isCorrect);
+      return correctAnswer ? correctAnswer.text : 'Không có đáp án đúng';
+    }
+    return 'Không có đáp án đúng';
+  }
+
+  hasCorrectAnswer(question: any): boolean {
+    return question.answers && Array.isArray(question.answers) && question.answers.some((a: any) => a.isCorrect);
+  }
+
+  isArray(value: any): boolean {
+    return Array.isArray(value);
+  }
+  getTotalQuestions(): number {
+    if (this.examResult && this.examResult.examId && this.examResult.examId.sections) {
+      return this.examResult.examId.sections.reduce((total, section) => {
+        return total + (section.questions ? section.questions.length : 0);
+      }, 0);
+    }
+    return 0; // Trường hợp không có câu hỏi
+  }
+  
 }
+

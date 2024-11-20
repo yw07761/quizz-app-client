@@ -19,6 +19,7 @@ export interface Question {
   providedIn: 'root'
 })
 export class QuestionService {
+  [x: string]: any;
   private apiUrl = 'http://localhost:3000/questions'; // URL của server API
 
   constructor(private http: HttpClient) {}
