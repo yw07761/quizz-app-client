@@ -1,0 +1,35 @@
+.container {
+    padding: 20px;
+  }
+  
+  .summary-card {
+    padding: 15px;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    background: #f9f9f9;
+  }
+  
+  .sections {
+    margin-top: 20px;
+  }
+  
+  .section {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  .question {
+    margin-bottom: 10px;
+  }
+  
+  .answers label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .correct {
+    color: green;
+    font-weight: bold;
+  }
+  

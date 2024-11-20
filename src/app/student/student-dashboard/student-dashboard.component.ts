@@ -3,29 +3,67 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { ExamService } from '../../../services/exam.service';
 import { Router, NavigationEnd } from '@angular/router';
-import { Exam } from '../../../services/exam.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { filter } from 'rxjs/operators';
+
+interface ExamResult {
+  _id: string;
+  examId: {
+    _id: string;
+    name: string;
+    description: string;
+    sections: {
+      title: string;
+      questions: any[];
+    }[];
+  } | string;
+  examName?: string;
+  description?: string;
+  score: number;
+  maxScore?: number;
+  percentageScore: number;
+  answers: any[];
+  startTime: Date | string;
+  endTime: Date | string;
+}
+
+interface ProcessedExam {
+  _id: string;
+  name: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  duration: number;
+  status: string;
+  sections: {
+    title: string;
+    questions: any[];
+  }[];
+  score: number;
+  correctAnswers: number;
+  totalQuestions: number;
+  maxScore: number;
+  percentageScore: number;
+  startTime: Date;
+  endTime: Date;
+  submittedAt: Date;
+}
 
 @Component({
   selector: 'app-student-dashboard',
   templateUrl: './student-dashboard.component.html',
   styleUrls: ['./student-dashboard.component.scss'],
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule
-  ]
+  imports: [CommonModule, FormsModule, RouterModule]
 })
 export class StudentDashboardComponent implements OnInit {
   user: any = null;
   isDropdownActive = false;
-  examHistory: any[] = [];
-  activeExams: any[] = [];
-  completedExams: any[] = [];
+  examHistory: ExamResult[] = [];
+  activeExams: ProcessedExam[] = [];
+  completedExams: ProcessedExam[] = [];
   loading = true;
 
   constructor(
@@ -39,7 +77,6 @@ export class StudentDashboardComponent implements OnInit {
     if (this.user) {
       this.loadExamsAndHistory();
 
-      // Lắng nghe sự kiện navigation để refresh khi quay lại dashboard
       this.router.events.pipe(
         filter(event => event instanceof NavigationEnd)
       ).subscribe((event: any) => {
@@ -50,12 +87,69 @@ export class StudentDashboardComponent implements OnInit {
     }
   }
 
+  calculateTotalQuestions(exam: any): number {
+    if (exam && Array.isArray(exam.sections)) {
+      return exam.sections.reduce((total: any, section: { questions: string | any[]; }) => {
+        return total + (Array.isArray(section.questions) ? section.questions.length : 0);
+      }, 0);
+    }
+    return 0;
+  }
+
+  processExam(exam: any): ProcessedExam {
+    const totalQuestions = this.calculateTotalQuestions(exam);
+    const now = new Date();
+    return {
+      _id: exam._id,
+      name: exam.name || exam.examName || 'Bài thi mới',
+      description: exam.description || '450',
+      startDate: new Date(exam.startDate),
+      endDate: new Date(exam.endDate),
+      duration: exam.duration || 0,
+      status: exam.status || 'published',
+      sections: exam.sections || [],
+      score: 0,
+      correctAnswers: 0,
+      totalQuestions,
+      maxScore: totalQuestions,
+      percentageScore: 0,
+      startTime: now,
+      endTime: now,
+      submittedAt: now
+    };
+  }
+
+  processCompletedExam(exam: any, result: any): ProcessedExam {
+    const totalQuestions = this.calculateTotalQuestions(exam);
+    const correctAnswers = result.score || 0;
+    const startTime = new Date(result.startTime);
+    const endTime = new Date(result.endTime);
+    
+    return {
+      _id: exam._id,
+      name: result.examName || exam.name || 'Bài thi mới',
+      description: result.description || exam.description || '450',
+      startDate: new Date(exam.startDate),
+      endDate: new Date(exam.endDate),
+      duration: exam.duration || 0,
+      status: 'completed',
+      sections: exam.sections || [],
+      score: correctAnswers,
+      correctAnswers,
+      totalQuestions,
+      maxScore: totalQuestions,
+      percentageScore: (correctAnswers / totalQuestions) * 100,
+      startTime,
+      endTime,
+      submittedAt: endTime
+    };
+  }
+
   loadExamsAndHistory() {
     this.loading = true;
     this.activeExams = [];
     this.completedExams = [];
     
-    // Get last exam result from session storage first
     const lastResultStr = sessionStorage.getItem('lastExamResult');
     let lastResult = null;
     if (lastResultStr) {
@@ -67,74 +161,54 @@ export class StudentDashboardComponent implements OnInit {
       }
     }
 
-    // Load exam history
     if (this.user) {
       this.examService.getExamHistory(this.user._id).subscribe({
         next: (history) => {
           console.log('Exam History:', history);
           
-          // Create set of completed exam IDs
-          const completedExamIds = new Set();
+          const completedExamIds = new Set(
+            history.map(h => h.examId._id || h.examId)
+          );
           
-          // Add IDs from history
-          history.forEach(h => {
-            const examId = h.examId._id || h.examId;
-            completedExamIds.add(examId);
-          });
-
-          // Add last result if exists
           if (lastResult) {
-            const lastExamId = lastResult.examId._id || lastResult.examId;
-            completedExamIds.add(lastExamId);
+            completedExamIds.add(lastResult.examId._id || lastResult.examId);
           }
 
-          // Load published exams
           this.examService.getPublishedExams().subscribe({
             next: (exams) => {
               console.log('Published Exams:', exams);
               const now = new Date();
 
-              // Process each exam
               exams.forEach(exam => {
                 const startDate = new Date(exam.startDate);
                 const endDate = new Date(exam.endDate);
 
-                // If exam is completed
                 if (completedExamIds.has(exam._id)) {
-                  // Find result for this exam
                   let result = history.find(h => 
                     (h.examId._id || h.examId) === exam._id
                   );
 
-                  // Use last result if it matches and no history found
                   if (!result && lastResult && 
                       (lastResult.examId._id === exam._id || lastResult.examId === exam._id)) {
                     result = lastResult;
                   }
 
                   if (result) {
-                    this.completedExams.push({
-                      ...exam,
-                      score: result.score,
-                      maxScore: exam.maxScore || result.maxScore,
-                      percentageScore: result.percentageScore,
-                      startTime: new Date(result.startTime),
-                      endTime: new Date(result.endTime),
-                      submittedAt: new Date(result.endTime)
-                    });
+                    const processedExam = this.processCompletedExam(exam, result);
+                    console.log('Processed completed exam:', processedExam);
+                    this.completedExams.push(processedExam);
                   }
-                } 
-                // If exam is active and not completed
-                else if (
+                } else if (
                   exam.status === 'published' && 
                   startDate <= now && 
                   endDate >= now
                 ) {
-                  this.activeExams.push(exam);
+                  const processedExam = this.processExam(exam);
+                  console.log('Processed active exam:', processedExam);
+                  this.activeExams.push(processedExam);
                 }
               });
 
-              // Sort completed exams by submission time (newest first)
               this.completedExams.sort((a, b) => 
                 b.submittedAt.getTime() - a.submittedAt.getTime()
               );
@@ -157,16 +231,22 @@ export class StudentDashboardComponent implements OnInit {
     }
   }
 
-  takeExam(exam: any) {
-    // Lưu thông tin exam hiện tại vào session storage
-    sessionStorage.setItem('currentExam', JSON.stringify(exam));
+  takeExam(exam: ProcessedExam) {
+    const examData = {
+      ...exam,
+      startDate: exam.startDate.toISOString(),
+      endDate: exam.endDate.toISOString()
+    };
+    sessionStorage.setItem('currentExam', JSON.stringify(examData));
     this.router.navigate(['/exam-take', exam._id]);
   }
 
   viewResult(examId: string) {
-    this.router.navigate(['/exams-history', examId]);
+    const examData = this.completedExams.find(exam => exam._id === examId);
+    this.router.navigate(['/exam-result-detail', examId], {
+      state: { examData }
+    });
   }
-
   refreshDashboard() {
     this.loadExamsAndHistory();
   }
@@ -175,19 +255,8 @@ export class StudentDashboardComponent implements OnInit {
     this.isDropdownActive = !this.isDropdownActive;
   }
 
-  logout() {
-    this.authService.logout().subscribe({
-      next: () => {
-        window.location.href = '/login';
-      },
-      error: (error) => {
-        console.error('Logout error:', error);
-      }
-    });
-  }
-
-  formatDate(date: string | Date): string {
-    if (!date) return '';
+  formatDate(date: Date | string | undefined): string {
+    if (!date) return '-';
     try {
       const dateObj = new Date(date);
       return dateObj.toLocaleString('vi-VN', {
@@ -199,7 +268,42 @@ export class StudentDashboardComponent implements OnInit {
       });
     } catch (error) {
       console.error('Error formatting date:', date, error);
-      return String(date);
+      return '-';
     }
+  }
+
+  formatScore(exam: ProcessedExam): string {
+    return `${exam.correctAnswers}/${exam.totalQuestions} (${exam.percentageScore.toFixed(1)}%)`;
+  }
+
+  getTimeRemaining(exam: ProcessedExam): string {
+    const now = new Date();
+    const end = exam.endDate;
+    const diffTime = Math.abs(end.getTime() - now.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return `Còn ${diffDays} ngày`;
+  }
+
+  getPercentageScore(exam: ProcessedExam): number {
+    return exam.percentageScore || 0;
+  }
+
+  getProgressBarColor(exam: ProcessedExam): string {
+    const score = this.getPercentageScore(exam);
+    if (score >= 80) return '#10b981';
+    if (score >= 60) return '#3b82f6';
+    if (score >= 40) return '#f59e0b';
+    return '#ef4444';
+  }
+
+  logout() {
+    this.authService.logout().subscribe({
+      next: () => {
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        console.error('Logout error:', error);
+      }
+    });
   }
 }

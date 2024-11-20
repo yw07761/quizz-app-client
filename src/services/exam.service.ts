@@ -48,6 +48,7 @@ export interface ExamSubmission {
   providedIn: 'root'
 })
 export class ExamService {
+ 
   private apiUrl = 'http://localhost:3000/exams';
 
   constructor(
@@ -160,4 +161,8 @@ export class ExamService {
     const headers = this.getAuthHeaders();
     return this.http.get<any[]>(`${this.apiUrl}/user/${userId}/results`, { headers });
   }
+  getExamDetails(examId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/exams/${examId}`); // Replace with the correct API endpoint
+  }
+  
 }  
