@@ -1,39 +1,45 @@
 <div class="container">
-    <div *ngIf="loading" class="loading-state">
-      <div class="spinner"></div>
-      <p>Đang tải kết quả bài thi...</p>
+  <!-- Nút Quay lại -->
+  <button class="go-back" (click)="goBack()">Quay lại</button>
+
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Đang tải kết quả bài thi...</p>
+  </div>
+
+  <div *ngIf="error" class="error-state">
+    <p>{{ error }}</p>
+    <button (click)="goBack()">Quay lại</button>
+  </div>
+
+  <ng-container *ngIf="!loading && examResult">
+    <div class="exam-header">
+      <h1>{{ examResult.examId.name }}</h1>
+      <p><b>Mô tả: </b>{{ examResult.examId.description }}</p>
     </div>
-  
-    <div *ngIf="error" class="error-state">
-      <p>{{ error }}</p>
-      <button (click)="goBack()">Quay lại</button>
+
+    <!-- Tổng quan điểm -->
+    <div class="summary-card">
+      <h2>Kết quả tổng quan</h2>
+      <p>Số câu đúng: {{ examResult.score }}/{{ getTotalQuestions() }}</p>
+      <p>Tỷ lệ đúng: {{ examResult.percentageScore.toFixed(1) }}%</p>
+      <p>Thời gian bắt đầu: {{ formatDate(examResult.startTime) }}</p>
+      <p>Thời gian kết thúc: {{ formatDate(examResult.endTime) }}</p>
     </div>
-  
-    <ng-container *ngIf="!loading && examResult">
-      <div class="exam-header">
-        <button (click)="goBack()">Quay lại</button>
-        <h1>{{ examResult.examId.name }}</h1>
-        <p><b>Mô tả: </b>{{ examResult.examId.description }}</p>
-      </div>
-  
-      <div class="summary-card">
-        <h2>Kết quả tổng quan</h2>
-        <p>Số câu đúng: {{ examResult.score }}/{{ getTotalQuestions() }}</p>
-        <p>Tỷ lệ đúng: {{ examResult.percentageScore.toFixed(1) }}%</p>
-        <p>Thời gian bắt đầu: {{ formatDate(examResult.startTime) }}</p>
-        <p>Thời gian kết thúc: {{ formatDate(examResult.endTime) }}</p>
-      </div>
-  
-      <div class="sections">
-        <h2>Các phần thi</h2>
-        <div *ngFor="let section of examResult.examId.sections">
-          <h5><b>Mô tả: </b>{{ section.title }}</h5>
-  
-          <div *ngFor="let question of section.questions" class="question">
-            <p><strong>Câu hỏi {{ section.questions.indexOf(question) + 1 }}:</strong> {{ question.text }}</p>
+
+    <!-- Các phần thi -->
+    <div class="sections">
+      <h2>Các phần thi</h2>
+      <div *ngFor="let section of examResult.examId.sections">
+        <h5>Mô tả: {{ section.title }}</h5>
+
+        <div *ngFor="let question of section.questions" class="question">
+          <p><strong>Câu hỏi {{ section.questions.indexOf(question) + 1 }}:</strong>
+             {{ question?.questionId?.text || 'Nội dung câu hỏi không khả dụng' }}</p>
+
           
-            <div class="answers" *ngIf="question.answers && question.answers.length > 0; else noAnswers">
-              <div *ngFor="let answer of question.answers" 
+             <div *ngIf="question?.questionId?.answers?.length > 0" class="answers">
+              <div *ngFor="let answer of question?.questionId?.answers"
                    [ngClass]="{
                      'correct': answer.isCorrect && answer.text === question.userAnswer,
                      'incorrect': !answer.isCorrect && answer.text === question.userAnswer,
@@ -48,17 +54,16 @@
               </div>
             </div>
             
-            <ng-template #noAnswers>
-              <p>Không có đáp án nào được cung cấp.</p>
-            </ng-template>
-          
-            <p><strong>Đáp án của bạn:</strong>
-              <span *ngIf="question.userAnswer">{{ question.userAnswer }}</span>
-              <span *ngIf="!question.userAnswer">Chưa trả lời</span>
-            </p>
-          </div>
-          
+          <p><strong>Đáp án của bạn: </strong>
+            <span *ngIf="question.userAnswer">{{ question.userAnswer }}</span>
+            <span *ngIf="!question.userAnswer">Chưa trả lời</span>
+          </p>
+
+          <p><strong>Đáp án đúng: </strong>
+            <span *ngIf="hasCorrectAnswer(question)">{{ getCorrectAnswer(question) }}</span>
+          </p>
         </div>
       </div>
-    </ng-container>
-  </div>
+    </div>
+  </ng-container>
+</div>

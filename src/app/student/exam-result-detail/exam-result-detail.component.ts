@@ -123,20 +123,14 @@ export class ExamResultDetailComponent implements OnInit {
 
         question.userAnswer = userAnswer?.answer || null;
 
-        if (Array.isArray(question.answers)) {
-          totalQuestions++;
-          if (userAnswer) {
-            const isCorrect = question.answers.some(
-              (answer: any) => answer.text === userAnswer.answer && answer.isCorrect
-            );
 
-            if (isCorrect) {
-              correctAnswers++;
-            }
-          }
+        if (Array.isArray(question?.questionId?.answers) && question.questionId.answers.length > 0) {
+          console.log('Valid answers array:', question.questionId.answers);
         } else {
           console.error('Invalid answers array for question:', question);
         }
+        
+        
       });
     });
 
@@ -145,6 +139,7 @@ export class ExamResultDetailComponent implements OnInit {
 
     this.examResult = result;
     console.log('Processed Exam Result:', this.examResult);
+    
   }
 
   formatDate(date: Date | string): string {
@@ -176,14 +171,13 @@ export class ExamResultDetailComponent implements OnInit {
   isArray(value: any): boolean {
     return Array.isArray(value);
   }
+
   getTotalQuestions(): number {
-    if (this.examResult && this.examResult.examId && this.examResult.examId.sections) {
+    if (this.examResult?.examId?.sections) {
       return this.examResult.examId.sections.reduce((total, section) => {
-        return total + (section.questions ? section.questions.length : 0);
+        return total + (section.questions?.length || 0);
       }, 0);
     }
-    return 0; // Trường hợp không có câu hỏi
+    return 0;
   }
-  
 }
-

@@ -1,33 +1,207 @@
-/* Styles for correct answers, incorrect answers, and user-selected answers */
+/* Reset mặc định */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+/* Cấu trúc container */
+.container {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Loading State */
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #555;
+}
+
+.spinner {
+  margin: 20px auto;
+  width: 60px;
+  height: 60px;
+  border: 6px solid #f0f0f0;
+  border-top: 6px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error State */
+.error-state {
+  text-align: center;
+  color: #e74c3c;
+  font-size: 18px;
+}
+
+.error-state button {
+  background-color: #3498db;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+}
+
+.error-state button:hover {
+  background-color: #2980b9;
+}
+
+/* Header */
+.exam-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.exam-header h1 {
+  font-size: 28px;
+  color: #333;
+  font-weight: bold;
+}
+
+.exam-header p {
+  font-size: 18px;
+  color: #555;
+}
+
+/* Nút Quay lại bên trái */
+button.go-back {
+  background-color: #3498db;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+button.go-back:hover {
+  background-color: #2980b9;
+}
+
+button.go-back:focus {
+  outline: none;
+}
+
+/* Summary Card (đóng khung phần điểm tổng quan) */
+.summary-card {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  border: 2px solid #3498db; /* Thêm viền cho phần điểm tổng quan */
+}
+
+.summary-card h2 {
+  font-size: 24px;
+  color: #3498db;
+  margin-bottom: 20px;
+}
+
+.summary-card p {
+  font-size: 16px;
+  color: #555;
+}
+
+/* Sections */
+.sections {
+  margin-top: 30px;
+}
+
+.sections h2 {
+  font-size: 26px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Section Title */
+h5 {
+  font-size: 20px;
+  color: #3498db;
+  margin-bottom: 20px;
+}
+
+/* Questions */
+.question {
+  background-color: #f9f9f9;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.question p {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* Answers */
 .answers {
-    label {
-      display: block;
-      padding: 5px;
-      margin: 5px;
-      cursor: pointer;
-    }
-  
-    .correct {
-      background-color: #4CAF50; /* Green for correct answer */
-      color: white;
-      font-weight: bold;
-    }
-  
-    .incorrect {
-      background-color: #F44336; /* Red for incorrect answer */
-      color: white;
-      font-weight: bold;
-    }
-  
-    .user-selected {
-      background-color: rgba(0, 0, 255, 0.2); /* Blue for user-selected answer */
-      color: blue;
-      font-weight: bold;
-      opacity: 0.7; /* Make the user-selected answer slightly faded */
-    }
-  }
-  
-  .question {
-    margin-bottom: 20px;
-  }
-  
+  margin-top: 10px;
+}
+
+.answers label {
+  font-size: 16px;
+  color: #555;
+  display: block;
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+.answers input[type="radio"] {
+  margin-right: 10px;
+}
+
+.answers span {
+  color: #27ae60; /* Correct answer color */
+  font-weight: bold;
+}
+
+/* Correct and Incorrect answers */
+.correct {
+  color: #27ae60;
+}
+
+.incorrect {
+  color: #e74c3c;
+}
+
+.user-selected {
+  background-color: #eafaf1;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.correct-answer {
+  background-color: #d5f5e3;
+  border-radius: 5px;
+  padding: 5px;
+}
+
