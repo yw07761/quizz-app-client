@@ -1,67 +1,49 @@
 <div class="container">
-    <!-- Loading State -->
     <div *ngIf="loading" class="loading-state">
       <div class="spinner"></div>
       <p>Đang tải kết quả bài thi...</p>
     </div>
   
-    <!-- Error State -->
     <div *ngIf="error" class="error-state">
       <p>{{ error }}</p>
       <button (click)="goBack()">Quay lại</button>
     </div>
   
-    <!-- Exam Result -->
     <ng-container *ngIf="!loading && examResult">
       <div class="exam-header">
-        <button class="back-button" (click)="goBack()">
-          <i class="fas fa-arrow-left"></i> Quay lại
-        </button>
+        <button (click)="goBack()">Quay lại</button>
         <h1>{{ examResult.examId.name }}</h1>
-        <p>{{ examResult.examId.description }}</p>
+        <p><b>Mô tả: </b>{{ examResult.examId.description }}</p>
       </div>
   
-      <!-- Summary -->
       <div class="summary-card">
         <h2>Kết quả tổng quan</h2>
-        <div>
-          <span><strong>Số câu đúng:</strong> {{ examResult.score }}/{{ examResult.maxScore }}</span>
-        </div>
-        <div>
-          <span><strong>Tỷ lệ đúng:</strong> {{ examResult.percentageScore.toFixed(1) }}%</span>
-        </div>
-        <div>
-          <span><strong>Thời gian bắt đầu:</strong> {{ formatDate(examResult.startTime) }}</span>
-        </div>
-        <div>
-          <span><strong>Thời gian kết thúc:</strong> {{ formatDate(examResult.endTime) }}</span>
-        </div>
+        <p>Số câu đúng: {{ examResult.score }}/{{ examResult.maxScore }}</p>
+        <p>Tỷ lệ đúng: {{ examResult.percentageScore.toFixed(1) }}%</p>
+        <p>Thời gian bắt đầu: {{ formatDate(examResult.startTime) }}</p>
+        <p>Thời gian kết thúc: {{ formatDate(examResult.endTime) }}</p>
       </div>
   
-      <!-- Sections and Questions -->
       <div class="sections">
         <h2>Các phần thi</h2>
         <div *ngFor="let section of examResult.examId.sections">
-          <h3>{{ section.title }}</h3>
+          <h5><b>Mô tả: </b>{{ section.title }}</h5>
           <div *ngFor="let question of section.questions" class="question">
             <p><strong>Câu hỏi:</strong> {{ question.text }}</p>
             <div class="answers">
-              <div *ngFor="let answer of question.answers" [class.correct]="answer.isCorrect">
+              <div *ngFor="let answer of question.answers" [class.correct]="answer.isCorrect && answer.text === question.userAnswer" [class.incorrect]="!answer.isCorrect && answer.text === question.userAnswer">
                 <label>
-                  <input
-                    type="radio"
-                    [checked]="answer.text === question.userAnswer"
-                    disabled
-                  />
+                  <input type="radio" [checked]="answer.text === question.userAnswer" disabled />
                   {{ answer.text }}
                 </label>
-                <span *ngIf="answer.isCorrect" class="correct-mark">✔</span>
+                <span *ngIf="answer.isCorrect">✔</span>
               </div>
             </div>
             <p><strong>Đáp án của bạn:</strong> {{ question.userAnswer || 'Chưa trả lời' }}</p>
           </div>
         </div>
       </div>
-    </ng-container>
-  </div>
+      
+      
+      
   

@@ -162,7 +162,10 @@ export class ExamService {
     return this.http.get<any[]>(`${this.apiUrl}/user/${userId}/results`, { headers });
   }
   getExamDetails(examId: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/exams/${examId}`); // Replace with the correct API endpoint
+    const url = `${this.apiUrl}/${examId}`;
+    console.log('Fetching exam details from URL:', url); // Debug the URL
+    return this.http.get<any>(url);
   }
+  
   
 }  
