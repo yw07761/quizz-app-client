@@ -28,10 +28,11 @@ import { SummaryComponent} from './student/summary/summary.component';
 import { ProfileComponent} from './profile/profile.component'
 import { SettingsComponent} from './settings/settings.component'
 import { ExamTakeComponent } from './student/exam-take/exam-take.component';
-
+import { ExamResultDetailComponent } from './student/exam-result-detail/exam-result-detail.component'
 const routes: Routes = [
   { path: 'role', component: RoleComponent },
   { path: 'settings', component: SettingsComponent },
+  { path: 'exam-result-detail/:id', component: ExamResultDetailComponent},
   { path: 'exam-take/:id', component: ExamTakeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
