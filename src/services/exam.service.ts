@@ -137,6 +137,7 @@ export class ExamService {
     return this.http.get(`${this.apiUrl}/${id}`);
   }
 
+
   submitExam(id: string, submissionData: ExamSubmission): Observable<any> {
     const headers = this.getAuthHeaders();
     
@@ -172,6 +173,7 @@ export class ExamService {
     const headers = this.getAuthHeaders();
     return this.http.get<any>(`${this.apiUrl}/results/${resultId}`, { headers });
   }
+  
 
   getExamDetails(examId: string): Observable<any> {
     const url = `${this.apiUrl}/${examId}`;

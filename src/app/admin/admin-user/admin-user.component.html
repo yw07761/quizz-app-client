@@ -1,0 +1,26 @@
+<h1>Quản lý người dùng</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Tên người dùng</th>
+      <th>Email</th>
+      <th>Vai trò</th>
+      <th>Hành động</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.username }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.role }}</td>
+      <td>
+        <button (click)="updateUserRole(user, 'teacher')">Set Teacher</button>
+        <button (click)="updateUserRole(user, 'student')">Set Student</button>
+        <button (click)="deleteUser(user)">Xóa</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Nút Go Back -->
+<button (click)="goBack()" class="go-back-button">Quay lại Dashboard</button>

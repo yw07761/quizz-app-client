@@ -38,6 +38,16 @@ export class LoginComponent {
         next: (response) => {
           console.log('Đăng nhập thành công:', response);
           this.router.navigate(['/role']);
+          // Lưu thông tin người dùng vào localStorage
+          localStorage.setItem('user', JSON.stringify(response.user));
+
+          // Điều hướng dựa trên vai trò
+          const user = response.user;
+          if (user.role === 'admin') {
+            this.router.navigate(['/admin-dashboard']);
+          } else {
+            this.router.navigate(['/role']);
+          }
         },
         error: (err) => {
           console.error('Đăng nhập thất bại:', err);

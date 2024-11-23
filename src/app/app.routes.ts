@@ -24,13 +24,21 @@ import { TeacherGroupComponent } from './teacher/teacher-group/teacher-group.com
 import { StudentDashboardComponent } from './student/student-dashboard/student-dashboard.component';
 import { ClassComponent} from './student/class/class.component';
 import { ExamHistoryComponent} from './student/exam-history/exam-history.component';
-import { SummaryComponent} from './student/summary/summary.component';
 import { ProfileComponent} from './profile/profile.component'
 import { SettingsComponent} from './settings/settings.component'
 import { ExamTakeComponent } from './student/exam-take/exam-take.component';
-import { ExamResultDetailComponent } from './student/exam-result-detail/exam-result-detail.component'
+import { ExamResultDetailComponent } from './student/exam-result-detail/exam-result-detail.component';
+import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
+import { AdminUserComponent } from './admin/admin-user/admin-user.component';
+import { AdminQuestionComponent } from './admin/admin-question/admin-question.component';
+import { AdminExamComponent } from './admin/admin-exam/admin-exam.component';
+
 const routes: Routes = [
   { path: 'role', component: RoleComponent },
+  { path: 'admin-dashboard', component: AdminDashboardComponent},
+  { path: 'admin-user', component: AdminUserComponent},
+  { path: 'admin-question', component:  AdminQuestionComponent },
+  { path: 'admin-exam', component: AdminExamComponent},
   { path: 'settings', component: SettingsComponent },
   { path: 'exam-result-detail/:id', component: ExamResultDetailComponent},
   { path: 'exam-take/:id', component: ExamTakeComponent },
@@ -57,7 +65,6 @@ const routes: Routes = [
   { path: 'teacher-group', component: TeacherGroupComponent },
   { path: 'class-student', component: ClassComponent },
   { path: 'exam-history', component: ExamHistoryComponent },
-  { path: 'summary-student', component: SummaryComponent },
   { path: 'student-dashboard', component: StudentDashboardComponent },
   { path: 'profile', component: ProfileComponent },
 
