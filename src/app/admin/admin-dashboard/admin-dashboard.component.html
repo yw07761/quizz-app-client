@@ -1,0 +1,38 @@
+<div class="navbar">
+  <div class="logo">
+    <img src="../../assets/img/qye-challenge-logo.png" alt="Logo" height="30" width="30">
+    <span>Quiz your English Challenge</span>
+  </div>
+  <div class="nav-links"> <h1>Chào mừng đến với Admin Dashboard</h1> </div>
+  <div class="user-menu">
+    <i class="fas fa-question-circle" style="margin-right: 20px;"></i>
+    <i class="fas fa-bell" style="margin-right: 20px;"></i>
+    <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="40" width="40" (click)="toggleDropdown()">
+    <div class="dropdown" [class.active]="isDropdownActive">
+      <div class="profile">
+        <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="50" width="50">
+        <div class="info">
+          <div class="name">{{ user?.username }}</div>
+          <div class="email">{{ user?.email }}</div>
+        </div>
+      </div>
+      <div class="menu">
+        <a href="/profile"><i class="fas fa-user-graduate"></i> Thông tin cá nhân</a>
+        <a href="#"><i class="fas fa-cog"></i> Cài đặt chung</a>
+        <a href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="admin-dashboard">
+    
+    
+    <div class="dashboard-menu">
+      <div *ngFor="let item of menuItems" class="menu-item">
+        <button class="menu-button" (click)="onMenuItemClick(item.route)">
+          {{ item.label }}
+        </button>
+      </div>
+    </div>
+  </div>
+  

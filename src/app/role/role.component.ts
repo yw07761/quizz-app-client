@@ -8,17 +8,14 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './role.component.html',
-  styleUrls: ['./role.component.scss']
+  styleUrls: ['./role.component.scss'],
 })
 export class RoleComponent implements OnInit {
   selectedRole: string | null = null;
   isLoading = false;
   errorMessage: string | null = null;
 
-  constructor(
-    private router: Router,
-    private authService: AuthService
-  ) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     // Check if the user is logged in
@@ -27,45 +24,61 @@ export class RoleComponent implements OnInit {
       this.router.navigate(['/register']);
       return;
     }
+
+    // Redirect admin users directly to the Admin Dashboard
+    if (user.role === 'admin') {
+      alert('Bạn là admin. Chuyển hướng đến Admin Dashboard.');
+      this.router.navigate(['/admin-dashboard']);
+    }
   }
 
   handleOptionClick(role: 'student' | 'teacher'): void {
+    this.errorMessage = null;
     this.selectedRole = role;
     this.isLoading = true;
-    this.errorMessage = null;
-    
+
     const user = this.authService.getCurrentUser();
     if (!user?._id) {
-      this.errorMessage = 'User information not found. Please login again.';
-      this.isLoading = false;
+      this.setErrorMessage('Không tìm thấy thông tin người dùng. Vui lòng đăng nhập lại.');
       return;
     }
 
-    // Call to update the user role
+    // Prevent role change if the user is an admin
+    if (user.role === 'admin') {
+      this.setErrorMessage('Admin không thể thay đổi vai trò.');
+      return;
+    }
+
+    // Update user role
     this.authService.updateUserRole(user._id, role).subscribe({
       next: (response) => {
-        console.log('Role updated successfully:', response);
+        console.log('Vai trò đã được cập nhật thành công:', response);
         localStorage.setItem('user', JSON.stringify(response.user));
         this.isLoading = false;
-        
-        // Navigate based on role
-        if (role === 'student') {
-          this.router.navigate(['/student-dashboard']);
-        } else {
-          this.router.navigate(['/teacher-dashboard']);
-        }
+
+        // Navigate based on selected role
+        this.navigateToDashboard(role);
       },
       error: (error) => {
-        console.error('Error updating role:', error);
-        this.errorMessage = error.message || 'Failed to update role. Please try again.';
-        this.isLoading = false;
-        this.selectedRole = null;
-
-        // If there's no token, navigate to login
-        if (error.message === 'No token found') {
-          this.router.navigate(['/login']);
-        }
-      }
+        console.error('Cập nhật vai trò thất bại:', error);
+        this.setErrorMessage(error.message || 'Cập nhật vai trò thất bại. Vui lòng thử lại.');
+      },
     });
+  }
+
+  // Navigate to the appropriate dashboard
+  private navigateToDashboard(role: 'student' | 'teacher'): void {
+    if (role === 'student') {
+      this.router.navigate(['/student-dashboard']);
+    } else {
+      this.router.navigate(['/teacher-dashboard']);
+    }
+  }
+
+  // Set an error message and stop the loading state
+  private setErrorMessage(message: string): void {
+    this.errorMessage = message;
+    this.isLoading = false;
+    this.selectedRole = null;
   }
 }

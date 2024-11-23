@@ -27,9 +27,18 @@ import { ExamHistoryComponent} from './student/exam-history/exam-history.compone
 import { ProfileComponent} from './profile/profile.component'
 import { SettingsComponent} from './settings/settings.component'
 import { ExamTakeComponent } from './student/exam-take/exam-take.component';
-import { ExamResultDetailComponent } from './student/exam-result-detail/exam-result-detail.component'
+import { ExamResultDetailComponent } from './student/exam-result-detail/exam-result-detail.component';
+import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
+import { AdminUserComponent } from './admin/admin-user/admin-user.component';
+import { AdminQuestionComponent } from './admin/admin-question/admin-question.component';
+import { AdminExamComponent } from './admin/admin-exam/admin-exam.component';
+
 const routes: Routes = [
   { path: 'role', component: RoleComponent },
+  { path: 'admin-dashboard', component: AdminDashboardComponent},
+  { path: 'admin-user', component: AdminUserComponent},
+  { path: 'admin-question', component:  AdminQuestionComponent },
+  { path: 'admin-exam', component: AdminExamComponent},
   { path: 'settings', component: SettingsComponent },
   { path: 'exam-result-detail/:id', component: ExamResultDetailComponent},
   { path: 'exam-take/:id', component: ExamTakeComponent },
