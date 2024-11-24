@@ -72,14 +72,37 @@
         <div>
           <!-- Add Question to Section -->
           <div class="form-group">
-            <label for="availableQuestions">Chọn câu hỏi:</label>
-            <select #questionSelect>
-              <option value="">Chọn câu hỏi</option>
-              <option *ngFor="let question of availableQuestions" [value]="question._id">
-                {{ question.text }}
-              </option>
-            </select>
-            <button type="button" (click)="addQuestionToSection(sectionIndex, questionSelect.value)">Thêm câu hỏi</button>
+            <!-- Chọn danh mục, nhóm và câu hỏi -->
+
+            <div class="filter-controls">
+              <label for="category">Danh mục:</label>
+              <select [(ngModel)]="selectedCategory" name="category" (ngModelChange)="onCategoryOrGroupChange()">
+                  <option value="">Tất cả</option>
+                  <option *ngFor="let category of uniqueCategories" [value]="category">{{ category }}</option>
+              </select>
+
+              <label for="group">Nhóm:</label>
+              <select [(ngModel)]="selectedGroup" name="group" (ngModelChange)="onCategoryOrGroupChange()">
+                  <option value="">Tất cả</option>
+                  <option *ngFor="let group of uniqueGroups" [value]="group">{{ group }}</option>
+              </select>
+              
+              <div class="filter-actions">
+                <button (click)="clearFilters()">Xóa bộ lọc</button>
+                <button (click)="filterQuestions()">Áp dụng</button>
+              </div>
+            </div>
+            
+            <div class="question-selection">
+              <label>Chọn câu hỏi:</label>
+              <select #questionSelect>
+                <option value="">Chọn câu hỏi</option>
+                <option *ngFor="let question of filteredQuestions" [value]="question._id">
+                  {{ question.text }}
+                </option>
+              </select>
+              <button type="button" (click)="addQuestionToSection(0, questionSelect.value)">Thêm câu hỏi</button>
+            </div>
           </div>
         </div>
 

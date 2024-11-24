@@ -20,7 +20,6 @@ import { TeacherClassComponent } from './teacher/teacher-class/teacher-class.com
 import { TeacherClassDetailComponent } from './teacher/teacher-class-detail/teacher-class-detail.component';
 import { TeacherStatisticsComponent } from './teacher/teacher-statistics/teacher-statistics.component';
 import { TeacherCategoryComponent } from './teacher/teacher-category/teacher-category.component';
-import { TeacherGroupComponent } from './teacher/teacher-group/teacher-group.component';
 import { StudentDashboardComponent } from './student/student-dashboard/student-dashboard.component';
 import { ClassComponent} from './student/class/class.component';
 import { ExamHistoryComponent} from './student/exam-history/exam-history.component';
@@ -62,7 +61,6 @@ const routes: Routes = [
   { path: 'teacher-class-detail', component: TeacherClassDetailComponent },
   { path: 'teacher-statistics', component: TeacherStatisticsComponent },
   { path: 'teacher-category', component: TeacherCategoryComponent },
-  { path: 'teacher-group', component: TeacherGroupComponent },
   { path: 'class-student', component: ClassComponent },
   { path: 'exam-history', component: ExamHistoryComponent },
   { path: 'student-dashboard', component: StudentDashboardComponent },
