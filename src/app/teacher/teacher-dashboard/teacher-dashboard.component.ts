@@ -20,6 +20,7 @@ export class TeacherDashboardComponent implements OnInit {
   isDropdownActive = false;
   activeExams: Exam[] = [];
   draftExams: Exam[] = [];
+  publishedExams: Exam[] = []; 
 
   constructor(
     private authService: AuthService,
@@ -36,15 +37,24 @@ export class TeacherDashboardComponent implements OnInit {
     this.examService.getExams().subscribe({
       next: (exams) => {
         const now = new Date();
-        this.activeExams = exams.filter(exam => new Date(exam.startDate) <= now && new Date(exam.endDate) >= now);
-        this.draftExams = exams.filter(exam => new Date(exam.startDate) > now);
+        this.activeExams = exams.filter(
+          exam =>
+            new Date(exam.startDate) <= now &&
+            new Date(exam.endDate) >= now &&
+            exam.status !== 'published'
+        );
+        this.draftExams = exams.filter(
+          exam =>
+            new Date(exam.startDate) > now &&
+            exam.status !== 'published'
+        );
+        this.publishedExams = exams.filter(exam => exam.status === 'published'); // Lọc bài kiểm tra đã xuất bản
       },
       error: (error) => {
         console.error('Error loading exams:', error);
       }
     });
   }
-
   toggleDropdown() {
     this.isDropdownActive = !this.isDropdownActive;
   }
@@ -98,6 +108,9 @@ export class TeacherDashboardComponent implements OnInit {
         console.error('Error updating exam status:', error);
       }
     });
+  }
+  navigateToStatistics(examId: string) {
+    this.router.navigate(['/teacher-statistics', examId]);
   }
   
 }
