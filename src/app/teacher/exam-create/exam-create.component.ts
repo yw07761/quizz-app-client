@@ -1,12 +1,11 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { QuestionService, Question } from '../../../services/question.service';
 import { ExamService } from '../../../services/exam.service';
-import { AuthService } from '../../../services/auth.service'; // Import AuthService
+import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
-// Interface for an extended question including `score` property
 interface ExtendedQuestion extends Question {
   score?: number;
 }
@@ -45,7 +44,13 @@ export class ExamCreateComponent implements OnInit {
 
   sections: Section[] = [];
   availableQuestions: Question[] = [];
-  teacherId: string | undefined; // Store the teacher's ID here
+  filteredQuestions: Question[] = [];
+  teacherId: string | undefined;
+
+  selectedCategory: string = '';
+  selectedGroup: string = '';
+  uniqueCategories: string[] = [];
+  uniqueGroups: string[] = [];
 
   isSectionOpen: { [key: string]: boolean } = {
     general: true,
@@ -55,30 +60,40 @@ export class ExamCreateComponent implements OnInit {
   constructor(
     private questionService: QuestionService,
     private examService: ExamService,
-    private authService: AuthService, // Inject AuthService to access user info
+    private authService: AuthService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    // Retrieve the teacher's ID from the AuthService
     const user = this.authService.getCurrentUser();
-    this.teacherId = user?._id; // Assuming `_id` is the unique identifier for the teacher
-
-    // Fetch the list of questions from the QuestionService
+    this.teacherId = user?._id;
+  
     this.questionService.getQuestions().subscribe((questions) => {
       this.availableQuestions = questions;
+      this.filteredQuestions = questions; // Initialize with all available questions
+      this.updateUniqueFilters(); // Set unique categories and groups
     });
   }
-
-  onSubmit() {
-    console.log('Exam submitted:', this.exam);
-    console.log('Sections:', this.sections);
+  
+  updateUniqueFilters() {
+    this.uniqueCategories = [...new Set(this.availableQuestions.map(q => q.category).filter(Boolean) as string[])];
+    this.uniqueGroups = [...new Set(this.availableQuestions.map(q => q.group).filter(Boolean) as string[])];
+    
+    // Log kiểm tra giá trị của uniqueCategories và uniqueGroups
+    console.log('Unique Categories:', this.uniqueCategories);
+    console.log('Unique Groups:', this.uniqueGroups);
   }
+  
+  
 
+ 
+
+  // Function to add a new section
   addSection() {
     this.sections.push({ title: '', description: '', questions: [] });
   }
 
+  // Function to add a question to a section
   addQuestionToSection(sectionIndex: number, questionId: string) {
     if (!questionId) return;
 
@@ -100,17 +115,24 @@ export class ExamCreateComponent implements OnInit {
     }
   }
 
+  // Function to handle form submission (exam)
+  onSubmit() {
+    console.log('Exam submitted:', this.exam);
+    console.log('Sections:', this.sections);
+  }
+
+  // Function to remove a question from a section
   removeQuestionFromSection(sectionIndex: number, questionIndex: number) {
     if (confirm('Bạn có chắc muốn xóa câu hỏi này?')) {
       this.sections[sectionIndex].questions.splice(questionIndex, 1);
     }
   }
 
+  // Function to save the exam to the server
   saveExam() {
-    // Prepare exam data with teacherId
     const examData = {
       ...this.exam,
-      createdBy: this.teacherId, // Include the teacher's ID
+      createdBy: this.teacherId,
       sections: this.sections.map(section => ({
         ...section,
         questions: section.questions.map(q => ({
@@ -122,12 +144,11 @@ export class ExamCreateComponent implements OnInit {
 
     console.log("Exam data being sent:", examData);
 
-    // Call the service to save the exam
     this.examService.createExam(examData).subscribe({
       next: (response) => {
         console.log('Exam saved successfully:', response);
         alert('Bài thi đã được lưu thành công!');
-        this.router.navigate(['/teacher-dashboard']); // Navigate after saving
+        this.router.navigate(['/teacher-dashboard']);
       },
       error: (error) => {
         console.error('Error saving exam:', error);
@@ -136,11 +157,44 @@ export class ExamCreateComponent implements OnInit {
     });
   }
 
+  // Function to toggle section visibility (expand/collapse)
   toggleSection(section: string) {
     this.isSectionOpen[section] = !this.isSectionOpen[section];
   }
 
+  // Function to go back to the previous page
   navigateBack() {
     window.history.back();
   }
+
+  // Function to reset filters and display all questions
+  onCategoryOrGroupChange() {
+    console.log('Category selected:', this.selectedCategory);
+    console.log('Group selected:', this.selectedGroup);
+    this.filterQuestions();
+  }
+  
+  
+
+  filterQuestions() {
+    console.log("Filtered Questions before filtering:", this.filteredQuestions); // Kiểm tra câu hỏi trước khi lọc
+  
+    this.filteredQuestions = this.availableQuestions.filter(question => {
+      const categoryMatch = this.selectedCategory ? question.category === this.selectedCategory : true;
+      const groupMatch = this.selectedGroup ? question.group === this.selectedGroup : true;
+      return categoryMatch && groupMatch;
+    });
+  
+    console.log("Filtered Questions after filtering:", this.filteredQuestions); // Kiểm tra câu hỏi sau khi lọc
+  }
+  
+
+clearFilters() {
+    // Reset bộ lọc về trạng thái ban đầu
+    this.selectedCategory = '';
+    this.selectedGroup = '';
+    this.filteredQuestions = this.availableQuestions;
+}
+
+
 }

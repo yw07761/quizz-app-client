@@ -56,7 +56,7 @@
 
                 <div class="form-group checkbox-group">
                     <label>
-                        <span class="checkbox-label">Hệ thống sẽ tự động chia điểm bài thi </span>
+                        <span class="checkbox-label">Hệ thống sẽ tự động chia điểm bài thi</span>
                         <input type="checkbox" [(ngModel)]="exam.autoDistributeScore" name="autoDistributeScore">
                     </label>
                 </div>
@@ -86,59 +86,67 @@
 
                 <div class="form-group">
                     <label for="questionsPerPage">Số câu hỏi trên trang làm bài</label>
-                    <input type="number" id="questionsPerPage" [(ngModel)]="exam.questionsPerPage"
-                        name="questionsPerPage" min="1" />
+                    <input type="number" id="questionsPerPage" [(ngModel)]="exam.questionsPerPage" name="questionsPerPage" min="1" />
                 </div>
             </div>
         </div>
 
-
+        <!-- Thêm câu hỏi -->
         <h2>Thêm câu hỏi</h2>
         <div *ngFor="let section of sections; let sectionIndex = index" class="section-container">
             <div class="section-header" (click)="toggleSection('section' + sectionIndex)">
-                <i
-                    [ngClass]="isSectionOpen['section' + sectionIndex] ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
+                <i [ngClass]="isSectionOpen['section' + sectionIndex] ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
                 <h3>Phần {{ sectionIndex + 1 }}</h3>
             </div>
 
-            <!-- Trong phần hiển thị câu hỏi của section -->
             <div *ngIf="isSectionOpen['section' + sectionIndex]" class="section-content">
-                <input type="text" placeholder="Nhập tiêu đề phần" [(ngModel)]="section.title"
-                    name="sectionTitle{{sectionIndex}}" />
-                <textarea placeholder="Nhập mô tả" [(ngModel)]="section.description"
-                    name="sectionDescription{{sectionIndex}}"></textarea>
+                <input type="text" placeholder="Nhập tiêu đề phần" [(ngModel)]="section.title" name="sectionTitle{{sectionIndex}}" />
+                <textarea placeholder="Nhập mô tả" [(ngModel)]="section.description" name="sectionDescription{{sectionIndex}}"></textarea>
 
-                <!-- Dropdown để chọn câu hỏi từ danh sách có sẵn -->
-                <div class="question-selection">
-                    <label>Chọn câu hỏi:</label>
-                    <div class="question-add-controls">
-                        <select #questionSelect>
-                            <option value="">Chọn câu hỏi</option>
-                            <option *ngFor="let question of availableQuestions" [value]="question._id">
-                                {{ question.text }}
-                            </option>
-                        </select>
-                        <button type="button" (click)="addQuestionToSection(sectionIndex, questionSelect.value)">
-                            Thêm câu hỏi
-                        </button>
+                <!-- Chọn danh mục, nhóm và câu hỏi -->
+
+                <div class="filter-controls">
+                    <label for="category">Danh mục:</label>
+                    <select [(ngModel)]="selectedCategory" name="category" (ngModelChange)="onCategoryOrGroupChange()">
+                        <option value="">Tất cả</option>
+                        <option *ngFor="let category of uniqueCategories" [value]="category">{{ category }}</option>
+                    </select>
+
+                    <label for="group">Nhóm:</label>
+                    <select [(ngModel)]="selectedGroup" name="group" (ngModelChange)="onCategoryOrGroupChange()">
+                        <option value="">Tất cả</option>
+                        <option *ngFor="let group of uniqueGroups" [value]="group">{{ group }}</option>
+                    </select>
+                    
+                    <div class="filter-actions">
+                      <button (click)="clearFilters()">Xóa bộ lọc</button>
+                      <button (click)="filterQuestions()">Áp dụng</button>
                     </div>
-                </div>
-
-                <!-- Hiển thị danh sách câu hỏi đã chọn -->
+                  </div>
+                  
+                  <div class="question-selection">
+                    <label>Chọn câu hỏi:</label>
+                    <select #questionSelect>
+                      <option value="">Chọn câu hỏi</option>
+                      <option *ngFor="let question of filteredQuestions" [value]="question._id">
+                        {{ question.text }}
+                      </option>
+                    </select>
+                    <button type="button" (click)="addQuestionToSection(0, questionSelect.value)">Thêm câu hỏi</button>
+                  </div>
+                  
+                <!-- Hiển thị câu hỏi đã chọn -->
                 <div *ngFor="let question of section.questions; let questionIndex = index" class="question-container">
                     <div class="question-header">
                         <h4>Câu hỏi {{ questionIndex + 1 }}</h4>
-                        <button type="button" class="remove-question"
-                            (click)="removeQuestionFromSection(sectionIndex, questionIndex)">
+                        <button type="button" class="remove-question" (click)="removeQuestionFromSection(sectionIndex, questionIndex)">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
 
-                    <div class="question-text">
-                        {{ question.text }}
-                    </div>
+                    <div class="question-text">{{ question.text }}</div>
 
-                    <!-- Hiển thị câu trả lời -->
+                    <!-- Câu trả lời -->
                     <div class="answers-list">
                         <div *ngFor="let answer of question.answers" class="answer-item">
                             <input type="radio" [checked]="answer.isCorrect" disabled>
@@ -148,18 +156,18 @@
 
                     <div class="score-container">
                         <label>Điểm:</label>
-                        <input type="number" [(ngModel)]="question.score" name="score{{sectionIndex}}{{questionIndex}}"
-                            min="0" />
+                        <input type="number" [(ngModel)]="question.score" name="score{{sectionIndex}}{{questionIndex}}" min="0" />
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Nút để thêm phần mới -->
+        <!-- Nút thêm phần mới -->
         <div class="actions">
             <button type="button" (click)="addSection()">+ Thêm phần</button>
         </div>
 
+        <!-- Nút tạo bài thi -->
         <div class="actions">
             <button type="submit" class="create-button" (click)="saveExam()">Tạo bài thi</button>
         </div>
