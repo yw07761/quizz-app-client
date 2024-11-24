@@ -44,4 +44,10 @@ export class UserService {
     });
     return this.http.delete(`${this.apiUrl}/users/${userId}`, { headers });
   }
+  
+  
+  
+  
+  
+  
 }

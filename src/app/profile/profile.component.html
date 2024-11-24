@@ -1,12 +1,38 @@
 <div class="profile-container">
-    <h2>Thông tin cá nhân</h2>
-    <div *ngIf="user">
+  <h2>Thông tin cá nhân</h2>
+  <div *ngIf="user">
+    <div class="profile-info">
+      <p><strong>ID:</strong> {{ user._id }}</p>
       <p><strong>Tên người dùng:</strong> {{ user.username }}</p>
       <p><strong>Email:</strong> {{ user.email }}</p>
-      <p><strong>Vai trò:</strong> {{ user.role }}</p>
-      <p><strong>ID:</strong> {{ user._id }}</p>
-    </div>
-    <div *ngIf="!user">
-      <p>Không có thông tin người dùng.</p>
+      <p><strong>Vai trò:</strong> 
+        <span class="gender">
+          {{  user.role === 'teacher' ? 'Giáo viên' :
+              user.role === 'student' ? 'Học viên' :
+              user.role === 'admin' ? 'Quản trị viên':'Vai trò không xác định'  }}
+        </span>
+      </p>
+      <p><strong>Số điện thoại:</strong> {{ user.phoneNumber }}</p>
+      <p><strong>Giới tính:</strong>
+        <span class="gender">
+          {{ user.gender === 'male' ? 'Nam' :
+             user.gender === 'female' ? 'Nữ' :
+             user.gender === 'other' ? 'Khác' : 'Không xác định' }}
+        </span>
+      </p>
+      <p><strong>Ngày sinh:</strong> {{ user.dateOfBirth | date:'dd-MM-yyyy' }}</p>
     </div>
   </div>
+  <div *ngIf="!user" class="no-user">
+    <p>Không có thông tin người dùng.</p>
+  </div>
+  
+  <!-- Back button -->
+  <button (click)="goBack()">Quay lại</button>
+
+  <button *ngIf="user" [routerLink]="'/settings'">Chỉnh sửa thông tin</button>
+
+  <div class="footer">
+    <p>© 2024, Quản lý người dùng</p>
+  </div>
+</div>
