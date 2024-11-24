@@ -105,12 +105,12 @@
               {{ formatDate(exam.startDate) }} - {{ formatDate(exam.endDate) }}
             </p>
             <p>
-              <strong>Số câu đúng:</strong> 
-              {{ exam.correctAnswers }}/{{ exam.totalQuestions }}
+              <strong>Số câu hỏi:</strong> 
+              {{ exam.totalQuestions }}
             </p>
             <p>
-              <strong>Tỷ lệ đúng:</strong> 
-              {{ exam.percentageScore.toFixed(1) }}%
+              <strong>Số điểm:</strong> 
+              {{ exam.correctAnswers }}/ 10
             </p>
             <p>
               <strong>Nộp bài lúc:</strong> 
@@ -119,18 +119,7 @@
           </div>
 
           <!-- Progress bar -->
-          <div class="progress-container">
-            <div class="progress-bar">
-              <div 
-                class="progress" 
-                [style.width.%]="getPercentageScore(exam)"
-                [style.backgroundColor]="getProgressBarColor(exam)">
-              </div>
-            </div>
-            <div class="progress-label">
-              {{ getPercentageScore(exam).toFixed(1) }}%
-            </div>
-          </div>
+         
 
           <div class="exam-actions">
             <button class="view-result-btn" (click)="viewResult(exam._id)">

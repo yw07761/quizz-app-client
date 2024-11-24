@@ -21,7 +21,8 @@
       <!-- Tổng quan điểm -->
       <div class="summary-card">
         <h2>Kết quả tổng quan</h2>
-        <p>Số câu đúng: {{ examResult.score }}/{{ getTotalQuestions() }}</p>
+        <p>Tổng số câu hỏi: {{ getTotalQuestions() }}</p>
+        <p>Số điểm: {{ examResult.score }}/10</p>
         <p>Tỷ lệ đúng: {{ examResult.percentageScore.toFixed(1) }}%</p>
         <p>Thời gian bắt đầu: {{ formatDate(examResult.startTime) }}</p>
         <p>Thời gian kết thúc: {{ formatDate(examResult.endTime) }}</p>

@@ -4,7 +4,10 @@
         <span class="close-btn" (click)="closeForm()">&times;</span>
     </div>
     <div class="input-group">
-        <input type="text" placeholder="Danh mục" [(ngModel)]="category">
+        <select [(ngModel)]="category">
+            <option value="" disabled selected>Danh mục câu hỏi</option>
+            <option *ngFor="let g of categories" [value]="g">{{ g }}</option>
+        </select>
         <select [(ngModel)]="group">
             <option value="" disabled selected>Nhóm câu hỏi</option>
             <option *ngFor="let g of groups" [value]="g">{{ g }}</option>
