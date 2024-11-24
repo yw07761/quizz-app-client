@@ -180,6 +180,11 @@ export class ExamService {
     console.log('Fetching exam details from URL:', url); // Debug the URL
     return this.http.get<any>(url);
   }
+  getExamStatistics(examId: string): Observable<any> {
+    const url = `${this.apiUrl}/${examId}/statistics`;
+    console.log('Fetching exam statistics from URL:', url); // Debug the URL
+    return this.http.get<any>(url);
+  }
   
   
 }

@@ -21,7 +21,6 @@ import { TeacherClassDetailComponent } from './teacher/teacher-class-detail/teac
 import { TeacherStatisticsComponent } from './teacher/teacher-statistics/teacher-statistics.component';
 import { TeacherCategoryComponent } from './teacher/teacher-category/teacher-category.component';
 import { StudentDashboardComponent } from './student/student-dashboard/student-dashboard.component';
-import { ClassComponent} from './student/class/class.component';
 import { ExamHistoryComponent} from './student/exam-history/exam-history.component';
 import { ProfileComponent} from './profile/profile.component'
 import { SettingsComponent} from './settings/settings.component'
@@ -59,9 +58,8 @@ const routes: Routes = [
   { path: 'question', component: QuestionComponent },
   { path: 'teacher-class', component: TeacherClassComponent },
   { path: 'teacher-class-detail', component: TeacherClassDetailComponent },
-  { path: 'teacher-statistics', component: TeacherStatisticsComponent },
+  { path: 'teacher-statistics/:id', component: TeacherStatisticsComponent },
   { path: 'teacher-category', component: TeacherCategoryComponent },
-  { path: 'class-student', component: ClassComponent },
   { path: 'exam-history', component: ExamHistoryComponent },
   { path: 'student-dashboard', component: StudentDashboardComponent },
   { path: 'profile', component: ProfileComponent },
