@@ -71,22 +71,40 @@ export class AuthService {
   // Phương thức lấy thông tin người dùng hiện tại
   getCurrentUser(): User | null {
     const userStr = localStorage.getItem('user');
+    console.log('User from localStorage:', userStr);  // Kiểm tra dữ liệu từ localStorage
     return userStr ? JSON.parse(userStr) : null;
   }
+  getCurrentUserFromApi(): Observable<User> {
+    const token = this.getToken(); // Lấy token từ localStorage hoặc nơi lưu trữ
+    if (!token) {
+      console.error('Token không tồn tại');
+      return throwError('Token không tồn tại');
+    }
+    
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  
+    return this.http.get<User>(`${this.apiUrl}/user`, { headers }).pipe(
+      catchError((error) => {
+        console.error('Lỗi khi gọi API:', error);
+        return throwError(error);
+      })
+    );
+  }
+  
+  
+  
 
   // Phương thức cập nhật thông tin người dùng
-  updateUser(updatedUser: User): Observable<User> {
+  updateUser(user: any): Observable<any> {
+    // Gửi yêu cầu PUT tới API để cập nhật thông tin người dùng
     const token = this.getToken();
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`
     });
 
-    return this.http.put<User>(`${this.apiUrl}/user/update`, updatedUser, { headers }).pipe(
-      tap((response) => {
-        if (response) {
-          localStorage.setItem('user', JSON.stringify(response)); // Cập nhật thông tin người dùng trong localStorage
-        }
-      }),
+    return this.http.put(`${this.apiUrl}/users/${user._id}`, user, { headers }).pipe(
       catchError(this.handleError)
     );
   }

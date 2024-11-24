@@ -18,11 +18,14 @@ export class SettingsComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    this.user = this.authService.getCurrentUser(); // Fetch current user info
+    this.user = this.authService.getCurrentUser();
+    console.log('User Gender:', this.user?.gender);  // Check the gender value
     if (this.user) {
-      this.updatedUser = { ...this.user }; // Initialize updated user info
+      this.updatedUser = { ...this.user };
     }
   }
+  
+  
 
   updateUser() {
     if (this.updatedUser) {
@@ -40,5 +43,8 @@ export class SettingsComponent implements OnInit {
     } else {
       console.error('No user data to update.');
     }
+  }
+  goBack(): void {
+    window.history.back();
   }
 }

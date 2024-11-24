@@ -1,41 +1,123 @@
+/* Container cho form */
 .settings-container {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  
-    h2 {
-      margin-bottom: 20px;
-      color: #333;
-    }
-  
-    .form-group {
-      margin-bottom: 15px;
-  
-      label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-      }
-  
-      input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-      }
-    }
-  
-    .btn {
-      padding: 10px 20px;
-      background-color: #4a90e2;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-  
-      &:hover {
-        background-color: #357ABD;
-      }
-    }
-  }
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Tiêu đề form */
+.settings-container h2 {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Các phần tử trong form */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Các label của form */
+.form-group label {
+  display: block;
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+/* Các input và select trong form */
+.form-group input, 
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Khi input hoặc select được focus */
+.form-group input:focus, 
+.form-group select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Sử dụng flexbox cho container chứa nút */
+.form-buttons {
+  display: flex;
+  justify-content: space-between;  /* Đảm bảo các nút cách đều nhau */
+  margin-top: 20px;
+}
+
+/* Sử dụng flexbox cho container chứa nút */
+.form-buttons {
+  display: flex;
+  justify-content: space-between;  /* Đảm bảo các nút cách đều nhau */
+  gap: 20px; /* Tạo khoảng cách giữa các nút */
+  margin-top: 20px;
+}
+
+/* Cả hai nút đều nằm trên 1 hàng */
+button {
+  padding: 12px 30px;
+  font-size: 16px;
+  border-radius: 50px;  
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: all 0.3s ease;  
+  outline: none;
+  width: 100%;  /* Mặc định các nút chiếm 100% chiều rộng container */
+}
+
+/* Nút Quay lại: điều chỉnh chiều rộng */
+button.back-button {
+  width: 40%;  /* Giảm chiều rộng nút Quay lại */
+  background-color: #f1f1f1;
+  color: #333;
+  border: 1px solid #ccc;
+}
+
+/* Nút Quay lại khi hover */
+button.back-button:hover {
+  background-color: #e1e1e1;
+  transform: translateY(-2px);  /* Hiệu ứng nổi khi hover */
+}
+
+/* Nút Cập nhật thông tin */
+button[type="submit"] {
+  width: 60%;  /* Nút Cập nhật chiếm phần còn lại */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+/* Nút Cập nhật thông tin khi hover */
+button[type="submit"]:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);  /* Hiệu ứng nổi khi hover */
+}
+
+/* Nút Quay lại khi nhấn */
+button:active {
+  transform: translateY(2px);  /* Hiệu ứng khi nhấn xuống */
+}
+
+/* Thêm khoảng cách dưới footer */
+.settings-container .footer {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.settings-container .footer p {
+  color: #777;
+  font-size: 14px;
+}
+
