@@ -1,115 +1,130 @@
 <div class="navbar">
-    <div class="logo">
-      <button (click)="goBack()" class="go-back-button">Quay lại Dashboard</button>
-    </div>
-    <div class="nav-links"> <h1>Quản lý ngân hàng câu hỏi</h1> </div>
-    <div class="user-menu">
-      <i class="fas fa-question-circle" style="margin-right: 20px;"></i>
-      <i class="fas fa-bell" style="margin-right: 20px;"></i>
-      <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="40" width="40" (click)="toggleDropdown()">
-      <div class="dropdown" [class.active]="isDropdownActive">
-        <div class="profile">
-          <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="50" width="50">
-          <div class="info">
-            <div class="name">{{ user?.username }}</div>
-            <div class="email">{{ user?.email }}</div>
-          </div>
+  <div class="logo">
+    <button (click)="goBack()" class="go-back-button">Quay lại Dashboard</button>
+  </div>
+  <div class="nav-links">
+    <h1>Quản lý ngân hàng câu hỏi</h1>
+  </div>
+  <div class="user-menu">
+    <i class="fas fa-question-circle"></i>
+    <i class="fas fa-bell"></i>
+    <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" class="avatar" (click)="toggleDropdown()">
+    <div class="dropdown" [class.active]="isDropdownActive">
+      <div class="profile">
+        <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" class="avatar">
+        <div class="info">
+          <div class="name">{{ user?.username }}</div>
+          <div class="email">{{ user?.email }}</div>
         </div>
-        <div class="menu">
-          <a href="/profile"><i class="fas fa-user-graduate"></i> Thông tin cá nhân</a>
-          <a href="#"><i class="fas fa-cog"></i> Cài đặt chung</a>
-          <a href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-        </div>
+      </div>
+      <div class="menu">
+        <a href="/profile"><i class="fas fa-user-graduate"></i> Thông tin cá nhân</a>
+        <a href="#"><i class="fas fa-cog"></i> Cài đặt chung</a>
+        <a href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
       </div>
     </div>
   </div>
-  
-  <div class="content">
-    <div class="container">
-      <div class="tab">
-        <div class="search-bar">
-          <input type="text" placeholder="Nhập từ khóa" (input)="searchQuestions($event)">
-          <i class="fas fa-search"></i>
-        </div>
-        <div class="question-count">
-          Tổng số câu hỏi: {{ filteredQuestions.length }}
-        </div>
-        <div class="actions">
-          <button class="filter" (click)="toggleFilterDropdown()">
-            Lọc <i class="fa-solid fa-filter"></i>
-          </button>
-          <button class="create" (click)="createNewQuestion()">
-            Thêm câu hỏi <i class="fas fa-plus"></i>
-          </button>
-        </div>
+</div>
+
+<div class="content">
+  <div class="container">
+    <div class="tab">
+      <div class="search-bar">
+        <input type="text" placeholder="Nhập từ khóa" (input)="searchQuestions($event)">
+        <i class="fas fa-search"></i>
       </div>
-  
-      <!-- Filter Dropdown -->
-      <div class="filter-dropdown" *ngIf="isFilterDropdownVisible">
-        <div class="filter-group">
-          <label>Danh mục:</label>
-          <select [(ngModel)]="selectedCategory">
-            <option value="">Tất cả</option>
-            <option *ngFor="let category of uniqueCategories" [value]="category">
-              {{ category }}
-            </option>
-          </select>
-        </div>
-        <div class="filter-group">
-          <label>Nhóm:</label>
-          <select [(ngModel)]="selectedGroup">
-            <option value="">Tất cả</option>
-            <option *ngFor="let group of uniqueGroups" [value]="group">
-              {{ group }}
-            </option>
-          </select>
-        </div>
-        <div class="filter-actions">
-          <button (click)="clearFilters()">Xóa bộ lọc</button>
-          <button (click)="filterQuestions()">Áp dụng</button>
-        </div>
+      <div class="question-count">
+        Tổng số câu hỏi: {{ filteredQuestions.length }}
       </div>
-  
-      <!-- Questions List -->
-      <div class="questions-list" *ngIf="filteredQuestions.length > 0">
-        <div class="question-item" *ngFor="let question of filteredQuestions">
-          <div class="question-content">
-            <h3>{{ question.text }}</h3>
-            <div class="question-info">
-              <span *ngIf="question.category" class="category">
-                <i class="fas fa-folder"></i> {{ question.category }}
-              </span>
-              <span *ngIf="question.group" class="group">
-                <i class="fas fa-layer-group"></i> {{ question.group }}
-              </span>
-              <span class="answers-count">
-                <i class="fas fa-check-circle"></i> 
-                {{ countCorrectAnswers(question) }}/{{ getTotalAnswers(question) }} câu trả lời đúng
-              </span>
-            </div>
-          </div>
-          <div class="question-actions">
-            <button class="edit-btn" (click)="editQuestion(question)">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button class="delete-btn" (click)="deleteQuestion(question)">
-              <i class="fas fa-trash"></i>
-            </button>
-            <div class="question-actions">
-              <button *ngIf="question.status === 'pending'" class="approve-btn" (click)="approveQuestion(question)">
-                Duyệt
-              </button>
-              <button *ngIf="question.status === 'pending'" class="reject-btn" (click)="rejectQuestion(question)">
-                Từ chối
-              </button>              
-            </div>            
-          </div>
-        </div>
-      </div>
-  
-      <!-- Empty State -->
-      <div class="empty-state" *ngIf="filteredQuestions.length === 0">
-        <p>Không tìm thấy câu hỏi nào. Hãy thêm câu hỏi mới!</p>
+      <div class="actions">
+        <button class="filter" (click)="toggleFilterDropdown()">Lọc <i class="fa-solid fa-filter"></i></button>
+        <button class="create" (click)="createNewQuestion()">Thêm câu hỏi <i class="fas fa-plus"></i></button>
       </div>
     </div>
+
+    <div class="filter-dropdown" *ngIf="isFilterDropdownVisible">
+      <div class="filter-group">
+        <label>Danh mục:</label>
+        <select [(ngModel)]="selectedCategory">
+          <option value="">Tất cả</option>
+          <option *ngFor="let category of uniqueCategories" [value]="category">{{ category }}</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Nhóm:</label>
+        <select [(ngModel)]="selectedGroup">
+          <option value="">Tất cả</option>
+          <option *ngFor="let group of uniqueGroups" [value]="group">{{ group }}</option>
+        </select>
+      </div>
+      <div class="filter-actions">
+        <button (click)="clearFilters()">Xóa bộ lọc</button>
+        <button (click)="filterQuestions()">Áp dụng</button>
+      </div>
+    </div>
+
+    <!-- Pending Questions Section -->
+    <div class="questions-list pending-questions" *ngIf="pendingQuestions.length > 0">
+      <h2 class="section-title">Câu hỏi chờ duyệt</h2>
+      <div class="question-item" *ngFor="let question of pendingQuestions">
+        <div class="question-content">
+          <h3>{{ question.text }}</h3>
+          <div class="question-info">
+            <span *ngIf="question.category" class="category">
+              <i class="fas fa-folder"></i> {{ question.category }}
+            </span>
+            <span *ngIf="question.group" class="group">
+              <i class="fas fa-layer-group"></i> {{ question.group }}
+            </span>
+            <span class="answers-count">
+              <i class="fas fa-check-circle"></i> {{ countCorrectAnswers(question) }}/{{ getTotalAnswers(question) }} câu trả lời đúng
+            </span>
+          </div>
+        </div>
+        <div class="question-actions">
+          <button class="approve-btn" (click)="approveQuestion(question)">Duyệt</button>
+          <button class="reject-btn" (click)="rejectQuestion(question)">Từ chối</button>
+          <button class="edit-btn" (click)="editQuestion(question)">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="delete-btn" (click)="deleteQuestion(question)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Approved Questions Section -->
+    <div class="questions-list approved-questions" *ngIf="approvedQuestions.length > 0">
+      <h2 class="section-title">Câu hỏi đã duyệt</h2>
+      <div class="question-item" *ngFor="let question of approvedQuestions">
+        <div class="question-content">
+          <h3>{{ question.text }}</h3>
+          <div class="question-info">
+            <span *ngIf="question.category" class="category">
+              <i class="fas fa-folder"></i> {{ question.category }}
+            </span>
+            <span *ngIf="question.group" class="group">
+              <i class="fas fa-layer-group"></i> {{ question.group }}
+            </span>
+            <span class="answers-count">
+              <i class="fas fa-check-circle"></i> {{ countCorrectAnswers(question) }}/{{ getTotalAnswers(question) }} câu trả lời đúng
+            </span>
+          </div>
+        </div>
+        <div class="question-actions">
+          <button class="edit-btn" (click)="editQuestion(question)">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="delete-btn" (click)="deleteQuestion(question)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="approvedQuestions.length === 0 && pendingQuestions.length === 0">
+      <p>Không tìm thấy câu hỏi nào. Hãy thêm câu hỏi mới!</p>
+    </div>
   </div>
+</div>

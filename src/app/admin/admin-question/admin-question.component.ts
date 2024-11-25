@@ -23,6 +23,11 @@ export class AdminQuestionComponent implements OnInit {
   uniqueGroups: string[] = [];
   isFilterDropdownVisible: boolean = false;
 
+  // Các thuộc tính hiện có
+  approvedQuestions: Question[] = [];
+  pendingQuestions: Question[] = [];
+
+
   constructor(
     private authService: AuthService,
     private questionService: QuestionService,
@@ -40,6 +45,7 @@ export class AdminQuestionComponent implements OnInit {
         this.questions = questions;
         this.filteredQuestions = questions;
         this.updateUniqueFilters();
+        this.splitQuestionsByStatus();  // Phân chia câu hỏi theo trạng thái
       },
       error: (error) => {
         console.error('Error loading questions:', error);
@@ -47,6 +53,11 @@ export class AdminQuestionComponent implements OnInit {
     });
   }
 
+  splitQuestionsByStatus() {
+    this.approvedQuestions = this.questions.filter(q => q.status === 'approved');
+    this.pendingQuestions = this.questions.filter(q => q.status === 'pending');
+  }
+  
   updateUniqueFilters() {
     this.uniqueCategories = [...new Set(this.questions.map(q => q.category).filter(Boolean) as string[])];
     this.uniqueGroups = [...new Set(this.questions.map(q => q.group).filter(Boolean) as string[])];
