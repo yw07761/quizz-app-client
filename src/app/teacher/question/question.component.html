@@ -32,5 +32,30 @@
         <button class="upload-btn">Tải file lên</button>
         <button class="save-btn" (click)="saveQuestion()">Lưu câu hỏi</button>
         <button class="add-btn" (click)="resetForm()">Thêm câu hỏi mới</button>
+        <button class="preview-btn" (click)="openPreview()">Xem trước</button>
     </div>
 </div>
+<div class="preview-modal" *ngIf="isPreviewVisible">
+    <div class="modal-content">
+      <h2>Xem trước câu hỏi</h2>
+      <div class="preview-question">
+        <p><strong>Câu hỏi:</strong> {{ question.text }}</p>
+        <p><strong>Danh mục:</strong> {{ category || 'Chưa chọn' }}</p>
+        <p><strong>Nhóm:</strong> {{ group || 'Chưa chọn' }}</p>
+      </div>
+      <div class="preview-answers">
+        <p><strong>Các câu trả lời:</strong></p>
+        <ul>
+          <li *ngFor="let answer of question.answers">
+            <span>{{ answer.text }}</span>
+            <i *ngIf="answer.isCorrect" class="fas fa-check-circle correct-icon"></i>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-actions">
+        <button class="close-btn" (click)="closePreview()">Đóng</button>
+        <button class="save-btn" (click)="saveQuestion()">Lưu câu hỏi</button>
+      </div>
+    </div>
+  </div>
+  

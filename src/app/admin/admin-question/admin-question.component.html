@@ -95,6 +95,14 @@
             <button class="delete-btn" (click)="deleteQuestion(question)">
               <i class="fas fa-trash"></i>
             </button>
+            <div class="question-actions">
+              <button *ngIf="question.status === 'pending'" class="approve-btn" (click)="approveQuestion(question)">
+                Duyệt
+              </button>
+              <button *ngIf="question.status === 'pending'" class="reject-btn" (click)="rejectQuestion(question)">
+                Từ chối
+              </button>              
+            </div>            
           </div>
         </div>
       </div>

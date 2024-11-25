@@ -22,7 +22,6 @@ export class TeacherLibraryComponent implements OnInit {
   uniqueCategories: string[] = [];
   uniqueGroups: string[] = [];
   isFilterDropdownVisible: boolean = false;
-
   constructor(
     private authService: AuthService,
     private questionService: QuestionService,
