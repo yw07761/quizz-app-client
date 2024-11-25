@@ -23,6 +23,11 @@ export class AdminQuestionComponent implements OnInit {
   uniqueGroups: string[] = [];
   isFilterDropdownVisible: boolean = false;
 
+  // Các thuộc tính hiện có
+  approvedQuestions: Question[] = [];
+  pendingQuestions: Question[] = [];
+
+
   constructor(
     private authService: AuthService,
     private questionService: QuestionService,
@@ -33,12 +38,14 @@ export class AdminQuestionComponent implements OnInit {
     this.user = this.authService.getCurrentUser();
     this.loadQuestions();
   }
+
   loadQuestions() {
     this.questionService.getQuestions().subscribe({
       next: (questions) => {
         this.questions = questions;
         this.filteredQuestions = questions;
         this.updateUniqueFilters();
+        this.splitQuestionsByStatus();  // Phân chia câu hỏi theo trạng thái
       },
       error: (error) => {
         console.error('Error loading questions:', error);
@@ -46,13 +53,14 @@ export class AdminQuestionComponent implements OnInit {
     });
   }
 
+  splitQuestionsByStatus() {
+    this.approvedQuestions = this.questions.filter(q => q.status === 'approved');
+    this.pendingQuestions = this.questions.filter(q => q.status === 'pending');
+  }
+  
   updateUniqueFilters() {
     this.uniqueCategories = [...new Set(this.questions.map(q => q.category).filter(Boolean) as string[])];
     this.uniqueGroups = [...new Set(this.questions.map(q => q.group).filter(Boolean) as string[])];
-  }
-
-  toggleFilterDropdown() {
-    this.isFilterDropdownVisible = !this.isFilterDropdownVisible;
   }
 
   filterQuestions() {
@@ -61,9 +69,41 @@ export class AdminQuestionComponent implements OnInit {
       const groupMatch = this.selectedGroup ? question.group === this.selectedGroup : true;
       return categoryMatch && groupMatch;
     });
-    this.isFilterDropdownVisible = false;
   }
 
+  approveQuestion(question: Question) {
+    this.changeQuestionStatus(question, 'approved');
+  }
+  
+  rejectQuestion(question: Question) {
+    this.changeQuestionStatus(question, 'pending');
+  }
+  
+  
+  changeQuestionStatus(question: Question, status: 'approved' | 'pending') {
+    if (question._id) {
+      question.status = status;
+      this.questionService.updateQuestionStatus(question._id, status).subscribe({
+        next: () => {
+          this.loadQuestions();
+          alert(`Câu hỏi đã được ${status === 'approved' ? 'phê duyệt' : 'chờ phê duyệt'}`);
+        },
+        error: (error) => {
+          console.error('Error updating question status:', error);
+          alert('Có lỗi xảy ra khi cập nhật trạng thái câu hỏi');
+        }
+      });
+    }
+  }
+  
+
+  
+
+  toggleFilterDropdown() {
+    this.isFilterDropdownVisible = !this.isFilterDropdownVisible;
+  }
+
+  
   editQuestion(question: Question) {
     this.router.navigate(['/question'], { state: { question } });
   }
@@ -145,4 +185,6 @@ export class AdminQuestionComponent implements OnInit {
   goBack(): void {
     this.router.navigate(['/admin-dashboard']); // Điều hướng về trang Dashboard
   }
+
+  
 }

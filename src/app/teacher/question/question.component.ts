@@ -15,6 +15,7 @@ export class QuestionComponent implements OnInit {
   question: Question = {
     text: '',
     answers: [{ text: '', isCorrect: false }, { text: '', isCorrect: false }],
+    status: 'pending', // Trạng thái câu hỏi: 'pending', 'approved', 'rejected'
   };
   category: string = '';
   group: string = '';
@@ -27,6 +28,9 @@ export class QuestionComponent implements OnInit {
     'Translation'
   ];
   groups: string[] = ['Beginner', 'Intermediate', 'Advanced'];
+  isPreviewVisible: boolean = false;
+
+
 
 
   constructor(private questionService: QuestionService, private router: Router) {}
@@ -39,7 +43,7 @@ export class QuestionComponent implements OnInit {
       this.group = this.question.group || '';
     }
   }
-
+  
   addAnswer() {
     this.question.answers.push({ text: '', isCorrect: false });
   }
@@ -61,7 +65,7 @@ export class QuestionComponent implements OnInit {
       this.questionService.updateQuestion(this.question).subscribe({
         next: () => {
           alert('Câu hỏi đã được cập nhật');
-          this.router.navigate(['/teacher-library']);
+          window.history.back();
         },
         error: (error) => {
           console.error('Error updating question:', error);
@@ -73,7 +77,7 @@ export class QuestionComponent implements OnInit {
       this.questionService.addQuestion(this.question).subscribe({
         next: () => {
           alert('Câu hỏi đã được lưu vào thư viện');
-          this.router.navigate(['/teacher-library']);
+          window.history.back();
         },
         error: (error) => {
           console.error('Error saving question:', error);
@@ -93,6 +97,22 @@ export class QuestionComponent implements OnInit {
   }
 
   closeForm() {
-    this.router.navigate(['/teacher-library']);
+    window.history.back();
   }
+  openPreview() {
+    if (!this.question.text.trim()) {
+      alert("Vui lòng nhập nội dung câu hỏi.");
+      return;
+    }
+    if (this.question.answers.some(answer => !answer.text.trim())) {
+      alert("Vui lòng nhập đầy đủ nội dung câu trả lời.");
+      return;
+    }
+    this.isPreviewVisible = true;
+  }
+  
+  closePreview() {
+    this.isPreviewVisible = false;
+  }
+  
 }
