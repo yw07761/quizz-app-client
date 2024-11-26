@@ -1,170 +1,209 @@
+/* Tổng thể container */
 .container {
-  width: 600px;
-  margin: 40px auto;
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
   padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  width: 80%;
+}
 
-  .header {
-    display: flex;
-    justify-content: space-between;
+/* Tiêu đề của mỗi câu hỏi */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.header h1 {
+  font-size: 18px;
+  color: #333;
+}
+
+.close-btn {
+  cursor: pointer;
+  font-size: 24px;
+  color: #d9534f;
+  transition: color 0.3s;
+}
+
+.close-btn:hover {
+  color: #c9302c;
+}
+
+/* Các nhóm input */
+.input-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+select,
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px; /* Bo góc mượt mà */
+  background-color: #fff;
+  transition: border-color 0.3s;
+}
+
+select:focus,
+textarea:focus {
+  border-color: #5bc0de; /* Hiệu ứng border khi focus */
+  outline: none;
+}
+
+/* Các câu trả lời */
+.answer-options {
+  margin-top: 20px;
+}
+
+.answer-options label {
+  display: flex; /* Đổi từ block thành flex để các phần tử nằm trên cùng một dòng */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  margin-bottom: 10px;
+}
+
+.answer-options input[type="text"] {
+  width: 80%;
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #afaeae;
+  border-radius: 5px;
+  flex-grow: 1; /* Chiếm hết không gian còn lại */
+}
+
+.toggle-btn {
+  display: inline-block;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.fas {
+  font-size: 18px;
+  color: #0585fc;
+}
+
+.fas.fa-toggle-on {
+  color: #5bc0de;
+}
+
+.fas.fa-toggle-off {
+  color: #00ff2a;
+}
+
+.icon {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.icon:hover {
+  color: #0004ff;
+}
+
+
+/* Footer */
+.footer {
+  display: flex;
+  justify-content: center; /* Căn giữa */
+  align-items: center;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #dfdddd; /* Viền nhẹ xung quanh */
+}
+
+/* Nhóm các nút lại với nhau */
+.button-group {
+  display: flex;
+  gap: 15px; /* Khoảng cách giữa các nút */
+}
+
+/* Các nút với hiệu ứng hiện đại */
+button {
+  padding: 12px 20px;
+  font-size: 14px;
+  border: 1px solid transparent;
+  border-radius: 8px; /* Bo góc mềm mại */
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  background-color: #fff; /* Màu nền nhẹ */
+  color: #333; /* Màu chữ tối */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Bóng đổ nhẹ */
+}
+
+/* Nút tải file với icon */
+.upload-btn {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.upload-btn:hover {
+  background-color: #8fc7f5;
+}
+
+.upload-btn input[type="file"] {
+  display: none; /* Ẩn input file */
+}
+
+.upload-btn i {
+  margin-right: 8px; /* Khoảng cách giữa icon và text */
+}
+
+/* Các nút khác */
+.add-btn {
+  background-color: #5bc0de;
+  color: white;
+}
+
+.add-btn:hover {
+  background-color: #31b0d5;
+  transform: translateY(-2px); /* Hiệu ứng nhấc lên nhẹ */
+}
+
+.save-btn {
+  background-color: #5cb85c;
+  color: white;
+}
+
+.save-btn:hover {
+  background-color: #4cae4c;
+  transform: translateY(-2px); /* Hiệu ứng nhấc lên nhẹ */
+}
+
+.preview-btn {
+  background-color: #f0714e;
+  color: white;
+}
+
+.preview-btn:hover {
+  background-color: #f5e2c7;
+  transform: translateY(-2px); /* Hiệu ứng nhấc lên nhẹ */
+}
+
+/* Responsive: Căn giữa các nút trên các màn hình nhỏ */
+@media (max-width: 768px) {
+  .button-group {
+    flex-direction: column; /* Chuyển nút thành dạng cột */
     align-items: center;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-
-    h1 {
-      font-size: 18px;
-      margin: 0;
-    }
-
-    .close-btn {
-      font-size: 24px;
-      color: red;
-      cursor: pointer;
-
-      &:hover {
-        color: #c82333;
-      }
-    }
-  }
-
-  .input-group {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-
-    input, select {
-      width: 48%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-  }
-
-  .question-content textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    resize: none;
-    margin-bottom: 20px;
-  }
-
-  .answer-options {
-    margin-bottom: 20px;
-
-    label {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-
-      input[type="text"] {
-        flex: 1;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin-right: 10px;
-      }
-
-      .toggle-btn {
-        margin-left: 10px;
-
-        i {
-          cursor: pointer;
-
-          &.fa-toggle-on {
-            color: #28a745;
-          }
-
-          &.fa-toggle-off {
-            color: #ccc;
-          }
-
-          &:hover {
-            color: #007bff;
-          }
-        }
-      }
-
-      .icon {
-        margin-left: 10px;
-        cursor: pointer;
-        color: #dc3545;
-
-        &:hover {
-          color: #c82333;
-        }
-      }
-    }
-
-    button {
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 5px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #0056b3;
-      }
-    }
   }
 
   .footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid #ccc;
-    padding-top: 10px;
     margin-top: 20px;
-
-    button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      color: #fff;
-
-      &.upload-btn {
-        background-color: #6c757d;
-
-        &:hover {
-          background-color: #5a6268;
-        }
-      }
-
-      &.save-btn {
-        background-color: #007bff;
-
-        &:hover {
-          background-color: #0056b3;
-        }
-      }
-
-      &.add-btn {
-        background-color: #28a745;
-
-        &:hover {
-          background-color: #218838;
-        }
-      }
-
-      &.preview-btn {
-        background-color: #ffc107;
-        color: #212529;
-
-        &:hover {
-          background-color: #e0a800;
-        }
-      }
-    }
   }
 }
 
+/* Modal Preview */
 .preview-modal {
   position: fixed;
   top: 0;
@@ -175,57 +214,56 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+}
 
-  .modal-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    width: 500px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    
-    h2 {
-      margin-top: 0;
-    }
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-height: 80%;
+  overflow-y: auto;
+}
 
-    .preview-question, .preview-answers {
-      margin-bottom: 15px;
-    }
+.preview-modal h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
 
-    .correct-icon {
-      color: green;
-      margin-left: 8px;
-    }
+.preview-modal ul {
+  list-style-type: none;
+  padding: 0;
+}
 
-    .modal-actions {
-      display: flex;
-      justify-content: space-between;
+.preview-modal li {
+  margin-bottom: 10px;
+}
 
-      .close-btn {
-        background: #f44336;
-        color: #fff;
-        padding: 8px 15px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
+.preview-modal button {
+  margin-top: 20px;
+  background-color: #d9534f;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
 
-        &:hover {
-          background: #d32f2f;
-        }
-      }
+.preview-modal button:hover {
+  background-color: #c9302c;
+}
 
-      .save-btn {
-        background: #4caf50;
-        color: #fff;
-        padding: 8px 15px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
+/* Nút "Quay lại" */
+button.go-back {
+  padding: 12px 20px;
+  background-color: #f0ad4e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
 
-        &:hover {
-          background: #388e3c;
-        }
-      }
-    }
-  }
+button.go-back:hover {
+  background-color: #ec971f;
 }
