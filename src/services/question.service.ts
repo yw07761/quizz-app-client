@@ -87,5 +87,11 @@ export class QuestionService {
       catchError(this.handleError)
     );
   }
+  // UpFile câu hỏi
+  bulkAddQuestions(questions: Question[]): Observable<Question[]> {
+    return this.http.post<Question[]>('http://localhost:3000/questions/bulk-upload', questions);
+  }
+  
+  
   
 }
