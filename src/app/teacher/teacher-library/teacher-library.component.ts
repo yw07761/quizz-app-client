@@ -91,19 +91,7 @@ export class TeacherLibraryComponent implements OnInit {
     this.isDropdownActive = !this.isDropdownActive;
   }
 
-  searchQuestions(event: any) {
-    const searchTerm = event.target.value.toLowerCase();
-    if (!searchTerm) {
-      this.filteredQuestions = this.questions;
-      return;
-    }
-
-    this.filteredQuestions = this.questions.filter(question => 
-      question.text.toLowerCase().includes(searchTerm) ||
-      question.category?.toLowerCase().includes(searchTerm) ||
-      question.group?.toLowerCase().includes(searchTerm)
-    );
-  }
+  
 
   createNewQuestion() {
     this.router.navigate(['/question']);
@@ -137,26 +125,24 @@ export class TeacherLibraryComponent implements OnInit {
 
   // Updated filterQuestions() to improve the filtering logic
   // Cập nhật phương thức filterQuestions// Cập nhật phương thức filterQuestions
-filterQuestions() {
-  // Lọc câu hỏi theo category và group đã chọn
-  this.filteredQuestions = this.questions.filter(question => {
-    const categoryMatch = this.selectedCategory ? question.category === this.selectedCategory : true;
-    const groupMatch = this.selectedGroup ? question.group === this.selectedGroup : true;
-    return categoryMatch && groupMatch;
-  });
-
-  // Lọc danh sách câu hỏi đã duyệt theo bộ lọc
-  this.approvedQuestions = this.filteredQuestions.filter(question => question.status === 'approved');
-
-  // Lọc danh sách câu hỏi chưa duyệt theo bộ lọc
-  this.unapprovedQuestions = this.filteredQuestions.filter(question => question.status !== 'approved');
-
-  // Đảm bảo các câu hỏi đã duyệt và chưa duyệt chỉ hiển thị các câu hỏi phù hợp với bộ lọc
-  console.log('Approved Questions:', this.approvedQuestions);
-  console.log('Unapproved Questions:', this.unapprovedQuestions);
-
-  this.isFilterDropdownVisible = false; // Đóng dropdown sau khi áp dụng bộ lọc
-}
+  filterQuestions() {
+    // Lọc câu hỏi theo category và group đã chọn
+    this.filteredQuestions = this.questions.filter(question => {
+      const categoryMatch = this.selectedCategory ? question.category === this.selectedCategory : true;
+      const groupMatch = this.selectedGroup ? question.group === this.selectedGroup : true;
+      return categoryMatch && groupMatch;
+    });
+  
+    // Sau khi áp dụng các bộ lọc, kiểm tra lại câu hỏi đã duyệt và chưa duyệt
+    this.approvedQuestions = this.filteredQuestions.filter(question => question.status === 'approved');
+    this.unapprovedQuestions = this.filteredQuestions.filter(question => question.status !== 'approved');
+  
+    console.log('Approved Questions:', this.approvedQuestions);
+    console.log('Unapproved Questions:', this.unapprovedQuestions);
+  
+    this.isFilterDropdownVisible = false; // Đóng dropdown sau khi áp dụng bộ lọc
+  }
+  
 
 
   // Updated clearFilters() to reset the selected values and filtered list
@@ -166,4 +152,27 @@ filterQuestions() {
     this.filteredQuestions = this.questions; // Reset to show all questions
     this.isFilterDropdownVisible = false;  // Close filter dropdown
   }
+  searchQuestions(event: any) {
+    const searchTerm = event.target.value.toLowerCase();
+    
+    // Nếu không có từ khóa tìm kiếm, hiển thị tất cả câu hỏi
+    if (!searchTerm) {
+      this.filteredQuestions = this.questions;
+    } else {
+      // Lọc câu hỏi theo text, category và group
+      this.filteredQuestions = this.questions.filter(question => {
+        const textMatch = question.text.toLowerCase().includes(searchTerm);
+        const categoryMatch = question.category?.toLowerCase().includes(searchTerm);
+        const groupMatch = question.group?.toLowerCase().includes(searchTerm);
+    
+        return textMatch || categoryMatch || groupMatch;
+      });
+    }
+  
+    // Kiểm tra lại các câu hỏi đã duyệt và chưa duyệt
+    this.approvedQuestions = this.filteredQuestions.filter(question => question.status === 'approved');
+    this.unapprovedQuestions = this.filteredQuestions.filter(question => question.status !== 'approved');
+  }
+  
+  
 }

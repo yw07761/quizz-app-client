@@ -16,7 +16,6 @@ import { ExamDetailsComponent} from './teacher/exam-details/exam-details.compone
 import { ExamEditComponent} from './teacher/exam-edit/exam-edit.component'
 import { TeacherLibraryComponent } from './teacher/teacher-library/teacher-library.component';
 import { QuestionComponent } from './teacher/question/question.component';
-import { TeacherClassDetailComponent } from './teacher/teacher-class-detail/teacher-class-detail.component';
 import { TeacherStatisticsComponent } from './teacher/teacher-statistics/teacher-statistics.component';
 import { TeacherCategoryComponent } from './teacher/teacher-category/teacher-category.component';
 import { StudentDashboardComponent } from './student/student-dashboard/student-dashboard.component';
@@ -55,7 +54,6 @@ const routes: Routes = [
   { path: 'exam-edit/:id', component: ExamEditComponent },
   { path: 'teacher-library', component: TeacherLibraryComponent },
   { path: 'question', component: QuestionComponent },
-  { path: 'teacher-class-detail', component: TeacherClassDetailComponent },
   { path: 'teacher-statistics/:id', component: TeacherStatisticsComponent },
   { path: 'teacher-category', component: TeacherCategoryComponent },
   { path: 'exam-history', component: ExamHistoryComponent },
