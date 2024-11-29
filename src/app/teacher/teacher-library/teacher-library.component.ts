@@ -157,4 +157,6 @@ export class TeacherLibraryComponent implements OnInit {
   getTotalAnswers(question: Question): number {
     return question.answers.length;
   }
+ 
+  
 }

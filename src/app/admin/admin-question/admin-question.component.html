@@ -68,7 +68,20 @@
       <h2 class="section-title">Câu hỏi chờ duyệt</h2>
       <div class="question-item" *ngFor="let question of pendingQuestions">
         <div class="question-content">
-          <p>{{ question.text }}</p>
+          <!-- If the question text is an audio URL, display the audio player -->
+          <div *ngIf="question.text && question.text.startsWith('http')">
+            <p>Listen and choose the correct answer: </p>
+            <audio controls>
+              <source [src]="question.text" type="audio/mpeg">
+              Trình duyệt của bạn không hỗ trợ phát âm thanh.
+            </audio>
+          </div>
+      
+          <!-- Display question text if it's not an audio URL -->
+          <div *ngIf="!question.text.startsWith('http')">
+            <div class="question-text">{{ question.text }}</div>
+          </div>
+      
           <div class="question-info">
             <span *ngIf="question.category" class="category">
               <i class="fas fa-folder"></i> {{ question.category }}
@@ -99,7 +112,20 @@
       <h2 class="section-title">Câu hỏi đã duyệt</h2>
       <div class="question-item" *ngFor="let question of approvedQuestions">
         <div class="question-content">
-          <p>{{ question.text }}</p>
+          <!-- If the question text is an audio URL, display the audio player -->
+          <div *ngIf="question.text && question.text.startsWith('http')">
+            <p>Listen and choose the correct answer: </p>
+            <audio controls>
+              <source [src]="question.text" type="audio/mpeg">
+              Trình duyệt của bạn không hỗ trợ phát âm thanh.
+            </audio>
+          </div>
+      
+          <!-- Display question text if it's not an audio URL -->
+          <div *ngIf="!question.text.startsWith('http')">
+            <div class="question-text">{{ question.text }}</div>
+          </div>
+      
           <div class="question-info">
             <span *ngIf="question.category" class="category">
               <i class="fas fa-folder"></i> {{ question.category }}

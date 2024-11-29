@@ -56,17 +56,16 @@
   <div class="questions-list" *ngIf="approvedQuestions.length > 0">
     <div class="question-item" *ngFor="let question of approvedQuestions">
       <div class="question-content">
-        <!-- Nếu không có audioFile, hiển thị câu hỏi dưới dạng văn bản -->
         <p *ngIf="!question.audioFile && !question.text.startsWith('http')">{{ question.text }}</p>
         
-        <!-- Nếu có audioFile (có URL âm thanh), hiển thị player để phát âm thanh và thay thế văn bản câu hỏi bằng "Chọn câu trả lời đúng" -->
-        <div *ngIf="question.text && question.text.startsWith('http')">
-          <p>Chọn câu trả lời đúng</p> <!-- Thông báo thay thế câu hỏi -->
-          <audio controls>
-            <source [src]="question.text" type="audio/mpeg">
-            Trình duyệt của bạn không hỗ trợ phát âm thanh.
-          </audio>
-        </div>
+            <!-- Nếu có audioFile (có URL âm thanh), hiển thị player để phát âm thanh và thay thế văn bản câu hỏi bằng "Chọn câu trả lời đúng" -->
+            <div *ngIf="question.text && question.text.startsWith('http')">
+              <p>Listen and choose the correct answer: </p>
+              <audio controls>
+                <source [src]="question.text" type="audio/mpeg">
+                  Trình duyệt của bạn không hỗ trợ phát âm thanh.
+              </audio>
+            </div>
       
       
 
@@ -104,14 +103,14 @@
       <div class="questions-list" *ngIf="unapprovedQuestions.length > 0">
         <div class="question-item" *ngFor="let question of unapprovedQuestions">
           <div class="question-content">
-            <!-- Check for audio file -->
-            <p *ngIf="!question.audioFile">{{ question.text }}</p>
-            
-            <!-- If audio file exists, render audio player -->
-            <div *ngIf="question.audioFile">
+            <p *ngIf="!question.audioFile && !question.text.startsWith('http')">{{ question.text }}</p>
+        
+            <!-- Nếu có audioFile (có URL âm thanh), hiển thị player để phát âm thanh và thay thế văn bản câu hỏi bằng "Chọn câu trả lời đúng" -->
+            <div *ngIf="question.text && question.text.startsWith('http')">
+              <p>Listen and choose the correct answer:</p>
               <audio controls>
-                <source [src]="question.audioFile" type="audio/mpeg">
-                Trình duyệt của bạn không hỗ trợ phát âm thanh.
+                <source [src]="question.text" type="audio/mpeg">
+                  Trình duyệt của bạn không hỗ trợ phát âm thanh.
               </audio>
             </div>
 
