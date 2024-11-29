@@ -15,7 +15,6 @@ import * as XLSX from 'xlsx';
 export class QuestionComponent implements OnInit {
   // Danh sách câu hỏi đã tải lên
   questions: Question[] = []; 
-
   // Các thuộc tính dùng cho các form câu hỏi
   category: string = '';
   group: string = '';
@@ -29,6 +28,7 @@ export class QuestionComponent implements OnInit {
   uploadedQuestions: Question[] = [];
 
   isPreviewVisible: boolean = false;
+  question: any;
 
   constructor(private questionService: QuestionService, private router: Router) {}
 
@@ -49,6 +49,7 @@ export class QuestionComponent implements OnInit {
       status: 'pending',  // Trạng thái mặc định
     });
   }
+  
 
   // Xóa câu hỏi
   removeQuestion(index: number): void {
@@ -74,10 +75,18 @@ export class QuestionComponent implements OnInit {
   // Lưu tất cả câu hỏi
   saveAllQuestions(): void {
     this.questionService.bulkAddQuestions(this.questions).subscribe({
-      next: () => alert('Tất cả câu hỏi đã được lưu thành công!'),
-      error: (err) => console.error('Error saving questions:', err),
+      next: () => {
+        alert('Tất cả câu hỏi đã được lưu thành công!');
+        // Điều hướng đến /teacher/library sau khi lưu thành công
+        this.router.navigate(['/teacher-library']);
+      },
+      error: (err) => {
+        console.error('Error saving questions:', err);
+        alert('Có lỗi xảy ra khi lưu câu hỏi.');
+      },
     });
   }
+
 
   // Mở xem trước
   openPreview(): void {
@@ -166,4 +175,58 @@ export class QuestionComponent implements OnInit {
   closeForm() {
     window.history.back();
   }
+  onFileSelected(event: any, questionIndex: number): void {
+    const file = event.target.files[0];
+    if (file && file.type.startsWith('audio/')) {
+      // Prepare the form data for file upload
+      const formData = new FormData();
+      formData.append('audioFile', file);
+    
+      // Send the file to the backend to upload it to S3
+      this.questionService.uploadAudioFile(formData).subscribe({
+        next: (response) => {
+          // Once uploaded, store the S3 URL in the 'text' property
+          this.questions[questionIndex].text = response.audioUrl; // Assuming response contains the URL of the uploaded file
+        },
+        error: (err) => {
+          console.error('File upload error:', err);
+          alert('Có lỗi khi tải tệp âm thanh lên.');
+        },
+      });
+    } else {
+      alert('Vui lòng chọn tệp âm thanh hợp lệ.');
+    }
+  }
+  
+  
+  
+  
+  // Cập nhật các câu hỏi hiện tại
+  updateQuestions(): void {
+    const updatedQuestions = this.questions.filter(q => q.text.trim() !== '' && q.answers.length > 0);
+
+    if (updatedQuestions.length === 0) {
+      alert('Không có câu hỏi nào hợp lệ để cập nhật.');
+      return;
+    }
+
+    // Lặp qua từng câu hỏi hợp lệ và gọi updateQuestion
+    updatedQuestions.forEach(question => {
+      this.questionService.updateQuestion(question).subscribe({
+        next: (updatedQuestion) => {
+          console.log('Câu hỏi đã được cập nhật:', updatedQuestion);
+          alert('Câu hỏi đã được cập nhật thành công!');
+          
+          // Sau khi cập nhật thành công, điều hướng về trang /teacher-library
+          this.router.navigate(['/teacher-library']);
+        },
+        error: (err) => {
+          console.error('Lỗi khi cập nhật câu hỏi:', err);
+          alert('Có lỗi xảy ra khi cập nhật câu hỏi.');
+        },
+      });
+    });
+  }
+  
+  
 }

@@ -49,64 +49,98 @@
       </div>
     </div>
 
-    <!-- Filter Dropdown -->
-    <div class="filter-dropdown" *ngIf="isFilterDropdownVisible">
-      <div class="filter-group">
-        <label>Danh mục:</label>
-        <select [(ngModel)]="selectedCategory">
-          <option value="">Tất cả</option>
-          <option *ngFor="let category of uniqueCategories" [value]="category">
-            {{ category }}
-          </option>
-        </select>
-      </div>
-      <div class="filter-group">
-        <label>Nhóm:</label>
-        <select [(ngModel)]="selectedGroup">
-          <option value="">Tất cả</option>
-          <option *ngFor="let group of uniqueGroups" [value]="group">
-            {{ group }}
-          </option>
-        </select>
-      </div>
-      <div class="filter-actions">
-        <button (click)="clearFilters()">Xóa bộ lọc</button>
-        <button (click)="filterQuestions()">Áp dụng</button>
-      </div>
-    </div>
+    <!-- Approved Questions -->
+    <!-- Câu hỏi đã duyệt -->
+<div class="question-section">
+  <h2>Câu hỏi đã duyệt</h2>
+  <div class="questions-list" *ngIf="approvedQuestions.length > 0">
+    <div class="question-item" *ngFor="let question of approvedQuestions">
+      <div class="question-content">
+        <!-- Nếu không có audioFile, hiển thị câu hỏi dưới dạng văn bản -->
+        <p *ngIf="!question.audioFile && !question.text.startsWith('http')">{{ question.text }}</p>
+        
+        <!-- Nếu có audioFile (có URL âm thanh), hiển thị player để phát âm thanh và thay thế văn bản câu hỏi bằng "Chọn câu trả lời đúng" -->
+        <div *ngIf="question.text && question.text.startsWith('http')">
+          <p>Chọn câu trả lời đúng</p> <!-- Thông báo thay thế câu hỏi -->
+          <audio controls>
+            <source [src]="question.text" type="audio/mpeg">
+            Trình duyệt của bạn không hỗ trợ phát âm thanh.
+          </audio>
+        </div>
+      
+      
 
-    <!-- Questions List -->
-    <div class="questions-list" *ngIf="filteredQuestions.length > 0">
-      <div class="question-item" *ngFor="let question of filteredQuestions">
-        <div class="question-content">
-          <h3>{{ question.text }}</h3>
-          <div class="question-info">
-            <span *ngIf="question.category" class="category">
-              <i class="fas fa-folder"></i> {{ question.category }}
-            </span>
-            <span *ngIf="question.group" class="group">
-              <i class="fas fa-layer-group"></i> {{ question.group }}
-            </span>
-            <span class="answers-count">
-              <i class="fas fa-check-circle"></i> 
-              {{ countCorrectAnswers(question) }}/{{ getTotalAnswers(question) }} câu trả lời đúng
-            </span>
+        <div class="question-info">
+          <span *ngIf="question.category" class="category">
+            <i class="fas fa-folder"></i> {{ question.category }}
+          </span>
+          <span *ngIf="question.group" class="group">
+            <i class="fas fa-layer-group"></i> {{ question.group }}
+          </span>
+          <span class="answers-count">
+            <i class="fas fa-check-circle"></i> 
+            {{ countCorrectAnswers(question) }}/{{ getTotalAnswers(question) }} câu trả lời đúng
+          </span>
+        </div>
+      </div>
+      <div class="question-actions">
+        <button class="edit-btn" (click)="editQuestion(question)">
+          <i class="fas fa-edit"></i> Sửa
+        </button>
+        <button class="delete-btn" (click)="deleteQuestion(question)">
+          <i class="fas fa-trash"></i> Xóa
+        </button>
+      </div>          
+    </div>
+  </div>
+  <div class="empty-state" *ngIf="approvedQuestions.length === 0">
+    <p>Không có câu hỏi đã duyệt.</p>
+  </div>
+</div>
+
+    <!-- Unapproved Questions -->
+    <div class="question-section">
+      <h2>Câu hỏi chưa duyệt</h2>
+      <div class="questions-list" *ngIf="unapprovedQuestions.length > 0">
+        <div class="question-item" *ngFor="let question of unapprovedQuestions">
+          <div class="question-content">
+            <!-- Check for audio file -->
+            <p *ngIf="!question.audioFile">{{ question.text }}</p>
+            
+            <!-- If audio file exists, render audio player -->
+            <div *ngIf="question.audioFile">
+              <audio controls>
+                <source [src]="question.audioFile" type="audio/mpeg">
+                Trình duyệt của bạn không hỗ trợ phát âm thanh.
+              </audio>
+            </div>
+
+            <div class="question-info">
+              <span *ngIf="question.category" class="category">
+                <i class="fas fa-folder"></i> {{ question.category }}
+              </span>
+              <span *ngIf="question.group" class="group">
+                <i class="fas fa-layer-group"></i> {{ question.group }}
+              </span>
+              <span class="answers-count">
+                <i class="fas fa-check-circle"></i> 
+                {{ countCorrectAnswers(question) }}/{{ getTotalAnswers(question) }} câu trả lời đúng
+              </span>
+            </div>
           </div>
-        </div>
-        <div class="question-actions">
-          <button class="edit-btn" (click)="editQuestion(question)">
-            <i class="fas fa-edit"></i>
-          </button>
-          <button class="delete-btn" (click)="deleteQuestion(question)">
-            <i class="fas fa-trash"></i>
-          </button>
+          <div class="question-actions">
+            <button class="edit-btn" (click)="editQuestion(question)">
+              <i class="fas fa-edit"></i> Sửa
+            </button>
+            <button class="delete-btn" (click)="deleteQuestion(question)">
+              <i class="fas fa-trash"></i> Xóa
+            </button>
+          </div>    
         </div>
       </div>
-    </div>
-
-    <!-- Empty State -->
-    <div class="empty-state" *ngIf="filteredQuestions.length === 0">
-      <p>Không tìm thấy câu hỏi nào. Hãy thêm câu hỏi mới!</p>
+      <div class="empty-state" *ngIf="unapprovedQuestions.length === 0">
+        <p>Không có câu hỏi chưa duyệt.</p>
+      </div>
     </div>
   </div>
 </div>

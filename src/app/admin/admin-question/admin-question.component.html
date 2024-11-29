@@ -68,7 +68,7 @@
       <h2 class="section-title">Câu hỏi chờ duyệt</h2>
       <div class="question-item" *ngFor="let question of pendingQuestions">
         <div class="question-content">
-          <h3>{{ question.text }}</h3>
+          <p>{{ question.text }}</p>
           <div class="question-info">
             <span *ngIf="question.category" class="category">
               <i class="fas fa-folder"></i> {{ question.category }}
@@ -99,7 +99,7 @@
       <h2 class="section-title">Câu hỏi đã duyệt</h2>
       <div class="question-item" *ngFor="let question of approvedQuestions">
         <div class="question-content">
-          <h3>{{ question.text }}</h3>
+          <p>{{ question.text }}</p>
           <div class="question-info">
             <span *ngIf="question.category" class="category">
               <i class="fas fa-folder"></i> {{ question.category }}

@@ -132,8 +132,12 @@
                         {{ question.text }}
                       </option>
                     </select>
-                    <button type="button" (click)="addQuestionToSection(0, questionSelect.value)">Thêm câu hỏi</button>
+                    <!-- Truyền sectionIndex khi gọi hàm -->
+                    <button type="button" (click)="addQuestionToSection(sectionIndex, questionSelect.value)">
+                      Thêm câu hỏi
+                    </button>
                   </div>
+                  
                   
                 <!-- Hiển thị câu hỏi đã chọn -->
                 <div *ngFor="let question of section.questions; let questionIndex = index" class="question-container">
@@ -146,6 +150,15 @@
 
                     <div class="question-text">{{ question.text }}</div>
 
+        
+                    <!-- Nếu có audioFile (có URL âm thanh), hiển thị player để phát âm thanh và thay thế văn bản câu hỏi bằng "Chọn câu trả lời đúng" -->
+                    <div *ngIf="question.text && question.text.startsWith('http')">
+                        <p>Chọn câu trả lời đúng</p> <!-- Thông báo thay thế câu hỏi -->
+                        <audio controls>
+                            <source [src]="question.text" type="audio/mpeg">
+                            Trình duyệt của bạn không hỗ trợ phát âm thanh.
+                        </audio>
+                    </div>
                     <!-- Câu trả lời -->
                     <div class="answers-list">
                         <div *ngFor="let answer of question.answers" class="answer-item">

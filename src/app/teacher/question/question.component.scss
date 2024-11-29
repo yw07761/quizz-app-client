@@ -39,6 +39,63 @@
   margin-bottom: 15px;
 }
 
+/* Cập nhật phần audio-upload để cho phù hợp với giao diện */
+.audio-upload {
+  margin-top: 15px;
+}
+
+.audio-upload label {
+  font-size: 14px;
+  color: #333;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.audio-upload input[type="file"] {
+  display: none;  /* Ẩn input file mặc định */
+}
+
+.audio-upload .file-upload-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.audio-upload .file-upload-btn:hover {
+  background-color: #e2e2e2;
+}
+
+.audio-upload .file-info {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #333;
+  padding: 5px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Cập nhật lại textarea */
+.question-content textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  resize: vertical; /* Cho phép thay đổi kích thước chiều cao */
+  margin-bottom: 15px;
+  transition: border-color 0.3s;
+}
+
+.question-content textarea:focus {
+  border-color: #5bc0de;
+  outline: none;
+}
+
 select,
 textarea {
   width: 100%;
@@ -266,4 +323,61 @@ button.go-back {
 
 button.go-back:hover {
   background-color: #ec971f;
+}
+
+/* Container của phần tải MP3 */
+.audio-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fafafa;
+  margin-bottom: 20px;
+}
+
+/* Label cho input file */
+.audio-upload label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+/* Nút chọn file tùy chỉnh */
+.audio-upload .file-upload-btn {
+  padding: 10px 15px;
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.audio-upload .file-upload-btn:hover {
+  background-color: #e2e2e2;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Hiển thị thông tin tệp đã tải */
+.audio-upload .file-info {
+  font-size: 14px;
+  color: #555;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+/* Trình phát âm thanh */
+.audio-upload audio {
+  margin-top: 10px;
+  width: 100%;
+  outline: none;
+  border-radius: 5px;
+  background-color: #f1f1f1;
 }

@@ -1,55 +1,70 @@
 <button (click)="goBack()">Quay lại</button>
 <div class="container" *ngFor="let question of questions; let i = index">
   <div class="header">
-      <h1>Thêm câu hỏi vào thư viện {{ i + 1 }}</h1>
-      <span class="close-btn" (click)="removeQuestion(i)">&times;</span>
+    <h1>Thêm câu hỏi vào thư viện {{ i + 1 }}</h1>
+    <span class="close-btn" (click)="removeQuestion(i)">&times;</span>
   </div>
   <div class="input-group">
-      <select [(ngModel)]="question.category">
-          <option value="" disabled>Danh mục câu hỏi</option>
-          <option *ngFor="let g of categories" [value]="g">{{ g }}</option>
-      </select>
-      <select [(ngModel)]="question.group">
-          <option value="" disabled>Nhóm câu hỏi</option>
-          <option *ngFor="let g of groups" [value]="g">{{ g }}</option>
-      </select>
+    <select [(ngModel)]="question.category">
+      <option value="" disabled>Danh mục câu hỏi</option>
+      <option *ngFor="let g of categories" [value]="g">{{ g }}</option>
+    </select>
+    <select [(ngModel)]="question.group">
+      <option value="" disabled>Nhóm câu hỏi</option>
+      <option *ngFor="let g of groups" [value]="g">{{ g }}</option>
+    </select>
   </div>
   <div class="question-content">
-      <textarea rows="3" placeholder="Nhập nội dung câu hỏi" [(ngModel)]="question.text"></textarea>
+    <textarea rows="3" placeholder="Nhập nội dung câu hỏi" [(ngModel)]="question.text"></textarea>
   </div>
+  <div class="audio-upload">
+    <label for="audio-upload-{{ i }}" class="file-upload-btn">
+      Chọn tệp MP3
+    </label>
+    <input 
+      id="audio-upload-{{ i }}" 
+      type="file" 
+      accept="audio/mpeg" 
+      (change)="onFileSelected($event, i)" 
+      hidden
+    />
+    <div *ngIf="question.text && question.text.startsWith('http')">
+      <div class="file-info">Tệp đã chọn: {{ question.text }}</div>
+      <audio controls>
+        <source [src]="question.text" type="audio/mpeg">
+        Trình duyệt của bạn không hỗ trợ phát âm thanh.
+      </audio>
+    </div>
+  </div>
+  
+  
+  
   <div class="answer-options">
-      <div *ngFor="let answer of question.answers; let j = index">
-          <label>
-              <input type="text" placeholder="Câu trả lời..." [(ngModel)]="answer.text">
-              <div class="toggle-btn">
-                  <i class="fas" [ngClass]="answer.isCorrect ? 'fa-toggle-on' : 'fa-toggle-off'" (click)="toggleAnswer(i, j)"></i>
-              </div>
-              <i class="fas fa-trash-alt icon" (click)="removeAnswer(i, j)"></i>
-          </label>
-      </div>
-      <button (click)="addAnswer(i)">Thêm câu trả lời</button>
+    <div *ngFor="let answer of question.answers; let j = index">
+      <label>
+        <input type="text" placeholder="Câu trả lời..." [(ngModel)]="answer.text">
+        <div class="toggle-btn">
+          <i class="fas" [ngClass]="answer.isCorrect ? 'fa-toggle-on' : 'fa-toggle-off'" (click)="toggleAnswer(i, j)"></i>
+        </div>
+        <i class="fas fa-trash-alt icon" (click)="removeAnswer(i, j)"></i>
+      </label>
+    </div>
+    <button (click)="addAnswer(i)">Thêm câu trả lời</button>
   </div>
 </div>
 
 <div class="footer">
   <div class="button-group">
-    <!-- Nút tải file -->
     <label class="upload-btn">
       <input type="file" accept=".xlsx, .xls" (change)="onFileUpload($event)" />
       <i class="fas fa-upload"></i> Tải file lên
     </label>
-
-    <!-- Thêm câu hỏi mới -->
     <button class="add-btn" (click)="addQuestion()">Thêm câu hỏi mới</button>
-
-    <!-- Lưu tất cả câu hỏi -->
     <button class="save-btn" (click)="saveAllQuestions()">Lưu tất cả câu hỏi</button>
-
-    <!-- Xem trước các câu hỏi -->
     <button class="preview-btn" (click)="openPreview()">Xem trước các câu hỏi</button>
+    <button class="update-btn" (click)="updateQuestions()">Cập nhật câu hỏi</button>
   </div>
 </div>
-
 
 <div class="preview-modal" *ngIf="isPreviewVisible">
   <div class="modal-content">
@@ -59,14 +74,24 @@
         <p><strong>Câu {{ i + 1 }}:</strong> {{ question.text }}</p>
         <p><strong>Danh mục:</strong> {{ question.category }}</p>
         <p><strong>Nhóm:</strong> {{ question.group }}</p>
+        <!-- Kiểm tra xem có phải là URL audio không -->
+        <div *ngIf="question.text && (question.text.startsWith('http') || question.text.startsWith('blob:'))">
+          <p><strong>File âm thanh:</strong> {{ question.text }}</p>
+          <audio controls>
+            <source [src]="question.text" type="audio/mpeg">
+            Trình duyệt của bạn không hỗ trợ phát âm thanh.
+          </audio>
+        </div>
         <p><strong>Các câu trả lời:</strong></p>
         <ul>
           <li *ngFor="let answer of question.answers">
             {{ answer.text }} <span *ngIf="answer.isCorrect">(Đúng)</span>
           </li>
         </ul>
+        
       </li>
     </ul>
     <button class="close-btn" (click)="closePreview()">Đóng</button>
   </div>
 </div>
+

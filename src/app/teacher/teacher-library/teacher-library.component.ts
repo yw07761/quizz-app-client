@@ -22,6 +22,9 @@ export class TeacherLibraryComponent implements OnInit {
   uniqueCategories: string[] = [];
   uniqueGroups: string[] = [];
   isFilterDropdownVisible: boolean = false;
+  approvedQuestions: any[] = []; // Danh sách câu hỏi đã duyệt
+  unapprovedQuestions: any[] = []; // Danh sách câu hỏi chưa duyệt
+
   constructor(
     private authService: AuthService,
     private questionService: QuestionService,
@@ -37,14 +40,26 @@ export class TeacherLibraryComponent implements OnInit {
     this.questionService.getQuestions().subscribe({
       next: (questions) => {
         this.questions = questions;
-        this.filteredQuestions = questions;
-        this.updateUniqueFilters();
+
+        // Kiểm tra lại dữ liệu trả về từ API
+        console.log('Questions:', this.questions);
+
+        // Phân loại câu hỏi theo trạng thái
+        this.approvedQuestions = this.questions.filter(q => q.status === 'approved');
+        this.unapprovedQuestions = this.questions.filter(q => q.status !== "approved");
+        // Log để kiểm tra danh sách câu hỏi đã duyệt và chưa duyệt
+
+        console.log(this.unapprovedQuestions);
+        this.filteredQuestions = this.questions; // Gán tất cả câu hỏi vào danh sách lọc ban đầu
+        this.updateUniqueFilters(); // Cập nhật các bộ lọc duy nhất (category, group)
       },
       error: (error) => {
         console.error('Error loading questions:', error);
       }
     });
-  }
+}
+  
+  
 
   updateUniqueFilters() {
     this.uniqueCategories = [...new Set(this.questions.map(q => q.category).filter(Boolean) as string[])];

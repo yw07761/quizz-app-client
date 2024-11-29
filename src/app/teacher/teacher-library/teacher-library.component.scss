@@ -235,7 +235,10 @@ body {
     }
   
     .questions-list {
-      margin-top: 20px;
+      margin-top: 40px;
+      margin-bottom: 40px;
+      font-size: 16px; 
+      color: #444;
     }
   
     .question-item {
@@ -247,6 +250,8 @@ body {
   
       .question-content {
         flex: 1;
+        font-size: 16px; 
+        color: #333; 
       }
   
       .question-info {
@@ -281,28 +286,35 @@ body {
         margin-left: auto;
   
         .edit-btn, .delete-btn {
+          display: inline-flex;
+          align-items: center;
+          padding: 8px 12px;
+          font-size: 14px;
           background: none;
-          border: none;
-          cursor: pointer;
-          font-size: 16px;
-          padding: 0;
-          margin-left: 15px;
-  
-          i {
-            color: #aaa;
-            &:hover {
-              color: #333;
-            }
-          }
+          border: 1px solid transparent;
+          border-radius: 4px;
+          transition: all 0.3s ease;
         }
-  
+        
         .edit-btn i {
           color: #4a3aff;
+          margin-right: 5px;
         }
-  
+        
         .delete-btn i {
           color: #ff4a4a;
+          margin-right: 5px;
         }
+        
+        .edit-btn:hover {
+          background: #e0e8ff;
+          border-color: #4a3aff;
+        }
+        
+        .delete-btn:hover {
+          background: #ffe0e0;
+          border-color: #ff4a4a;
+        }        
       }
     }
   
