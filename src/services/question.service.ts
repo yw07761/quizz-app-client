@@ -23,7 +23,9 @@ export interface Question {
 export class QuestionService {
   private apiUrl = 'http://localhost:3000/questions'; // URL của server API
 
-  constructor(private http: HttpClient, private authService: AuthService) {}
+  constructor(private http: HttpClient, private authService: AuthService) {
+    
+  }
 
   private handleError(error: HttpErrorResponse) {
     console.error('Server Error:', error);
@@ -91,7 +93,17 @@ export class QuestionService {
   bulkAddQuestions(questions: Question[]): Observable<Question[]> {
     return this.http.post<Question[]>('http://localhost:3000/questions/bulk-upload', questions);
   }
-  
+  checkIfQuestionExists(question: Question): Observable<boolean> {
+    const headers = this.getAuthHeaders();
+    return this.http.post<boolean>(`${this.apiUrl}/check-existence`, question, { headers })
+      .pipe(catchError(this.handleError));
+  }
+  uploadAudioFile(formData: FormData): Observable<{ audioUrl: string }> {
+    const headers = this.getAuthHeaders();
+    return this.http.post<{ audioUrl: string }>('http://localhost:3000/upload-audio', formData, { headers }).pipe(
+      catchError(this.handleError)
+    );
+  }
   
   
 }
