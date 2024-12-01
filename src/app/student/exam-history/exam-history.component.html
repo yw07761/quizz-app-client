@@ -7,7 +7,6 @@
   <div class="nav-links">
     <a routerLink="/student-dashboard">Bài kiểm tra</a>
     <a routerLink="/exam-history" routerLinkActive="active">Lịch sử làm bài</a>
-    <a routerLink="/summary-student">Tổng kết</a>
   </div>
   <div class="user-menu">
     <i class="fas fa-question-circle" style="margin-right: 20px;"></i>
@@ -115,30 +114,16 @@
               </div>
             </div>
 
-            <!-- Progress bar -->
-            <div class="progress-container">
-              <div class="progress-bar">
-                <div 
-                  class="progress" 
-                  [style.width.%]="result.percentageScore"
-                  [ngStyle]="{
-                    'background-color': result.percentageScore >= 80 ? '#10b981' : 
-                                      result.percentageScore >= 60 ? '#3b82f6' : 
-                                      result.percentageScore >= 40 ? '#f59e0b' : '#ef4444'
-                  }"
-                ></div>
-              </div>
-              <div class="progress-label">
-                {{ result.percentageScore.toFixed(1) }}%
-              </div>
-            </div>
+           
           </div>
-          
           <div class="exam-actions">
-            <button class="view-details" (click)="viewExamDetails(result._id)">
+            <button class="view-details" 
+                    *ngIf="result.examId?._id" 
+                    (click)="viewExamDetails(result.examId._id)">
               <i class="fas fa-eye"></i> Xem chi tiết kết quả
             </button>
           </div>
+          
         </li>
       </ul>
     </div>
