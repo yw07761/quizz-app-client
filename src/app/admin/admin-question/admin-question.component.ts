@@ -22,6 +22,7 @@ export class AdminQuestionComponent implements OnInit {
   uniqueCategories: string[] = [];
   uniqueGroups: string[] = [];
   isFilterDropdownVisible: boolean = false;
+  filteredApprovedQuestions: Question[] = []; // Thêm thuộc tính lọc câu hỏi đã duyệt
 
   // Các thuộc tính hiện có
   approvedQuestions: Question[] = [];
@@ -44,6 +45,7 @@ export class AdminQuestionComponent implements OnInit {
       next: (questions) => {
         this.questions = questions;
         this.filteredQuestions = questions;
+        this.filteredApprovedQuestions = questions.filter(q => q.status === 'approved'); // Lọc câu hỏi đã duyệt
         this.updateUniqueFilters();
         this.splitQuestionsByStatus();  // Phân chia câu hỏi theo trạng thái
       },
@@ -53,10 +55,6 @@ export class AdminQuestionComponent implements OnInit {
     });
   }
 
-  splitQuestionsByStatus() {
-    this.approvedQuestions = this.questions.filter(q => q.status === 'approved');
-    this.pendingQuestions = this.questions.filter(q => q.status === 'pending');
-  }
   
   updateUniqueFilters() {
     this.uniqueCategories = [...new Set(this.questions.map(q => q.category).filter(Boolean) as string[])];
@@ -69,8 +67,15 @@ export class AdminQuestionComponent implements OnInit {
       const groupMatch = this.selectedGroup ? question.group === this.selectedGroup : true;
       return categoryMatch && groupMatch;
     });
+    this.splitQuestionsByStatus();  // Phân chia lại câu hỏi theo trạng thái
   }
-
+  
+  
+  splitQuestionsByStatus() {
+    this.approvedQuestions = this.filteredQuestions.filter(q => q.status === 'approved');
+    this.pendingQuestions = this.filteredQuestions.filter(q => q.status === 'pending');
+  }
+  
   approveQuestion(question: Question) {
     this.changeQuestionStatus(question, 'approved');
   }

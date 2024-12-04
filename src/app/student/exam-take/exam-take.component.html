@@ -49,6 +49,19 @@
         </div>
         
         <p class="question-text">{{ question.questionId.text }}</p>
+        <ng-container *ngIf="question.questionId?.text?.includes('http')">
+          <!-- Hiển thị audio nếu question.text là URL -->
+          <p>Chọn câu trả lời đúng:</p>
+          <audio controls>
+            <source [src]="question.questionId?.text" type="audio/mpeg">
+            Trình duyệt của bạn không hỗ trợ phát âm thanh.
+          </audio>
+        </ng-container>
+        
+        <ng-container *ngIf="!(question.questionId?.text?.includes('http'))">
+          <!-- Hiển thị văn bản câu hỏi nếu không phải là URL -->
+          {{ question.questionId?.text || 'Không có dữ liệu câu hỏi' }}
+        </ng-container>
         
         <div class="answers-container">
           <label *ngFor="let answer of question.questionId.answers"

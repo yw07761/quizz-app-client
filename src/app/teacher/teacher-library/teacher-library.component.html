@@ -6,7 +6,6 @@
   <div class="nav-links">
     <a href="/teacher-dashboard">Bài kiểm tra</a>
     <a href="/teacher-library" class="active">Thư viện câu hỏi</a>
-    <a href="/teacher-statistics">Tổng kết</a>
   </div>
   <div class="user-menu">
     <i class="fas fa-question-circle" style="margin-right: 20px;"></i>
@@ -48,7 +47,27 @@
         </button>
       </div>
     </div>
-
+    <div class="filter-dropdown" *ngIf="isFilterDropdownVisible">
+      <div class="filter-group">
+        <label>Danh mục:</label>
+        <select [(ngModel)]="selectedCategory">
+          <option value="">Tất cả</option>
+          <option *ngFor="let category of uniqueCategories" [value]="category">{{ category }}</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Nhóm:</label>
+        <select [(ngModel)]="selectedGroup">
+          <option value="">Tất cả</option>
+          <option *ngFor="let group of uniqueGroups" [value]="group">{{ group }}</option>
+        </select>
+      </div>
+      <div class="filter-actions">
+        <button (click)="clearFilters()">Xóa bộ lọc</button>
+        <button (click)="filterQuestions()">Áp dụng</button>
+      </div>
+    </div>
+    
     <!-- Approved Questions -->
     <!-- Câu hỏi đã duyệt -->
 <div class="question-section">
@@ -57,7 +76,6 @@
     <div class="question-item" *ngFor="let question of approvedQuestions">
       <div class="question-content">
         <p *ngIf="!question.audioFile && !question.text.startsWith('http')">{{ question.text }}</p>
-        
             <!-- Nếu có audioFile (có URL âm thanh), hiển thị player để phát âm thanh và thay thế văn bản câu hỏi bằng "Chọn câu trả lời đúng" -->
             <div *ngIf="question.text && question.text.startsWith('http')">
               <p>Listen and choose the correct answer: </p>
@@ -66,8 +84,6 @@
                   Trình duyệt của bạn không hỗ trợ phát âm thanh.
               </audio>
             </div>
-      
-      
 
         <div class="question-info">
           <span *ngIf="question.category" class="category">

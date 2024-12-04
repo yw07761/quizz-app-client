@@ -180,4 +180,5 @@ export class ExamResultDetailComponent implements OnInit {
     }
     return 0;
   }
+  
 }

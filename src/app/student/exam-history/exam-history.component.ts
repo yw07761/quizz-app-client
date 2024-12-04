@@ -236,11 +236,18 @@ export class ExamHistoryComponent implements OnInit {
       result.score.toString().includes(searchTerm)
     );
   }
-
   viewExamDetails(examId: string) {
-    this.router.navigate(['/exams-history', examId]);
+    if (!examId) {
+      console.error('Invalid examId:', examId);
+      return;
+    }
+    console.log('Navigating to exam details with examId:', examId);
+    this.router.navigate(['/exam-result-detail', examId], {
+      state: { examId }
+    });
   }
-
+  
+  
   formatDate(date: Date | string): string {
     try {
       const dateObj = new Date(date);
