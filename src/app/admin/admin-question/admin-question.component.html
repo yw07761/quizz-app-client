@@ -86,9 +86,7 @@
               <p><strong>Câu trả lời:</strong></p>
               <ul>
                 <li *ngFor="let answer of question.answers">
-                  <span [ngClass]="{'correct-answer': answer.isCorrect, 'incorrect-answer': !answer.isCorrect}">
-                    {{ answer.text }}
-                  </span>
+                  <span [ngClass]="{'correct-answer': answer.isCorrect, 'incorrect-answer': !answer.isCorrect}">{{ answer.text }}</span>
                 </li>
               </ul>
             </div>
@@ -111,7 +109,6 @@
           </div>
           <div class="question-actions">
             <button class="approve-btn" (click)="approveQuestion(question)">Duyệt</button>
-            <button class="reject-btn" (click)="rejectQuestion(question)">Từ chối</button>
             <button class="edit-btn" (click)="editQuestion(question)">
               <i class="fas fa-edit"></i>
             </button>
@@ -150,9 +147,7 @@
               <p><strong>Câu trả lời:</strong></p>
               <ul>
                 <li *ngFor="let answer of question.answers">
-                  <span [ngClass]="{'correct-answer': answer.isCorrect, 'incorrect-answer': !answer.isCorrect}">
-                    {{ answer.text }}
-                  </span>
+                  <span [ngClass]="{'correct-answer': answer.isCorrect, 'incorrect-answer': !answer.isCorrect}">{{ answer.text }}</span>
                 </li>
               </ul>
             </div>
@@ -180,7 +175,6 @@
         </div>
       </div>
     </div>
-
 
     <div class="empty-state" *ngIf="approvedQuestions.length === 0 && pendingQuestions.length === 0">
       <p>Không tìm thấy câu hỏi nào. Hãy thêm câu hỏi mới!</p>

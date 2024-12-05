@@ -29,7 +29,7 @@ export class AdminQuestionComponent implements OnInit {
   pendingQuestions: Question[] = [];
   showPending: boolean = true; // Track which set of questions to display
   showApproved: boolean = false;
-  isPendingOpen = false;
+  isPendingOpen = true;
   isApprovedOpen = true;
   constructor(
     private authService: AuthService,
@@ -146,16 +146,19 @@ export class AdminQuestionComponent implements OnInit {
   searchQuestions(event: any) {
     const searchTerm = event.target.value.toLowerCase();
     if (!searchTerm) {
+      // Nếu không có từ khóa tìm kiếm, reset lại filteredQuestions về tất cả câu hỏi
       this.filteredQuestions = this.questions;
-      return;
+    } else {
+      // Lọc các câu hỏi theo từ khóa tìm kiếm
+      this.filteredQuestions = this.questions.filter(question => 
+        question.text.toLowerCase().includes(searchTerm) ||
+        question.category?.toLowerCase().includes(searchTerm) ||
+        question.group?.toLowerCase().includes(searchTerm)
+      );
     }
-
-    this.filteredQuestions = this.questions.filter(question => 
-      question.text.toLowerCase().includes(searchTerm) ||
-      question.category?.toLowerCase().includes(searchTerm) ||
-      question.group?.toLowerCase().includes(searchTerm)
-    );
+    this.splitQuestionsByStatus();  // Cập nhật lại câu hỏi theo trạng thái
   }
+  
 
   createNewQuestion() {
     this.router.navigate(['/question']);
