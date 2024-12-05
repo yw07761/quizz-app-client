@@ -23,12 +23,14 @@ export class AdminQuestionComponent implements OnInit {
   uniqueGroups: string[] = [];
   isFilterDropdownVisible: boolean = false;
   filteredApprovedQuestions: Question[] = []; // Thêm thuộc tính lọc câu hỏi đã duyệt
-
+  isStatusDropdownVisible: boolean = false;
   // Các thuộc tính hiện có
   approvedQuestions: Question[] = [];
   pendingQuestions: Question[] = [];
-
-
+  showPending: boolean = true; // Track which set of questions to display
+  showApproved: boolean = false;
+  isPendingOpen = false;
+  isApprovedOpen = true;
   constructor(
     private authService: AuthService,
     private questionService: QuestionService,
@@ -191,5 +193,27 @@ export class AdminQuestionComponent implements OnInit {
     this.router.navigate(['/admin-dashboard']); // Điều hướng về trang Dashboard
   }
 
+  toggleStatusDropdown() {
+    this.isStatusDropdownVisible = !this.isStatusDropdownVisible;
+  }
+
+  showPendingQuestions() {
+    this.showPending = true;
+    this.showApproved = false;
+  }
+
+  showApprovedQuestions() {
+    this.showPending = false;
+    this.showApproved = true;
+  }
+  // Toggle the visibility of pending questions
+  togglePendingQuestions() {
+    this.isPendingOpen = !this.isPendingOpen;
+  }
+
+  // Toggle the visibility of approved questions
+  toggleApprovedQuestions() {
+    this.isApprovedOpen = !this.isApprovedOpen;
+  }
   
 }
