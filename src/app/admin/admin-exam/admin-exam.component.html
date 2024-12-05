@@ -24,29 +24,33 @@
     </div>
   </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Tên bài thi</th>
-      <th>Ngày bắt đầu</th>
-      <th>Ngày kết thúc</th>
-      <th>Trạng thái</th>
-      <th>Hành động</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let exam of exams">
-      <td>{{ exam.name }}</td>
-      <td>{{ exam.startDate | date: 'short' }}</td>
-      <td>{{ exam.endDate | date: 'short' }}</td>
-      <td>{{ exam.status }}</td>
-      <td>
-        <button (click)="viewExamDetails(exam)">Xem chi tiết</button>
-        <button (click)="deleteExam(exam)">Xóa</button>
-        <button *ngIf="exam.status === 'published'" (click)="navigateToStatistics(exam._id)">
-          Xem Tổng Kết
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+  <table>
+    <thead>
+      <tr>
+        <th>Tên bài thi</th>
+        <th>Ngày bắt đầu</th>
+        <th>Ngày kết thúc</th>
+        <th>Trạng thái</th>
+        <th>Tạo bởi</th> <!-- Thêm cột -->
+        <th>Hành động</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let exam of exams">
+        <td>{{ exam.name }}</td>
+        <td>{{ exam.startDate | date: 'short' }}</td>
+        <td>{{ exam.endDate | date: 'short' }}</td>
+        <td>{{ exam.status }}</td>
+        <td>{{ getCreatorName(exam.createdBy) }}</td> <!-- Hiển thị tên người tạo -->
+        <td>
+          <button (click)="viewExamDetails(exam)">Xem chi tiết</button>
+          <button (click)="deleteExam(exam)">Xóa</button>
+          <button *ngIf="exam.status === 'published'" (click)="navigateToStatistics(exam._id)">
+            Xem Tổng Kết
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+  

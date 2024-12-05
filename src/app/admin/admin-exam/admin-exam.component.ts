@@ -15,6 +15,7 @@ export class AdminExamComponent implements OnInit {
   user: any = null;
   isDropdownActive = false;
   exams: Exam[] = [];
+  users: any[] = []; // Danh sách tất cả người dùng
 
   constructor(
     private examService: ExamService,
@@ -24,6 +25,7 @@ export class AdminExamComponent implements OnInit {
 
   ngOnInit() {
     this.loadExams();
+    this.loadUsers()
   }
 
   // Hàm tải danh sách bài thi
@@ -37,7 +39,23 @@ export class AdminExamComponent implements OnInit {
       }
     });
   }
-
+  loadUsers() {
+    this.authService.getAllUsers().subscribe({
+      next: (users) => {
+        this.users = users;
+        console.log('Danh sách người dùng:', this.users);
+      },
+      error: (error) => {
+        console.error('Error loading users:', error);
+      }
+    });
+  }
+  
+  getCreatorName(createdById: string): string {
+    const user = this.users.find(u => u._id === createdById);
+    return user ? user.username : 'Không xác định'; // Nếu không tìm thấy trả về "Không xác định"
+  }
+  
   // Hàm xem chi tiết bài thi
   viewExamDetails(exam: Exam) {
     this.router.navigate(['/exam-details', exam._id]);
