@@ -43,6 +43,9 @@
       <td>
         <button (click)="viewExamDetails(exam)">Xem chi tiết</button>
         <button (click)="deleteExam(exam)">Xóa</button>
+        <button *ngIf="exam.status === 'published'" (click)="navigateToStatistics(exam._id)">
+          Xem Tổng Kết
+        </button>
       </td>
     </tr>
   </tbody>

@@ -139,7 +139,8 @@ export class ExamCreateComponent implements OnInit {
       next: (response) => {
         console.log('Exam saved successfully:', response);
         alert('Bài thi đã được lưu thành công!');
-        this.router.navigate(['/teacher-dashboard']);
+        window.history.back();
+        
       },
       error: (error) => {
         console.error('Error saving exam:', error);

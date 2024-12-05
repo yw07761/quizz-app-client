@@ -192,7 +192,14 @@ h1 {
   button:nth-child(2):hover {
     background-color: #e53935;
   }
+  button:nth-child(3) {
+    background-color: #0d5fec;
+    color: white;
+  }
   
+  button:nth-child(3):hover {
+    background-color: #0d5fec;
+  }
   /* Kiểu cho các nút khi được focus */
   button:focus {
     outline: none;

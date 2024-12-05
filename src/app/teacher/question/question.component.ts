@@ -78,7 +78,7 @@ export class QuestionComponent implements OnInit {
       next: () => {
         alert('Tất cả câu hỏi đã được lưu thành công!');
         // Điều hướng đến /teacher/library sau khi lưu thành công
-        this.router.navigate(['/teacher-library']);
+        window.history.back();
       },
       error: (err) => {
         console.error('Error saving questions:', err);

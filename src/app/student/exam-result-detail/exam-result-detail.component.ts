@@ -41,9 +41,11 @@ interface ExamResultDetail {
 })
 export class ExamResultDetailComponent implements OnInit {
   loading: boolean = true;
+  user: any = null;
   error: string | null = null;
   examResult: ExamResultDetail | null = null;
-
+  examId: string = '';
+  userId: string = '';
   constructor(
     private route: ActivatedRoute,
     private examService: ExamService,
@@ -52,7 +54,12 @@ export class ExamResultDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+     // Ensure to get both parameters
+     this.examId = this.route.snapshot.paramMap.get('examId')!;
+     this.userId = this.route.snapshot.paramMap.get('userId')!;
+     console.log('Exam ID:', this.examId, 'User ID:', this.userId);
     const examId = this.route.snapshot.paramMap.get('id');
+    this.user = this.authService.getCurrentUser();
     if (!examId) {
       this.error = 'Không tìm thấy thông tin bài thi';
       this.loading = false;

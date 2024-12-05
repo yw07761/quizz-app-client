@@ -1,10 +1,22 @@
-<h1>Quản lý người dùng</h1>
+<!-- Nút Go Back -->
+<button (click)="goBack()" class="go-back-button">Quay lại Dashboard</button>
+
+<div class="nav-links"> 
+  <<h1>Quản lý người dùng</h1>
+  
+</div>
+
+
 <table>
   <thead>
     <tr>
       <th>Tên người dùng</th>
       <th>Email</th>
       <th>Vai trò</th>
+      <th>Ngày tạo</th>
+      <th>Ngày sinh</th>
+      <th>Giới tính</th>
+      <th>Số điện thoại</th>
       <th>Hành động</th>
     </tr>
   </thead>
@@ -13,6 +25,10 @@
       <td>{{ user.username }}</td>
       <td>{{ user.email }}</td>
       <td>{{ user.role }}</td>
+      <td>{{ user.createdAt | date: 'dd/MM/yyyy' }}</td>
+      <td>{{ user.dateOfBirth | date: 'dd/MM/yyyy' }}</td>
+      <td>{{ user.gender }}</td>
+      <td>{{ user.phoneNumber }}</td>
       <td>
         <button (click)="updateUserRole(user, 'admin')">Set Admin</button>
         <button (click)="updateUserRole(user, 'teacher')">Set Teacher</button>
@@ -22,6 +38,3 @@
     </tr>
   </tbody>
 </table>
-
-<!-- Nút Go Back -->
-<button (click)="goBack()" class="go-back-button">Quay lại Dashboard</button>

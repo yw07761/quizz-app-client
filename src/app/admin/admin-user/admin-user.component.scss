@@ -97,4 +97,22 @@ table {
   .go-back-button:focus {
     outline: none;
   }
-    
+  .nav-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px; /* Điều chỉnh chiều cao của phần này */
+    background-color: #f9f9f9; /* Thêm nền nhẹ nhàng */
+    border-bottom: 2px solid #e0e0e0;
+  }
+  
+  .nav-links h1 {
+    font-size: 2.5em;
+    color: #333;
+    font-weight: 600;
+    margin: 0; /* Loại bỏ margin mặc định */
+    text-align: center;
+    letter-spacing: 1px; /* Thêm khoảng cách giữa các chữ */
+    text-transform: uppercase; /* Chữ in hoa */
+    padding: 10px 0; /* Thêm padding để chữ không bị sát viền */
+  }  

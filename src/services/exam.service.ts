@@ -185,6 +185,15 @@ export class ExamService {
     console.log('Fetching exam statistics from URL:', url); // Debug the URL
     return this.http.get<any>(url);
   }
+  getStudentExamDetails(examId: string, userId: string): Observable<any> {
+    const url = `${this.apiUrl}/exams/${examId}/results/${userId}`;
+    return this.http.get<any>(url).pipe(
+      catchError(error => {
+        console.error('Error fetching student exam details:', error);
+        return this.handleError(error);
+      })
+    );
+  }
   
   
 }

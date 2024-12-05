@@ -73,4 +73,8 @@ export class AdminExamComponent implements OnInit {
   goBack(): void {
     this.router.navigate(['/admin-dashboard']); // Điều hướng về trang Dashboard
   }
+  navigateToStatistics(examId: string) {
+    this.router.navigate(['/teacher-statistics', examId]);
+  }
+  
 }

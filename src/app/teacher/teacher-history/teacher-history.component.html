@@ -1,0 +1,55 @@
+<div class="navbar">
+    <div class="logo">
+      <img src="../../assets/img/qye-challenge-logo.png" alt="Logo" height="30" width="30">
+      <span>Quiz your English Challenge</span>
+    </div>
+    <div class="nav-links">
+      <a href="/teacher-dashboard">Bài kiểm tra</a>
+      <a href="/teacher-history" class="active">Lịch sử bài kiểm tra</a>
+      <a href="/teacher-library">Thư viện câu hỏi</a>
+    </div>
+    <div class="user-menu">
+      <i class="fas fa-question-circle" style="margin-right: 20px;"></i>
+      <i class="fas fa-bell" style="margin-right: 20px;"></i>
+      <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="40" width="40" (click)="toggleDropdown()">
+      <div class="dropdown" [class.active]="isDropdownActive">
+        <div class="profile">
+          <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="50" width="50">
+          <div class="info">
+            <div class="name">{{ user?.username }}</div>
+            <div class="email">{{ user?.email }}</div>
+          </div>
+        </div>
+        <div class="menu">
+          <a href="/profile"><i class="fas fa-user-graduate"></i> Thông tin cá nhân</a>
+          <a href="/settings"><i class="fas fa-cog"></i> Cài đặt chung</a>
+          <a href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content">
+    <!-- Thêm phần Lịch sử bài kiểm tra -->
+  <div class="section">
+    <div *ngIf="publishedExams.length > 0; else noPublishedExams">
+      <div *ngFor="let exam of publishedExams" class="exam-item">
+        <h3>{{ exam.name }}</h3>
+        <p>{{ exam.description }}</p>
+        <p>Thời gian: {{ exam.startDate | date }} - {{ exam.endDate | date }}</p>
+        <p>Thời lượng: {{ exam.duration }} phút</p>
+        <p>Điểm tối đa: {{ exam.maxScore }}</p>
+  
+        <!-- Action Buttons -->
+        <div class="exam-actions">
+          <button (click)="viewExamDetails(exam)">Xem chi tiết</button>
+          <button (click)="navigateToStatistics(exam._id)">Tổng kết</button>
+        </div>
+      </div>
+    </div>
+    <ng-template #noPublishedExams>
+      <div class="empty-state">
+        <p>Hiện tại không có bài kiểm tra nào đã xuất bản.</p>
+      </div>
+    </ng-template>
+  </div>
+  </div>

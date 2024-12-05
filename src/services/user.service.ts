@@ -7,6 +7,10 @@ export interface User {
   username: string;
   email: string;
   role: string;
+  createdAt: Date;
+  dateOfBirth: Date;
+  gender: string;
+  phoneNumber: string;
 }
 
 @Injectable({

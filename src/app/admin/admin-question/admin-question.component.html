@@ -76,7 +76,18 @@
               Trình duyệt của bạn không hỗ trợ phát âm thanh.
             </audio>
           </div>
-      
+          <!-- Câu trả lời của câu hỏi -->
+          <div *ngIf="question.answers && question.answers.length > 0" class="question-answer">
+            <p><strong>Câu trả lời:</strong></p>
+            <ul>
+                <li *ngFor="let answer of question.answers">
+                  <span [ngClass]="{'correct-answer': answer.isCorrect, 'incorrect-answer': !answer.isCorrect}">
+                    {{ answer.text }}
+                  </span>
+                </li>
+            </ul>
+          </div>     
+          
           <!-- Display question text if it's not an audio URL -->
           <div *ngIf="!question.text.startsWith('http')">
             <div class="question-text">{{ question.text }}</div>
@@ -125,7 +136,17 @@
           <div *ngIf="!question.text.startsWith('http')">
             <div class="question-text">{{ question.text }}</div>
           </div>
-      
+          <!-- Câu trả lời của câu hỏi -->
+          <div *ngIf="question.answers && question.answers.length > 0" class="question-answer">
+            <p><strong>Câu trả lời:</strong></p>
+            <ul>
+                <li *ngFor="let answer of question.answers">
+                  <span [ngClass]="{'correct-answer': answer.isCorrect, 'incorrect-answer': !answer.isCorrect}">
+                    {{ answer.text }}
+                  </span>
+                </li>
+            </ul>
+          </div>    
           <div class="question-info">
             <span *ngIf="question.category" class="category">
               <i class="fas fa-folder"></i> {{ question.category }}

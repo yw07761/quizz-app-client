@@ -5,6 +5,7 @@
   </div>
   <div class="nav-links">
     <a href="/teacher-dashboard" class="active">Bài kiểm tra</a>
+    <a href="/teacher-history" >Lịch sử bài kiểm tra</a>
     <a href="/teacher-library">Thư viện câu hỏi</a>
   </div>
   <div class="user-menu">
@@ -88,9 +89,10 @@
       </div>
     </ng-template>
   </div>
-  <!-- Thêm phần Lịch sử bài kiểm tra -->
+
+  <!-- Phần các bài kiểm tra đã đăng -->
 <div class="section">
-  <h2>Lịch sử bài kiểm tra</h2>
+  <h2>Các bài kiểm tra đã đăng</h2>
   <div *ngIf="publishedExams.length > 0; else noPublishedExams">
     <div *ngFor="let exam of publishedExams" class="exam-item">
       <h3>{{ exam.name }}</h3>
@@ -102,13 +104,13 @@
       <!-- Action Buttons -->
       <div class="exam-actions">
         <button (click)="viewExamDetails(exam)">Xem chi tiết</button>
-        <button (click)="navigateToStatistics(exam._id)">Tổng kết</button>
       </div>
     </div>
   </div>
   <ng-template #noPublishedExams>
     <div class="empty-state">
-      <p>Hiện tại không có bài kiểm tra nào đã xuất bản.</p>
+      <img src="../../assets/img/pic03.png" alt="No Published Exams" height="100" width="100">
+      <div>Hiện tại không có bài thi nào đã đăng</div>
     </div>
   </ng-template>
 </div>

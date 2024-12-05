@@ -1,10 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
-import { ActivatedRoute } from '@angular/router';
 import { ExamService } from '../../../services/exam.service'; 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
+interface User {
+  username: string;
+  email: string;
+  _id: string;
+}
+
+interface ExamStatistics {
+  exam: {
+    username: string;
+  };
+  totalParticipants: number;
+  averageScore: number;
+  highestScore: number;
+  lowestScore: number;
+  passPercentage: number;
+  participants: Array<{
+    username: string;
+    email: string;
+    score: number;
+    userId: string;
+  }>;
+}
 @Component({
   selector: 'app-teacher-statistics',
   templateUrl: './teacher-statistics.component.html',
@@ -21,9 +43,10 @@ export class TeacherStatisticsComponent implements OnInit {
   examId: string = '';
   statistics: any = null;
   errorMessage: string = '';
-
+  userId: string = '';
   constructor(
     private authService: AuthService,
+    private router: Router, // Inject Router
     private route: ActivatedRoute, 
     private examService: ExamService
   ) {}
@@ -31,6 +54,7 @@ export class TeacherStatisticsComponent implements OnInit {
   ngOnInit() {
     this.user = this.authService.getCurrentUser();
     this.examId = this.route.snapshot.paramMap.get('id')!;  // Chú ý tham số là 'id' thay vì 'examId'
+    
     
     console.log('Exam ID from URL:', this.examId); // Debugging line
   
@@ -43,14 +67,35 @@ export class TeacherStatisticsComponent implements OnInit {
     this.loadStatistics();
   }
   
-  
+  goBack(): void {
+    window.history.back();
+  }
 
+  viewExamDetails(userId: string) {
+    if (!userId || !this.examId) {
+      console.error('Invalid userId or examId:', userId, this.examId);
+      return;
+    }
+    
+    console.log('Navigating to exam result detail for userId:', userId, 'and examId:', this.examId);
+    // Navigate to the exam result detail page with both examId and userId in the URL
+    this.router.navigate([`/exam-result-detail/examid/${this.examId}/userid/${userId}`]);
+  }
+  
+  
+  
+  
   loadStatistics(): void {
     this.examService.getExamStatistics(this.examId).subscribe({
       next: (data) => {
+        console.log('Data from API:', data); // Kiểm tra dữ liệu
         if (data && data.exam) {
           this.statistics = data;
-          this.errorMessage = ''; // Reset error message if data is loaded successfully
+          this.errorMessage = '';  // Reset error message if data is loaded successfully
+          // Kiểm tra dữ liệu participants
+          data.participants.forEach((participant: any) => {
+            console.log('Participant userId:', participant.userId); // Xem userId của mỗi participant
+          });
         } else {
           this.errorMessage = 'Không có dữ liệu thống kê cho bài kiểm tra này.';
         }
@@ -65,6 +110,8 @@ export class TeacherStatisticsComponent implements OnInit {
       }
     });
   }
+  
+  
 
   toggleDropdown() {
     this.isDropdownActive = !this.isDropdownActive;

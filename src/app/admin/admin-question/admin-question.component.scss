@@ -260,3 +260,13 @@
   color: #7f8c8d;
   margin-top: 50px;
 }
+.correct-answer {
+  color: gray;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.incorrect-answer {
+  color: rgb(137, 146, 155);
+  font-style: italic;
+}

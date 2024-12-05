@@ -347,4 +347,40 @@ body {
       margin-left: 10px;
     }
   }
+  .correct-answer {
+    color: rgb(0, 187, 25);
+    font-weight: bold;
+    font-style: italic;
+  }
+  
+  .incorrect-answer {
+    color: rgb(137, 146, 155);
+    font-style: italic;
+  }
+  .question-section h2 {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .question-section .questions-list {
+    padding-left: 20px;
+    margin-top: 10px;
+  }
+  
+  .question-section i {
+    transition: transform 0.3s;
+  }
+  
+  .question-section i.fa-chevron-up {
+    transform: rotate(180deg);
+  }
+  
+  .question-section .empty-state {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+  }
   
