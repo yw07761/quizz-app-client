@@ -4,229 +4,195 @@ body {
   padding: 0;
   background-color: #f5f5f5;
 }
+
 .nav-links a.active {
   color: #007bff;
   font-weight: bold;
   border-bottom: 2px solid #007bff;
 }
+
 .navbar {
   display: flex;
   align-items: center;
   padding: 10px 20px;
   background-color: white;
   border-bottom: 1px solid #e0e0e0;
+}
 
-  .logo {
-    display: flex;
-    align-items: center;
+.navbar .logo {
+  display: flex;
+  align-items: center;
+}
 
-    img {
-      height: 30px;
-      margin-right: 10px;
-    }
+.navbar .logo img {
+  height: 30px;
+  margin-right: 10px;
+}
 
-    span {
-      font-size: 20px;
-      font-weight: 500;
-    }
-  }
+.navbar .logo span {
+  font-size: 20px;
+  font-weight: 500;
+}
 
-  .nav-links {
-    display: flex;
-    flex-grow: 1;
-    justify-content: center;
+.navbar .nav-links {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+}
 
-    a {
-      margin: 0 15px;
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
+.navbar .nav-links a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.4s ease, transform 0.3s ease;
+}
 
-      &:hover {
-        color: #007bff;
-      }
-    }
-  }
+.navbar .nav-links a:hover {
+  color: #007bff;
+  transform: scale(1.1);
+}
 
-  .user-menu {
-    display: flex;
-    align-items: center;
-    position: relative;
+.navbar .user-menu {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
 
-    img {
-      height: 40px;
-      width: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-    }
+.navbar .user-menu img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-    .dropdown {
-      display: none;
-      position: absolute;
-      top: 50px;
-      right: 0;
-      background-color: white;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      border-radius: 5px;
-      width: 300px;
-      z-index: 1000;
+.navbar .user-menu img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
 
-      &.active {
-        display: block;
-      }
+.navbar .user-menu .dropdown {
+  display: none;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  width: 300px;
+  z-index: 1000;
+  animation: slideDown 0.4s ease-out;
+}
 
-      .profile {
-        display: flex;
-        align-items: center;
-        padding: 15px;
-        border-bottom: 1px solid #e0e0e0;
+.navbar .user-menu .dropdown.active {
+  display: block;
+}
 
-        img {
-          height: 50px;
-          width: 50px;
-          border-radius: 50%;
-          margin-right: 10px;
-        }
+.navbar .user-menu .profile {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
 
-        .info {
-          flex-grow: 1;
+.navbar .user-menu .profile img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
 
-          .name {
-            font-weight: 500;
-          }
+.navbar .user-menu .profile .info {
+  flex-grow: 1;
+}
 
-          .email {
-            font-size: 12px;
-            color: #666;
-          }
-        }
+.navbar .user-menu .profile .info .name {
+  font-weight: 500;
+}
 
-        .view-profile {
-          background-color: #007bff;
-          color: white;
-          padding: 5px 10px;
-          border-radius: 5px;
-          text-align: center;
-          text-decoration: none;
-          font-size: 12px;
-        }
-      }
+.navbar .user-menu .profile .info .email {
+  font-size: 12px;
+  color: #666;
+}
 
-      .menu {
-        padding: 10px 15px;
+.navbar .user-menu .profile .view-profile {
+  background-color: #007bff;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 12px;
+}
 
-        a {
-          display: flex;
-          align-items: center;
-          padding: 10px 0;
-          text-decoration: none;
-          color: #333;
-          font-size: 14px;
+.navbar .user-menu .menu {
+  padding: 10px 15px;
+}
 
-          i {
-            margin-right: 10px;
-          }
+.navbar .user-menu .menu a {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  transition: color 0.4s ease;
+}
 
-          &:hover {
-            color: #007bff;
-          }
-        }
-      }
-    }
-  }
+.navbar .user-menu .menu a:hover {
+  color: #007bff;
 }
 
 .content {
   padding: 20px;
-
-  .section {
-    background-color: white;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
-    h2 {
-      margin-top: 0;
-      font-size: 18px;
-      font-weight: 500;
-    }
-
-    .empty-state {
-      text-align: center;
-      color: #666;
-
-      img {
-        max-width: 100px;
-        margin-bottom: 10px;
-      }
-    }
-  }
 }
 
-// Additional styles for responsiveness
-@media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    padding: 10px;
-
-    .nav-links {
-      margin: 10px 0;
-      width: 100%;
-      justify-content: space-around;
-
-      a {
-        margin: 0 5px;
-        font-size: 14px;
-      }
-    }
-
-    .user-menu {
-      width: 100%;
-      justify-content: flex-end;
-
-      .dropdown {
-        width: 100%;
-        top: 100%;
-      }
-    }
-  }
-
-  .content {
-    padding: 10px;
-
-    .section {
-      padding: 15px;
-    }
-  }
+.content .section {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.4s ease;
 }
 
-// Hover effects and transitions
-.navbar {
-  .nav-links a {
-    transition: color 0.3s ease;
-  }
-
-  .user-menu {
-    img {
-      transition: transform 0.2s ease;
-
-      &:hover {
-        transform: scale(1.1);
-      }
-    }
-
-    .dropdown {
-      transition: opacity 0.3s ease;
-      
-      &.active {
-        animation: fadeIn 0.3s ease;
-      }
-    }
-  }
+.content .section:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-@keyframes fadeIn {
+.content .section h2 {
+  margin-top: 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.content .section .empty-state {
+  text-align: center;
+  color: #666;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.content .section .empty-state img {
+  max-width: 100px;
+  margin-bottom: 10px;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #ff4444;
+  color: white;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes slideDown {
   from {
     opacity: 0;
     transform: translateY(-10px);
@@ -237,53 +203,74 @@ body {
   }
 }
 
-// Additional interactive elements
-.section {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
-// Status indicators
-.notification-badge {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background-color: #ff4444;
-  color: white;
-  border-radius: 50%;
-  padding: 2px 6px;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-// Custom scrollbar for dropdown
-.dropdown {
-  .menu {
-    max-height: 300px;
-    overflow-y: auto;
-
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: #f1f1f1;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: #888;
-      border-radius: 3px;
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-      background: #555;
-    }
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
   }
 }
+
+.exam-item {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 15px;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.exam-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.exam-item h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.exam-item p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.exam-item .exam-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.exam-item .exam-actions button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.exam-item .exam-actions button:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+
 .create-button {
   background-color: #3f51b5;
   color: #fff;
@@ -294,67 +281,122 @@ body {
   font-size: 16px;
   display: flex;
   align-items: center;
-  margin-left: 20px; /* Thêm margin bên trái */
-  margin-bottom: 20px; /* Thêm khoảng cách với phần nội dung bên dưới */
+  margin-left: 20px;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
+
+.create-button:hover {
+  background-color: #283593;
+  transform: scale(1.1);
+}
+
 .create-button i {
   margin-left: 10px;
 }
-.exam-item {
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 15px;
-  margin-bottom: 15px;
-  
-  h3 {
-    margin-top: 0;
-    color: #333;
+
+/* Additional styles for responsiveness */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 10px;
   }
-  
-  p {
-    margin: 5px 0;
-    color: #666;
+
+  .navbar .nav-links {
+    margin: 10px 0;
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .navbar .nav-links a {
+    margin: 0 5px;
+    font-size: 14px;
+  }
+
+  .navbar .user-menu {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .content {
+    padding: 10px;
+  }
+
+  .content .section {
+    padding: 15px;
   }
 }
-
-.empty-state {
-  text-align: center;
-  padding: 20px;
-  color: #666;
-  
-  img {
-    margin-bottom: 10px;
-  }
+/* Các nút bấm chính */
+button {
+  padding: 12px 24px; /* Tăng padding để nút không bị trống trải */
+  font-size: 16px;
+  background-color: #007bff; /* Màu nền đẹp và nổi bật */
+  color: white;
+  border: none;
+  border-radius: 6px; /* Các góc tròn giúp nút mềm mại hơn */
+  cursor: pointer;
+  transition: all 0.3s ease; /* Thêm hiệu ứng chuyển động khi hover */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Bóng đổ nhẹ giúp nút nổi bật hơn */
+  font-weight: 600; /* Đậm chữ để dễ đọc */
 }
-.exam-item {
-  background-color: #f8f9fa;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  padding: 15px;
-  margin-bottom: 15px;
 
-  .exam-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
+button:hover {
+  background-color: #0056b3; /* Màu nền tối hơn khi hover */
+  transform: translateY(-2px); /* Nâng nút lên một chút khi hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Bóng đổ đậm hơn khi hover */
+}
 
-    button {
-      padding: 8px 15px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background-color 0.2s ease;
+button:active {
+  transform: translateY(1px); /* Hiệu ứng khi click, nút bị đẩy xuống */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Giảm bóng đổ khi click */
+}
 
-      &:hover {
-        opacity: 0.8;
-      }
+/* Button với icon đi kèm */
+button i {
+  margin-left: 10px; /* Khoảng cách giữa chữ và icon */
+  font-size: 18px; /* Kích thước icon */
+}
 
-      &:nth-child(1) { background-color: #4a3aff; color: #fff; }  /* View button */
-      &:nth-child(2) { background-color: #ffc107; color: #333; }  /* Edit button */
-      &:nth-child(3) { background-color: #dc3545; color: #fff; }  /* Delete button */
-      &:nth-child(4) { background-color: #28a745; color: #fff; }  /* Update button */
-    }
-  }
+button:focus {
+  outline: none; /* Bỏ viền khi button được chọn */
+}
+
+/* Button thứ cấp (như "Cancel", "Đóng") */
+button.secondary {
+  background-color: #6c757d; /* Màu nền nhẹ hơn cho các nút phụ */
+  color: white;
+}
+
+button.secondary:hover {
+  background-color: #5a6268;
+}
+
+/* Button với màu thành công (Ví dụ: "Submit", "Save") */
+button.success {
+  background-color: #28a745; /* Màu xanh lá cho các nút thành công */
+  color: white;
+}
+
+button.success:hover {
+  background-color: #218838;
+}
+
+/* Button với màu cảnh báo (Ví dụ: "Delete", "Warning") */
+button.danger {
+  background-color: #dc3545; /* Màu đỏ cho các nút cảnh báo */
+  color: white;
+}
+
+button.danger:hover {
+  background-color: #c82333;
+}
+
+/* Button với màu thông tin (Ví dụ: "Info") */
+button.info {
+  background-color: #17a2b8; /* Màu xanh lam cho các nút thông tin */
+  color: white;
+}
+
+button.info:hover {
+  background-color: #138496;
 }
