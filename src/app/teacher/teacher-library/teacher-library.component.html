@@ -68,61 +68,6 @@
         <button (click)="filterQuestions()">Áp dụng</button>
       </div>
     </div>
-
-    <!-- Approved Questions -->
-    <!-- Approved Questions -->
-    <div class="question-section">
-      <h2 (click)="toggleApprovedQuestions()">
-        <span>Câu hỏi đã duyệt</span>
-        <i class="fas" [ngClass]="isApprovedOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
-      </h2>
-      <div class="questions-list" *ngIf="isApprovedOpen && approvedQuestions.length > 0">
-        <div class="question-item" *ngFor="let question of approvedQuestions; let i = index">
-          <div class="question-content">
-            <p><strong>Câu hỏi số {{ i + 1 }}:</strong></p>
-            <p *ngIf="!question.audioFile && !question.text.startsWith('http')">{{ question.text }}</p>
-            <div *ngIf="question.text && question.text.startsWith('http')">
-              <p>Listen and choose the correct answer: </p>
-              <audio controls>
-                <source [src]="question.text" type="audio/mpeg">
-                Trình duyệt của bạn không hỗ trợ phát âm thanh.
-              </audio>
-            </div>
-            <div *ngIf="question.answers && question.answers.length > 0" class="question-answer">
-              <p><strong>Câu trả lời:</strong></p>
-              <ul>
-                <li *ngFor="let answer of question.answers">
-                  <span [ngClass]="{'correct-answer': answer.isCorrect, 'incorrect-answer': !answer.isCorrect}">
-                    {{ answer.text }}
-                  </span>
-                </li>
-              </ul>
-            </div>
-            <div class="question-info">
-              <span *ngIf="question.category" class="category">
-                <i class="fas fa-folder"></i> {{ question.category }}
-              </span>
-              <span *ngIf="question.group" class="group">
-                <i class="fas fa-layer-group"></i> {{ question.group }}
-              </span>
-              <span class="answers-count">
-                <i class="fas fa-check-circle"></i>
-                {{ countCorrectAnswers(question) }}/{{ getTotalAnswers(question) }} câu trả lời đúng
-              </span>
-            </div>
-          </div>
-          <div class="question-actions">
-            <button class="delete-btn" (click)="deleteQuestion(question)">
-              <i class="fas fa-trash"></i> Xóa
-            </button>
-          </div>
-        </div>
-      </div>
-      <div class="empty-state" *ngIf="approvedQuestions.length === 0">
-        <p>Không có câu hỏi đã duyệt.</p>
-      </div>
-    </div>
-
     <!-- Unapproved Questions -->
     <div class="question-section">
       <h2 (click)="toggleUnapprovedQuestions()">
@@ -178,6 +123,60 @@
         <p>Không có câu hỏi chưa duyệt.</p>
       </div>
     </div>
+    <!-- Approved Questions -->
+    <div class="question-section">
+      <h2 (click)="toggleApprovedQuestions()">
+        <span>Câu hỏi đã duyệt</span>
+        <i class="fas" [ngClass]="isApprovedOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+      </h2>
+      <div class="questions-list" *ngIf="isApprovedOpen && approvedQuestions.length > 0">
+        <div class="question-item" *ngFor="let question of approvedQuestions; let i = index">
+          <div class="question-content">
+            <p><strong>Câu hỏi số {{ i + 1 }}:</strong></p>
+            <p *ngIf="!question.audioFile && !question.text.startsWith('http')">{{ question.text }}</p>
+            <div *ngIf="question.text && question.text.startsWith('http')">
+              <p>Listen and choose the correct answer: </p>
+              <audio controls>
+                <source [src]="question.text" type="audio/mpeg">
+                Trình duyệt của bạn không hỗ trợ phát âm thanh.
+              </audio>
+            </div>
+            <div *ngIf="question.answers && question.answers.length > 0" class="question-answer">
+              <p><strong>Câu trả lời:</strong></p>
+              <ul>
+                <li *ngFor="let answer of question.answers">
+                  <span [ngClass]="{'correct-answer': answer.isCorrect, 'incorrect-answer': !answer.isCorrect}">
+                    {{ answer.text }}
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <div class="question-info">
+              <span *ngIf="question.category" class="category">
+                <i class="fas fa-folder"></i> {{ question.category }}
+              </span>
+              <span *ngIf="question.group" class="group">
+                <i class="fas fa-layer-group"></i> {{ question.group }}
+              </span>
+              <span class="answers-count">
+                <i class="fas fa-check-circle"></i>
+                {{ countCorrectAnswers(question) }}/{{ getTotalAnswers(question) }} câu trả lời đúng
+              </span>
+            </div>
+          </div>
+          <div class="question-actions">
+            <button class="delete-btn" (click)="deleteQuestion(question)">
+              <i class="fas fa-trash"></i> Xóa
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="empty-state" *ngIf="approvedQuestions.length === 0">
+        <p>Không có câu hỏi đã duyệt.</p>
+      </div>
+    </div>
+
+
 
   </div>
 </div>
