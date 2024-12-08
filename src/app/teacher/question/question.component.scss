@@ -6,6 +6,12 @@
   border-radius: 5px;
   background-color: #f9f9f9;
   width: 80%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container:hover {
+  transform: scale(1.01); /* Phóng to nhẹ khi hover */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Bóng đổ khi hover */
 }
 
 /* Tiêu đề của mỗi câu hỏi */
@@ -14,18 +20,28 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+  transition: background-color 0.2s ease; /* Thêm hiệu ứng màu nền nhẹ khi hover */
+}
+
+.header:hover {
+  background-color: #e9ecef; /* Màu nền thay đổi nhẹ khi hover */
 }
 
 .header h1 {
   font-size: 18px;
   color: #333;
+  transition: color 0.2s ease;
+}
+
+.header:hover h1 {
+  color: #007bff; /* Màu chữ thay đổi khi hover */
 }
 
 .close-btn {
   cursor: pointer;
   font-size: 24px;
   color: #d9534f;
-  transition: color 0.3s;
+  transition: color 0.2s ease;
 }
 
 .close-btn:hover {
@@ -37,11 +53,17 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 15px;
+  transition: transform 0.2s ease;
 }
 
-/* Cập nhật phần audio-upload để cho phù hợp với giao diện */
+.input-group:hover {
+  transform: translateX(3px); /* Di chuyển nhẹ sang phải khi hover */
+}
+
+/* Cập nhật phần audio-upload */
 .audio-upload {
   margin-top: 15px;
+  animation: fadeIn 1s ease-in-out; /* Hiệu ứng fadeIn khi phần audio-upload được hiển thị */
 }
 
 .audio-upload label {
@@ -52,7 +74,7 @@
 }
 
 .audio-upload input[type="file"] {
-  display: none;  /* Ẩn input file mặc định */
+  display: none;
 }
 
 .audio-upload .file-upload-btn {
@@ -62,11 +84,12 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .audio-upload .file-upload-btn:hover {
   background-color: #e2e2e2;
+  transform: scale(1.05); /* Phóng to nút khi hover */
 }
 
 .audio-upload .file-info {
@@ -77,39 +100,29 @@
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 5px;
+  transition: opacity 0.3s ease;
 }
 
-/* Cập nhật lại textarea */
-.question-content textarea {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-  resize: vertical; /* Cho phép thay đổi kích thước chiều cao */
-  margin-bottom: 15px;
-  transition: border-color 0.3s;
+.audio-upload .file-info:hover {
+  opacity: 0.7; /* Giảm độ mờ khi hover */
 }
 
-.question-content textarea:focus {
-  border-color: #5bc0de;
-  outline: none;
-}
-
+/* Hiệu ứng focus cho textarea và select */
 select,
 textarea {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 8px; /* Bo góc mượt mà */
+  border-radius: 8px;
   background-color: #fff;
-  transition: border-color 0.3s;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 select:focus,
 textarea:focus {
-  border-color: #5bc0de; /* Hiệu ứng border khi focus */
+  border-color: #5bc0de;
   outline: none;
+  box-shadow: 0 0 5px rgba(91, 192, 222, 0.6); /* Hiệu ứng bóng khi focus */
 }
 
 /* Các câu trả lời */
@@ -118,9 +131,14 @@ textarea:focus {
 }
 
 .answer-options label {
-  display: flex; /* Đổi từ block thành flex để các phần tử nằm trên cùng một dòng */
-  align-items: center; /* Căn giữa theo chiều dọc */
+  display: flex;
+  align-items: center;
   margin-bottom: 10px;
+  transition: transform 0.3s ease;
+}
+
+.answer-options:hover {
+  transform: translateY(3px); /* Di chuyển nhẹ lên trên khi hover */
 }
 
 .answer-options input[type="text"] {
@@ -129,18 +147,24 @@ textarea:focus {
   margin-right: 10px;
   border: 1px solid #afaeae;
   border-radius: 5px;
-  flex-grow: 1; /* Chiếm hết không gian còn lại */
+  flex-grow: 1;
 }
 
 .toggle-btn {
   display: inline-block;
   margin-left: 10px;
   cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.toggle-btn:hover {
+  transform: rotate(10deg); /* Quay nút khi hover */
 }
 
 .fas {
   font-size: 18px;
   color: #0585fc;
+  transition: color 0.3s ease;
 }
 
 .fas.fa-toggle-on {
@@ -154,29 +178,21 @@ textarea:focus {
 .icon {
   cursor: pointer;
   margin-left: 10px;
+  transition: color 0.3s ease;
 }
 
 .icon:hover {
   color: #0004ff;
 }
 
-
-/* Footer */
-.footer {
-  display: flex;
-  justify-content: center; /* Căn giữa */
-  align-items: center;
-  margin-top: 20px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  border: 1px solid #dfdddd; /* Viền nhẹ xung quanh */
-}
-
+/* Các nút với hiệu ứng hover */
 /* Nhóm các nút lại với nhau */
 .button-group {
   display: flex;
+  justify-content: center; /* Căn giữa các nút */
   gap: 15px; /* Khoảng cách giữa các nút */
+  align-items: center; /* Căn giữa các nút theo chiều dọc */
+  flex-wrap: wrap; /* Cho phép nút bọc dòng khi màn hình nhỏ */
 }
 
 /* Các nút với hiệu ứng hiện đại */
@@ -189,8 +205,10 @@ button {
   transition: all 0.3s ease-in-out;
   background-color: #fff; /* Màu nền nhẹ */
   color: #333; /* Màu chữ tối */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Bóng đổ nhẹ */
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3); /* Bóng đổ nhẹ */
+  margin: 5px; /* Thêm khoảng cách giữa các nút */
 }
+
 
 /* Nút tải file với icon */
 .upload-btn {
@@ -202,62 +220,56 @@ button {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .upload-btn:hover {
-  background-color: #8fc7f5;
-}
-
-.upload-btn input[type="file"] {
-  display: none; /* Ẩn input file */
-}
-
-.upload-btn i {
-  margin-right: 8px; /* Khoảng cách giữa icon và text */
+  background-color: #add6f7;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Các nút khác */
 .add-btn {
-  background-color: #5bc0de;
-  color: white;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .add-btn:hover {
-  background-color: #31b0d5;
-  transform: translateY(-2px); /* Hiệu ứng nhấc lên nhẹ */
+  background-color: #8ce1fb;
+  transform: translateY(-1px);
 }
 
 .save-btn {
-  background-color: #5cb85c;
-  color: white;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .save-btn:hover {
-  background-color: #4cae4c;
-  transform: translateY(-2px); /* Hiệu ứng nhấc lên nhẹ */
+  background-color: #85fb85;
+  transform: translateY(-1px);
 }
 
 .preview-btn {
-  background-color: #f0714e;
-  color: white;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .preview-btn:hover {
-  background-color: #f5e2c7;
-  transform: translateY(-2px); /* Hiệu ứng nhấc lên nhẹ */
+  background-color: #a086f5;
+  transform: translateY(-1px);
+}
+.update-btn {
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-/* Responsive: Căn giữa các nút trên các màn hình nhỏ */
-@media (max-width: 768px) {
-  .button-group {
-    flex-direction: column; /* Chuyển nút thành dạng cột */
-    align-items: center;
-  }
-
-  .footer {
-    margin-top: 20px;
-  }
+.update-btn:hover {
+  background-color: #f5c05d;
+  transform: translateY(-1px);
 }
 
 /* Modal Preview */
@@ -271,6 +283,7 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: fadeInModal 0.5s ease-in-out;
 }
 
 .modal-content {
@@ -285,15 +298,7 @@ button {
 .preview-modal h2 {
   font-size: 24px;
   margin-bottom: 20px;
-}
-
-.preview-modal ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.preview-modal li {
-  margin-bottom: 10px;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 .preview-modal button {
@@ -304,80 +309,27 @@ button {
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .preview-modal button:hover {
   background-color: #c9302c;
 }
 
-/* Nút "Quay lại" */
-button.go-back {
-  padding: 12px 20px;
-  background-color: #f0ad4e;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-button.go-back:hover {
-  background-color: #ec971f;
-}
-
-/* Container của phần tải MP3 */
-.audio-upload {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  background-color: #fafafa;
-  margin-bottom: 20px;
-}
-
-/* Label cho input file */
-.audio-upload label {
-  font-size: 14px;
-  font-weight: bold;
-  color: #333;
-  cursor: pointer;
-  margin-bottom: 5px;
-}
-
-/* Nút chọn file tùy chỉnh */
-.audio-upload .file-upload-btn {
-  padding: 10px 15px;
-  background-color: #f1f1f1;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.audio-upload .file-upload-btn:hover {
-  background-color: #e2e2e2;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-/* Hiển thị thông tin tệp đã tải */
-.audio-upload .file-info {
-  font-size: 14px;
-  color: #555;
-  padding: 10px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-top: 10px;
-}
-
-/* Trình phát âm thanh */
-.audio-upload audio {
-  margin-top: 10px;
-  width: 100%;
-  outline: none;
-  border-radius: 5px;
-  background-color: #f1f1f1;
+@keyframes fadeInModal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
