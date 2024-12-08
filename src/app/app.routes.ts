@@ -60,8 +60,7 @@ const routes: Routes = [
   { path: 'exam-history', component: ExamHistoryComponent },
   { path: 'student-dashboard', component: StudentDashboardComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'exam-result-detail/examid/:examId/userid/:userId', component: ExamResultDetailComponent },
-
+  { path: 'exam-result-detail/:examId/:userId', component: ExamResultDetailComponent },
 
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' } // Route không tìm thấy

@@ -185,7 +185,8 @@ export class ExamCreateComponent implements OnInit {
     this.filteredQuestions = this.availableQuestions.filter(question => {
       const categoryMatch = this.selectedCategory ? question.category === this.selectedCategory : true;
       const groupMatch = this.selectedGroup ? question.group === this.selectedGroup : true;
-      return categoryMatch && groupMatch;
+      const statusMatch = question.status === "approved";
+      return categoryMatch && groupMatch && statusMatch;
     });
   
     console.log("Filtered Questions after filtering:", this.filteredQuestions); // Kiểm tra câu hỏi sau khi lọc

@@ -186,7 +186,9 @@ export class ExamService {
     return this.http.get<any>(url);
   }
   getStudentExamDetails(examId: string, userId: string): Observable<any> {
-    const url = `${this.apiUrl}/exams/${examId}/results/${userId}`;
+    // Xây dựng URL với examId và userId
+    const url = `http://localhost:3000/exams/${examId}/results/${userId}`;
+    
     return this.http.get<any>(url).pipe(
       catchError(error => {
         console.error('Error fetching student exam details:', error);
@@ -194,6 +196,9 @@ export class ExamService {
       })
     );
   }
+  
+  
+  
   
   
 }

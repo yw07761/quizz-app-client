@@ -80,6 +80,7 @@ export class TeacherLibraryComponent implements OnInit {
           this.filteredQuestions = this.filteredQuestions.filter(q => q._id !== question._id);
           this.updateUniqueFilters();
           alert('Câu hỏi đã được xóa');
+          this.loadQuestions();
         },
         error: (error) => {
           console.error('Error deleting question:', error);
