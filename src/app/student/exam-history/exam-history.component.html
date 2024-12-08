@@ -1,16 +1,13 @@
-<!-- exam-history.component.html -->
 <div class="navbar">
   <div class="logo">
     <img src="../../assets/img/qye-challenge-logo.png" alt="Logo" height="30" width="30">
     <span>Quiz your English Challenge</span>
   </div>
   <div class="nav-links">
-    <a routerLink="/student-dashboard">Bài kiểm tra</a>
-    <a routerLink="/exam-history" routerLinkActive="active">Lịch sử làm bài</a>
+    <a routerLink="/student-dashboard" >Bài kiểm tra</a>
+    <a routerLink="/exam-history" routerLinkActive="active">Thống kê kết quả</a>
   </div>
   <div class="user-menu">
-    <i class="fas fa-question-circle" style="margin-right: 20px;"></i>
-    <i class="fas fa-bell" style="margin-right: 20px;"></i>
     <img 
       src="../../assets/img/skeleton-icon.png" 
       alt="User Avatar" 
@@ -43,19 +40,7 @@
 
 <div class="container">
   <div class="section">
-    <h2>Lịch sử làm bài</h2>
-    
-    <!-- Search and Filter Bar -->
-    <div class="tab">
-      <div class="search-bar">
-        <input 
-          type="text" 
-          placeholder="Nhập từ khóa"
-          (input)="filterResults($event)"
-        >
-        <i class="fas fa-search"></i>
-      </div>
-    </div>
+    <h2>Thống kê kết quả bài thi</h2>
 
     <!-- Loading State -->
     <div *ngIf="loading" class="loading-state">
@@ -69,63 +54,45 @@
       <p>{{ error }}</p>
     </div>
 
-    <!-- Exam History List -->
-    <div *ngIf="!loading && !error && filteredExamHistory.length > 0; else noExams">
-      <ul class="exam-list">
-        <li *ngFor="let result of filteredExamHistory" class="exam-item">
-          <div class="exam-details">
-            <div class="exam-header">
-              <h3>{{ result.examId.name }}</h3>
-              <span class="status-badge completed">
-                {{ getExamStatus(result) }}
-              </span>
-            </div>
-            
-            <p class="description">{{ result.examId.description }}</p>
+    <!-- Exam Stats with Bar Chart Representation -->
+    <div *ngIf="!loading && !error && examStats">
+      <div class="stats-summary">
+        <!-- Tổng Số Đề Thi -->
+        <div class="stat-item">
+          <h4>Tổng Số Đề Thi</h4>
+          <p>{{ examStats.totalExams }}</p>
+        </div>
 
-            <div class="exam-info">
-              <div class="info-row">
-                <span class="label">Thời gian:</span>
-                <span class="value">{{ formatDate(result.startTime) }} - {{ formatDate(result.endTime) }}</span>
-              </div>
-              <div class="info-row">
-                <span class="label">Điểm số:</span>
-                <span class="value score">
-                  {{ formatScore(result) }}
-                </span>
-              </div>
-              <div class="info-row">
-                <span class="label">Thời gian làm bài:</span>
-                <span class="value">
-                  {{ formatDuration(result.timeSpent) }}
-                </span>
-              </div>
-              <div class="info-row">
-                <span class="label">Nộp bài lúc:</span>
-                <span class="value">
-                  {{ formatDate(result.submittedAt) }}
-                </span>
-              </div>
-              <div class="info-row">
-                <span class="label">Số câu trả lời:</span>
-                <span class="value">
-                  {{ result.numberOfAnswers }}/{{ result.totalQuestions }}
-                </span>
-              </div>
-            </div>
+        <!-- Điểm Trung Bình -->
+        <div class="stat-item">
+          <h4>Điểm Trung Bình</h4>
+          <p>{{ examStats.averageScore }}</p>
+        </div>
 
-           
-          </div>
-          <div class="exam-actions">
-            <button class="view-details" 
-                    *ngIf="result.examId?._id" 
-                    (click)="viewExamDetails(result.examId._id)">
-              <i class="fas fa-eye"></i> Xem chi tiết kết quả
-            </button>
-          </div>
-          
-        </li>
-      </ul>
+        <!-- Tổng Thời Gian Làm Bài -->
+        <div class="stat-item">
+          <h4>Tổng Thời Gian Làm Bài</h4>
+          <p>{{ examStats.totalTimeSpentInMinutes }} phút</p>
+        </div>
+
+        <!-- Số Đề Thi Đã Hoàn Thành -->
+        <div class="stat-item">
+          <h4>Số Đề Thi Đã Hoàn Thành</h4>
+          <p>{{ examStats.completedExams }}</p>
+        </div>
+
+        <!-- Điểm Cao Nhất -->
+        <div class="stat-item">
+          <h4>Điểm Cao Nhất</h4>
+          <p>{{ examStats.highestScore }}</p>
+        </div>
+
+        <!-- Điểm Thấp Nhất -->
+        <div class="stat-item">
+          <h4>Điểm Thấp Nhất</h4>
+          <p>{{ examStats.lowestScore }}</p>
+        </div>
+      </div>
     </div>
 
     <!-- Empty State -->

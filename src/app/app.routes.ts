@@ -28,7 +28,7 @@ import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard
 import { AdminUserComponent } from './admin/admin-user/admin-user.component';
 import { AdminQuestionComponent } from './admin/admin-question/admin-question.component';
 import { AdminExamComponent } from './admin/admin-exam/admin-exam.component';
-import { TeacherHistoryComponent} from './teacher/teacher-history/teacher-history.component'
+import { TeacherHistoryComponent} from './teacher/teacher-history/teacher-history.component';
 const routes: Routes = [
   { path: 'teacher-history', component: TeacherHistoryComponent},
   { path: 'role', component: RoleComponent },
