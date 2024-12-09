@@ -3,10 +3,50 @@
 
 <div class="nav-links"> 
   <h1>Quản lý người dùng</h1>
-  
+</div>
+
+<!-- Nút Tạo tài khoản mới -->
+<button (click)="toggleCreateAccount()" class="create-account-button">Tạo tài khoản mới</button>
+
+<!-- Form tạo tài khoản mới -->
+<div class="create-account" *ngIf="isCreateAccountVisible">
+  <h2>Tạo tài khoản mới</h2>
+  <form (ngSubmit)="createAccount()">
+    <label for="username">Tên người dùng</label>
+    <input type="text" id="username" [(ngModel)]="newUser.username" name="username" required>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" [(ngModel)]="newUser.email" name="email" required>
+
+    <label for="password">Mật khẩu</label>
+    <input type="password" id="password" [(ngModel)]="newUser.password" name="password" required>
+
+    <label for="role">Vai trò</label>
+    <select id="role" [(ngModel)]="newUser.role" name="role" required>
+      <option value="admin">Admin</option>
+      <option value="teacher">Teacher</option>
+      <option value="student">Student</option>
+    </select>
+
+    <label for="dateOfBirth">Ngày sinh</label>
+    <input type="date" id="dateOfBirth" [(ngModel)]="newUser.dateOfBirth" name="dateOfBirth" required>
+
+    <label for="gender">Giới tính</label>
+    <select id="gender" [(ngModel)]="newUser.gender" name="gender" required>
+      <option value="male">Nam</option>
+      <option value="female">Nữ</option>
+      <option value="other">Khác</option>
+    </select>
+
+    <label for="phoneNumber">Số điện thoại</label>
+    <input type="text" id="phoneNumber" [(ngModel)]="newUser.phoneNumber" name="phoneNumber" required>
+
+    <button type="submit">Tạo tài khoản</button>
+  </form>
 </div>
 
 
+<!-- Bảng người dùng -->
 <table>
   <thead>
     <tr>

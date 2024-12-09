@@ -1,118 +1,193 @@
 /* General Styles */
 table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 16px;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+td {
+  background-color: #f9f9f9;
+}
+
+tr:nth-child(even) td {
+  background-color: #f1f1f1;
+}
+
+/* Hover Effect */
+tr:hover {
+  background-color: #e2f7e2;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  margin-right: 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+/* Button Hover Effect */
+button:hover {
+  background-color: #45a049;
+}
+
+button:focus {
+  outline: none;
+}
+
+/* Delete Button */
+button.delete {
+  background-color: #f44336;
+}
+
+button.delete:hover {
+  background-color: #e53935;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  table {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  th, td {
-    padding: 12px 15px;
-    text-align: left;
-    font-size: 16px;
-  }
-  
-  th {
-    background-color: #4CAF50;
-    color: white;
-  }
-  
-  td {
-    background-color: #f9f9f9;
-  }
-  
-  tr:nth-child(even) td {
-    background-color: #f1f1f1;
-  }
-  
-  /* Hover Effect */
-  tr:hover {
-    background-color: #e2f7e2;
-  }
-  
-  button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    margin-right: 8px;
-    cursor: pointer;
-    border-radius: 4px;
     font-size: 14px;
-    transition: background-color 0.3s;
   }
-  
-  /* Button Hover Effect */
-  button:hover {
-    background-color: #45a049;
+
+  th, td {
+    padding: 10px;
   }
-  
-  button:focus {
-    outline: none;
+
+  button {
+    padding: 4px 8px;
+    font-size: 12px;
   }
-  
-  /* Delete Button */
-  button.delete {
-    background-color: #f44336;
-  }
-  
-  button.delete:hover {
-    background-color: #e53935;
-  }
-  
-  /* Responsiveness */
-  @media (max-width: 768px) {
-    table {
-      width: 100%;
-      font-size: 14px;
-    }
-  
-    th, td {
-      padding: 10px;
-    }
-  
-    button {
-      padding: 4px 8px;
-      font-size: 12px;
-    }
-  }
+}
+
 /* Nút Go Back */
 .go-back-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
-    margin-top: 20px;
-    transition: background-color 0.3s;
-  }
-  
-  /* Nút Go Back Hover */
-  .go-back-button:hover {
-    background-color: #45a049;
-  }
-  
-  .go-back-button:focus {
-    outline: none;
-  }
-  .nav-links {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px; /* Điều chỉnh chiều cao của phần này */
-    background-color: #f9f9f9; /* Thêm nền nhẹ nhàng */
-    border-bottom: 2px solid #e0e0e0;
-  }
-  
-  .nav-links h1 {
-    font-size: 2.5em;
-    color: #333;
-    font-weight: 600;
-    margin: 0; /* Loại bỏ margin mặc định */
-    text-align: center;
-    letter-spacing: 1px; /* Thêm khoảng cách giữa các chữ */
-    text-transform: uppercase; /* Chữ in hoa */
-    padding: 10px 0; /* Thêm padding để chữ không bị sát viền */
-  }  
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+}
+
+/* Nút Go Back Hover */
+.go-back-button:hover {
+  background-color: #45a049;
+}
+
+.go-back-button:focus {
+  outline: none;
+}
+
+/* Navigation Bar */
+.nav-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  background-color: #f9f9f9;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.nav-links h1 {
+  font-size: 2.5em;
+  color: #333;
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 10px 0;
+}
+
+/* Create Account Button */
+.create-account-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+}
+
+/* Create Account Button Hover */
+.create-account-button:hover {
+  background-color: #45a049;
+}
+
+.create-account-button:focus {
+  outline: none;
+}
+
+/* Form Container */
+.create-account {
+  margin-top: 30px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.create-account h2 {
+  font-size: 1.8em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.create-account label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.create-account input,
+.create-account select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.create-account button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.create-account button:hover {
+  background-color: #45a049;
+}
+
+.create-account button:focus {
+  outline: none;
+}
