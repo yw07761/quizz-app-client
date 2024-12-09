@@ -28,8 +28,9 @@ import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard
 import { AdminUserComponent } from './admin/admin-user/admin-user.component';
 import { AdminQuestionComponent } from './admin/admin-question/admin-question.component';
 import { AdminExamComponent } from './admin/admin-exam/admin-exam.component';
-
+import { TeacherHistoryComponent} from './teacher/teacher-history/teacher-history.component';
 const routes: Routes = [
+  { path: 'teacher-history', component: TeacherHistoryComponent},
   { path: 'role', component: RoleComponent },
   { path: 'admin-dashboard', component: AdminDashboardComponent},
   { path: 'admin-user', component: AdminUserComponent},
@@ -59,7 +60,7 @@ const routes: Routes = [
   { path: 'exam-history', component: ExamHistoryComponent },
   { path: 'student-dashboard', component: StudentDashboardComponent },
   { path: 'profile', component: ProfileComponent },
-
+  { path: 'exam-result-detail/:examId/:userId', component: ExamResultDetailComponent },
 
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' } // Route không tìm thấy

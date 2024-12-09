@@ -18,7 +18,8 @@ import { ExamResultDetailComponent } from './student/exam-result-detail/exam-res
   imports: [
     CommonModule, 
     BrowserModule,
-    FormsModule
+    FormsModule,
+     
   ],
   providers: [AuthService], // Đăng ký AuthService
   bootstrap: [AppComponent]

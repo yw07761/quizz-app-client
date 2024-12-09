@@ -1,51 +1,59 @@
 <div class="navbar">
-    <div class="logo">
-      <img src="../../assets/img/qye-challenge-logo.png" alt="Logo" height="30" width="30">
-      <span>Quiz your English Challenge</span>
-    </div>
-    <div class="nav-links">
-      <a href="/teacher-dashboard" >Bài kiểm tra</a>
-      <a href="/teacher-library" >Thư viện câu hỏi</a>
-      <a href="/teacher-statistics" class="active">Tổng kết</a>
-    </div>
-    <div class="user-menu">
-      <i class="fas fa-question-circle" style="margin-right: 20px;"></i>
-      <i class="fas fa-bell" style="margin-right: 20px;"></i>
-      <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="40" width="40" (click)="toggleDropdown()">
-      <div class="dropdown" [class.active]="isDropdownActive">
-        <div class="profile">
-          <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="50" width="50">
-          <div class="info">
-            <div class="name">{{ user?.username }}</div>
-            <div class="email">{{ user?.email }}</div>
-          </div>
+  <div class="logo">
+    <img src="../../assets/img/qye-challenge-logo.png" alt="Logo" height="30" width="30">
+    <span>Quiz your English Challenge</span>
+  </div>
+  <div class="nav-links">
+    <a href="/teacher-statistics" class="active">Tổng kết</a>
+  </div>
+  <div class="user-menu">
+    <i class="fas fa-question-circle" style="margin-right: 20px;"></i>
+    <i class="fas fa-bell" style="margin-right: 20px;"></i>
+    <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="40" width="40" (click)="toggleDropdown()">
+    <div class="dropdown" [class.active]="isDropdownActive">
+      <div class="profile">
+        <img src="../../assets/img/skeleton-icon.png" alt="User Avatar" height="50" width="50">
+        <div class="info">
+          <div class="name">{{ user?.username }}</div>
+          <div class="email">{{ user?.email }}</div>
         </div>
-        <div class="menu">
-          <a href="/profile"><i class="fas fa-user-graduate"></i> Thông tin cá nhân</a>
-          <a href="#"><i class="fas fa-cog"></i> Cài đặt chung</a>
-          <a href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-        </div>
+      </div>
+      <div class="menu">
+        <a href="/profile"><i class="fas fa-user-graduate"></i> Thông tin cá nhân</a>
+        <a href="#"><i class="fas fa-cog"></i> Cài đặt chung</a>
+        <a href="#" (click)="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
       </div>
     </div>
   </div>
-  <div *ngIf="errorMessage" class="error-message">
-    <p>{{ errorMessage }}</p>
-  </div>
-  
-  <div *ngIf="statistics" class="statistics-container">
-    <h1 class="exam-title">Thống kê bài kiểm tra: {{ statistics.exam.username }}</h1>
-    <p><strong>Tổng số người tham gia:</strong> {{ statistics.totalParticipants }}</p>
-    <p><strong>Điểm trung bình:</strong> {{ statistics.averageScore }}</p>
-    <p><strong>Điểm cao nhất:</strong> {{ statistics.highestScore }}</p>
-    <p><strong>Điểm thấp nhất:</strong> {{ statistics.lowestScore }}</p>
-    <p><strong>Tỷ lệ đậu:</strong> {{ statistics.passPercentage }}%</p>
-  
-    <table class="participants-table">
+</div>
+
+<div class="go-back-container">
+  <button class="go-back-button" (click)="goBack()">Quay lại</button>
+</div>
+
+<!-- Error message section -->
+<div *ngIf="errorMessage" class="error-message">
+  <p>{{ errorMessage }}</p>
+</div>
+
+<!-- Statistics Section -->
+<div *ngIf="statistics" class="statistics-container">
+  <h1 class="exam-title">Thống kê bài kiểm tra: {{ statistics.exam.username }}</h1>
+  <p><strong>Tổng số người tham gia:</strong> {{ statistics.totalParticipants }}</p>
+  <p><strong>Điểm trung bình:</strong> {{ statistics.averageScore }}</p>
+  <p><strong>Điểm cao nhất:</strong> {{ statistics.highestScore }}</p>
+  <p><strong>Điểm thấp nhất:</strong> {{ statistics.lowestScore }}</p>
+  <p><strong>Tỷ lệ đậu:</strong> {{ statistics.passPercentage }}%</p>
+
+  <div *ngIf="statistics.participants && statistics.participants.length">
+    <h2>Danh sách người tham gia</h2>
+    <table>
       <thead>
         <tr>
           <th>Tên người tham gia</th>
           <th>Email</th>
           <th>Điểm</th>
+          <th>Chi tiết</th>
         </tr>
       </thead>
       <tbody>
@@ -53,9 +61,17 @@
           <td>{{ participant.username }}</td>
           <td>{{ participant.email }}</td>
           <td>{{ participant.score }}</td>
+          <td>
+            <button (click)="viewExamDetails(participant.user)">
+              Xem chi tiết
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
-  
-  
+
+  <div *ngIf="!statistics.participants || statistics.participants.length === 0">
+    Không có người tham gia nào.
+  </div>
+</div>

@@ -3,19 +3,32 @@ import { AuthService } from '../../../services/auth.service';
 import { UserService, User } from '../../../services/user.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';  // Add FormsModule for ngModel binding
 
 @Component({
   selector: 'app-admin-user',
   templateUrl: './admin-user.component.html',
   styleUrls: ['./admin-user.component.scss'],
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule], // Import FormsModule if you're using ngModel
 })
 export class AdminUserComponent implements OnInit {
   user: any = null;
   users: User[] = []; // Danh sách người dùng
   isDropdownActive = false;
+  isCreateAccountVisible = false;
+  isEditUserVisible = false;
 
+  newUser = {
+    username: '',
+    email: '',
+    password: '',
+    role: 'student',
+    dateOfBirth: '',  
+    gender: 'male',   
+    phoneNumber: '',  
+  };
+  
   constructor(
     private authService: AuthService,
     private userService: UserService,
@@ -30,9 +43,11 @@ export class AdminUserComponent implements OnInit {
       this.loadUsers(); // Chỉ admin mới được load danh sách người dùng
     }
   }
+
   goBack(): void {
     this.router.navigate(['/admin-dashboard']); // Điều hướng về trang Dashboard
   }
+
   loadUsers() {
     this.userService.getUsers().subscribe({
       next: (users) => {
@@ -49,7 +64,38 @@ export class AdminUserComponent implements OnInit {
       },
     });
   }
-  
+
+  createAccount() {
+    this.userService.createUser(this.newUser).subscribe({
+      next: (user) => {
+        alert(`Tạo tài khoản thành công!`);
+        this.loadUsers(); // Tải lại danh sách người dùng
+        this.resetForm(); // Reset form sau khi tạo tài khoản
+        this.isCreateAccountVisible = false; // Hide form after creation
+      },
+      error: (error: any) => {
+        console.error('Lỗi tạo tài khoản:', error);
+        alert('Đã xảy ra lỗi khi tạo tài khoản.');
+      }
+    });
+  }
+
+  resetForm() {
+    this.newUser = {
+      username: '',
+      email: '',
+      password: '',
+      role: 'student',
+      dateOfBirth: '',  
+      gender: 'male',   
+      phoneNumber: '',
+    };
+  }
+
+  // Toggle form visibility
+  toggleCreateAccount() {
+    this.isCreateAccountVisible = !this.isCreateAccountVisible;
+  }
 
   updateUserRole(user: User, role: string) {
     this.userService.updateUserRole(user._id, role).subscribe({

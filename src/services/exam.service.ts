@@ -186,5 +186,30 @@ export class ExamService {
     return this.http.get<any>(url);
   }
   
+  getStudentExamDetails(examId: string, userId: string): Observable<any> {
+    // Xây dựng URL với examId và userId
+    const url = `http://localhost:3000/exams/${examId}/results/${userId}`;
+    
+    return this.http.get<any>(url).pipe(
+      catchError(error => {
+        console.error('Error fetching student exam details:', error);
+        
+        // Nếu lỗi do không tìm thấy dữ liệu (404), trả về thông báo rõ ràng
+        if (error.status === 404) {
+          return throwError({ error: 'Không có dữ liệu chi tiết bài kiểm tra cho User ID này!' });
+        }
+        
+        // Xử lý các lỗi khác
+        return this.handleError(error);
+      })
+    );
+  }
+  getStudentExamDetail(examId: string, userId: string): Observable<any> {
+    const url = `http://localhost:3000/exams/${examId}/results/${userId}`;
+    return this.http.get<any>(url);
+  }
+  
+  
+  
   
 }

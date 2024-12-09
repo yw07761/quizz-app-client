@@ -27,28 +27,7 @@ body {
     }
   }
 
-  .nav-links {
-    display: flex;
-    flex-grow: 1;
-    justify-content: center;
-
-    a {
-      margin: 0 15px;
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-
-      &:hover {
-        color: #007bff;
-      }
-    }
-
-    a.active {
-      color: #007bff;
-      font-weight: bold;
-      border-bottom: 2px solid #007bff;
-    }
-  }
+  
 
   .user-menu {
     display: flex;
@@ -150,7 +129,7 @@ body {
     }
   
     .menu-button {
-      padding: 15px;
+      padding: 35px;
       font-size: 1.2em;
       width: 100%;
       cursor: pointer;
@@ -164,5 +143,24 @@ body {
     .menu-button:hover {
       background-color: #45a049;
     }
+  }
+  .nav-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px; /* Điều chỉnh chiều cao của phần này */
+    background-color: #f9f9f9; /* Thêm nền nhẹ nhàng */
+    border-bottom: 2px solid #e0e0e0;
+  }
+  
+  .nav-links h1 {
+    font-size: 2.5em;
+    color: #333;
+    font-weight: 600;
+    margin: 0; /* Loại bỏ margin mặc định */
+    text-align: center;
+    letter-spacing: 1px; /* Thêm khoảng cách giữa các chữ */
+    text-transform: uppercase; /* Chữ in hoa */
+    padding: 10px 0; /* Thêm padding để chữ không bị sát viền */
   }
   

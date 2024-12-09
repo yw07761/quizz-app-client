@@ -7,6 +7,10 @@ export interface User {
   username: string;
   email: string;
   role: string;
+  createdAt: Date;
+  dateOfBirth: Date;
+  gender: string;
+  phoneNumber: string;
 }
 
 @Injectable({
@@ -46,8 +50,23 @@ export class UserService {
   }
   
   
+  // Tạo tài khoản người dùng mới
+  createUser(user: any): Observable<User> {
+    const token = localStorage.getItem('auth_token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.post<User>(`${this.apiUrl}/users`, user, { headers });
+  }
   
-  
+  // Cập nhật thông tin người dùng
+  updateUser(user: any): Observable<User> {
+    const token = localStorage.getItem('auth_token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.put<User>(`${this.apiUrl}/users/${user._id}`, user, { headers });
+  }
   
   
 }

@@ -139,7 +139,8 @@ export class ExamCreateComponent implements OnInit {
       next: (response) => {
         console.log('Exam saved successfully:', response);
         alert('Bài thi đã được lưu thành công!');
-        this.router.navigate(['/teacher-dashboard']);
+        window.history.back();
+        
       },
       error: (error) => {
         console.error('Error saving exam:', error);
@@ -184,7 +185,8 @@ export class ExamCreateComponent implements OnInit {
     this.filteredQuestions = this.availableQuestions.filter(question => {
       const categoryMatch = this.selectedCategory ? question.category === this.selectedCategory : true;
       const groupMatch = this.selectedGroup ? question.group === this.selectedGroup : true;
-      return categoryMatch && groupMatch;
+      const statusMatch = question.status === "approved";
+      return categoryMatch && groupMatch && statusMatch;
     });
   
     console.log("Filtered Questions after filtering:", this.filteredQuestions); // Kiểm tra câu hỏi sau khi lọc

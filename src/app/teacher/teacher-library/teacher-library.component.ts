@@ -24,6 +24,8 @@ export class TeacherLibraryComponent implements OnInit {
   isFilterDropdownVisible: boolean = false;
   approvedQuestions: any[] = []; // Danh sách câu hỏi đã duyệt
   unapprovedQuestions: any[] = []; // Danh sách câu hỏi chưa duyệt
+  isApprovedOpen = true;
+  isUnapprovedOpen = false;
 
   constructor(
     private authService: AuthService,
@@ -78,6 +80,7 @@ export class TeacherLibraryComponent implements OnInit {
           this.filteredQuestions = this.filteredQuestions.filter(q => q._id !== question._id);
           this.updateUniqueFilters();
           alert('Câu hỏi đã được xóa');
+          this.loadQuestions();
         },
         error: (error) => {
           console.error('Error deleting question:', error);
@@ -174,5 +177,13 @@ export class TeacherLibraryComponent implements OnInit {
     this.unapprovedQuestions = this.filteredQuestions.filter(question => question.status !== 'approved');
   }
   
-  
+  // Toggle function for approved questions
+  toggleApprovedQuestions() {
+    this.isApprovedOpen = !this.isApprovedOpen;
+  }
+
+  // Toggle function for unapproved questions
+  toggleUnapprovedQuestions() {
+    this.isUnapprovedOpen = !this.isUnapprovedOpen;
+  }
 }

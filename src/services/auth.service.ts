@@ -94,6 +94,16 @@ export class AuthService {
   }
   
   
+  getAllUsers(): Observable<User[]> {
+    const token = this.getToken(); // Lấy token từ localStorage
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}` // Thêm token vào header
+    });
+  
+    return this.http.get<User[]>(`${this.apiUrl}/users`, { headers }).pipe(
+      catchError(this.handleError)
+    );
+  }
   
 
   // Phương thức cập nhật thông tin người dùng

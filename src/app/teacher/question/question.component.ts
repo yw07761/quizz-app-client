@@ -77,8 +77,7 @@ export class QuestionComponent implements OnInit {
     this.questionService.bulkAddQuestions(this.questions).subscribe({
       next: () => {
         alert('Tất cả câu hỏi đã được lưu thành công!');
-        // Điều hướng đến /teacher/library sau khi lưu thành công
-        this.router.navigate(['/teacher-library']);
+        window.history.back();
       },
       error: (err) => {
         console.error('Error saving questions:', err);
@@ -218,7 +217,7 @@ export class QuestionComponent implements OnInit {
           alert('Câu hỏi đã được cập nhật thành công!');
           
           // Sau khi cập nhật thành công, điều hướng về trang /teacher-library
-          this.router.navigate(['/teacher-library']);
+          window.history.back();
         },
         error: (err) => {
           console.error('Lỗi khi cập nhật câu hỏi:', err);

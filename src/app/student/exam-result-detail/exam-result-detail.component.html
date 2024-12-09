@@ -16,6 +16,7 @@
       <div class="exam-header">
         <h1>{{ examResult.examId.name }}</h1>
         <p><b>Mô tả: </b>{{ examResult.examId.description }}</p>
+        <p><b>Học viên: </b>{{ user?.username }}</p>
       </div>
   
       <!-- Tổng quan điểm -->
@@ -23,7 +24,6 @@
         <h2>Kết quả tổng quan</h2>
         <p>Tổng số câu hỏi: {{ getTotalQuestions() }}</p>
         <p>Số điểm: {{ examResult.score }}/10</p>
-        <p>Tỷ lệ đúng: {{ examResult.percentageScore.toFixed(1) }}%</p>
         <p>Thời gian bắt đầu: {{ formatDate(examResult.startTime) }}</p>
         <p>Thời gian kết thúc: {{ formatDate(examResult.endTime) }}</p>
       </div>
@@ -36,21 +36,24 @@
   
           <div *ngFor="let question of section.questions" class="question">
             <p><strong>Câu hỏi {{ section.questions.indexOf(question) + 1 }}:</strong>
-               {{ question?.questionId?.text || 'Nội dung câu hỏi không khả dụng' }}</p>
-               <ng-container *ngIf="question.questionId?.text?.includes('http')">
-                <!-- Hiển thị audio nếu question.text là URL -->
-                <p>Chọn câu trả lời đúng:</p>
-                <audio controls>
-                  <source [src]="question.questionId?.text" type="audio/mpeg">
-                  Trình duyệt của bạn không hỗ trợ phát âm thanh.
-                </audio>
+              <ng-container *ngIf="!question?.questionId?.text?.includes('http')">
+                {{ question?.questionId?.text || 'Nội dung câu hỏi không khả dụng' }}
               </ng-container>
+            </p>
+            
+            <ng-container *ngIf="question?.questionId?.text?.includes('http')">
+              <!-- Hiển thị audio mà không hiển thị URL -->
+              <audio controls>
+                <source [src]="question?.questionId?.text" type="audio/mpeg">
+                Trình duyệt của bạn không hỗ trợ phát âm thanh.
+              </audio>
+            </ng-container>
+            
               
-              <ng-container *ngIf="!(question.questionId?.text?.includes('http'))">
-                <!-- Hiển thị văn bản câu hỏi nếu không phải là URL -->
-                {{ question.questionId?.text || 'Không có dữ liệu câu hỏi' }}
-              </ng-container>
+              
+              
   
+              <p style="color: red;"><strong>Điểm:</strong> {{ question.score }} điểm</p>
             
                <div *ngIf="question?.questionId?.answers?.length > 0" class="answers">
                 <div *ngFor="let answer of question?.questionId?.answers"
@@ -64,11 +67,11 @@
                     <input type="radio" [checked]="answer.text === question.userAnswer" disabled />
                     {{ answer.text }}
                   </label>
-                  <span *ngIf="answer.isCorrect">✔</span>
+                  
                 </div>
               </div>
               
-            <p><strong>Đáp án của bạn: </strong>
+            <p style="color: green"><strong>Đáp án của bạn: </strong>
               <span *ngIf="question.userAnswer">{{ question.userAnswer }}</span>
               <span *ngIf="!question.userAnswer">Chưa trả lời</span>
             </p>

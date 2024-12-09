@@ -110,21 +110,46 @@
         <div *ngIf="section.questions && section.questions.length > 0">
           <ul>
             <li *ngFor="let question of section.questions; let questionIndex = index">
-              <p><strong>Câu hỏi {{ questionIndex + 1 }}:</strong> {{ question.questionData?.text }}</p>
-              <div *ngIf="question.questionData?.answers">
+              <!-- Kiểm tra nếu là URL audio -->
+              <p>
+                <ng-container *ngIf="(question.questionId?.text?.includes('http') || question.questionData?.text?.includes('http'))">
+                  <p>Chọn câu trả lời đúng:</p>
+                  <audio controls>
+                    <source [src]="question.questionId?.text || question.questionData?.text" type="audio/mpeg">
+                    Trình duyệt của bạn không hỗ trợ phát âm thanh.
+                  </audio>
+                </ng-container>
+        
+                <!-- Hiển thị văn bản câu hỏi nếu không phải là URL -->
+                <ng-container *ngIf="!(question.questionId?.text?.includes('http') || question.questionData?.text?.includes('http'))">
+                  {{ question.questionId?.text || question.questionData?.text || 'Không có dữ liệu câu hỏi' }}
+                </ng-container>
+              </p>
+        
+              <!-- Điểm cho câu hỏi -->
+              <p class="score-input">
+                <strong>Điểm cho câu hỏi:</strong>
+                <input type="number" [(ngModel)]="question.score" min="0" />
+              </p>
+        
+              <!-- Hiển thị danh sách đáp án -->
+              <div *ngIf="question.questionId?.answers || question.questionData?.answers">
                 <p><strong>Các đáp án:</strong></p>
                 <ul>
-                  <li *ngFor="let answer of question.questionData.answers">
+                  <li *ngFor="let answer of (question.questionId?.answers || question.questionData?.answers)">
                     {{ answer.text }} <span *ngIf="answer.isCorrect">(Đáp án đúng)</span>
                   </li>
                 </ul>
               </div>
+        
+              <!-- Nút xóa câu hỏi -->
               <button type="button" (click)="removeQuestionFromSection(sectionIndex, questionIndex)">
                 Xóa câu hỏi
               </button>
             </li>
           </ul>
         </div>
+
       </div>
     </div>
     <div *ngIf="!exam.sections || exam.sections.length === 0">

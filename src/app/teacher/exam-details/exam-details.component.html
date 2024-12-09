@@ -40,6 +40,7 @@
                   {{ question.questionId?.text || 'Không có dữ liệu câu hỏi' }}
                 </ng-container>
               </p>
+              <p><strong>Điểm cho câu hỏi:</strong> {{ question.score }} điểm</p>
             
               <div *ngIf="question.questionId?.answers">              
                 <p><strong>Các đáp án:</strong></p>

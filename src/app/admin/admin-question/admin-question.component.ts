@@ -23,12 +23,14 @@ export class AdminQuestionComponent implements OnInit {
   uniqueGroups: string[] = [];
   isFilterDropdownVisible: boolean = false;
   filteredApprovedQuestions: Question[] = []; // Thêm thuộc tính lọc câu hỏi đã duyệt
-
+  isStatusDropdownVisible: boolean = false;
   // Các thuộc tính hiện có
   approvedQuestions: Question[] = [];
   pendingQuestions: Question[] = [];
-
-
+  showPending: boolean = true; // Track which set of questions to display
+  showApproved: boolean = false;
+  isPendingOpen = true;
+  isApprovedOpen = true;
   constructor(
     private authService: AuthService,
     private questionService: QuestionService,
@@ -144,16 +146,19 @@ export class AdminQuestionComponent implements OnInit {
   searchQuestions(event: any) {
     const searchTerm = event.target.value.toLowerCase();
     if (!searchTerm) {
+      // Nếu không có từ khóa tìm kiếm, reset lại filteredQuestions về tất cả câu hỏi
       this.filteredQuestions = this.questions;
-      return;
+    } else {
+      // Lọc các câu hỏi theo từ khóa tìm kiếm
+      this.filteredQuestions = this.questions.filter(question => 
+        question.text.toLowerCase().includes(searchTerm) ||
+        question.category?.toLowerCase().includes(searchTerm) ||
+        question.group?.toLowerCase().includes(searchTerm)
+      );
     }
-
-    this.filteredQuestions = this.questions.filter(question => 
-      question.text.toLowerCase().includes(searchTerm) ||
-      question.category?.toLowerCase().includes(searchTerm) ||
-      question.group?.toLowerCase().includes(searchTerm)
-    );
+    this.splitQuestionsByStatus();  // Cập nhật lại câu hỏi theo trạng thái
   }
+  
 
   createNewQuestion() {
     this.router.navigate(['/question']);
@@ -191,5 +196,27 @@ export class AdminQuestionComponent implements OnInit {
     this.router.navigate(['/admin-dashboard']); // Điều hướng về trang Dashboard
   }
 
+  toggleStatusDropdown() {
+    this.isStatusDropdownVisible = !this.isStatusDropdownVisible;
+  }
+
+  showPendingQuestions() {
+    this.showPending = true;
+    this.showApproved = false;
+  }
+
+  showApprovedQuestions() {
+    this.showPending = false;
+    this.showApproved = true;
+  }
+  // Toggle the visibility of pending questions
+  togglePendingQuestions() {
+    this.isPendingOpen = !this.isPendingOpen;
+  }
+
+  // Toggle the visibility of approved questions
+  toggleApprovedQuestions() {
+    this.isApprovedOpen = !this.isApprovedOpen;
+  }
   
 }

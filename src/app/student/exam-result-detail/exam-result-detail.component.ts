@@ -18,7 +18,7 @@ interface ExamResultDetail {
         text: string;
         answers: { text: string; isCorrect: boolean }[];
         userAnswer?: string;
-        isCorrect?: boolean; // Tracks if user's answer is correct
+        isCorrect?: boolean;
       }[];
     }[];
   };
@@ -28,8 +28,8 @@ interface ExamResultDetail {
   startTime: Date | string;
   endTime: Date | string;
   answers: { questionId: string; answer: string }[];
-  correctAnswers?: number; // Number of correct answers
-  totalQuestions?: number; // Total number of questions
+  correctAnswers?: number;
+  totalQuestions?: number;
 }
 
 @Component({
@@ -43,6 +43,8 @@ export class ExamResultDetailComponent implements OnInit {
   loading: boolean = true;
   error: string | null = null;
   examResult: ExamResultDetail | null = null;
+  examId: string | null = null;
+  userId: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -52,17 +54,36 @@ export class ExamResultDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const examId = this.route.snapshot.paramMap.get('id');
-    if (!examId) {
+    // Extract examId and userId from route parameters
+    const examIdParam = this.route.snapshot.paramMap.get('examId');
+    const userIdParam = this.route.snapshot.paramMap.get('userId');
+    const idParam = this.route.snapshot.paramMap.get('id');
+
+    // Case for '/exam-result-detail/:examId/:userId'
+    if (examIdParam && userIdParam) {
+      this.examId = examIdParam;
+      this.userId = userIdParam;
+    } 
+    // Case for '/exam-result-detail/:id'
+    else if (idParam) {
+      this.examId = idParam;
+      this.userId = null; // userId is not provided in this case
+    } else {
       this.error = 'Không tìm thấy thông tin bài thi';
       this.loading = false;
       return;
     }
 
-    this.loadExamResult(examId);
+    this.loadExamResult();
   }
 
-  loadExamResult(examId: string) {
+  loadExamResult() {
+    if (!this.examId) {
+      this.error = 'Không tìm thấy thông tin bài thi';
+      this.loading = false;
+      return;
+    }
+
     const user = this.authService.getCurrentUser();
     if (!user?._id) {
       this.error = 'Không tìm thấy thông tin người dùng';
@@ -76,16 +97,16 @@ export class ExamResultDetailComponent implements OnInit {
 
         const result = results.find(
           (r) =>
-            r._id === examId ||
-            r.examId === examId ||
-            (r.examId as any)?._id === examId
+            r._id === this.examId ||
+            r.examId === this.examId ||
+            (r.examId as any)?._id === this.examId
         );
 
         if (result) {
           if (typeof result.examId === 'string') {
             this.examService.getExamDetails(result.examId).subscribe({
               next: (examDetails) => {
-                result.examId = examDetails; // Attach exam details
+                result.examId = examDetails;
                 this.mapUserAnswers(result);
               },
               error: (error) => {
@@ -123,14 +144,11 @@ export class ExamResultDetailComponent implements OnInit {
 
         question.userAnswer = userAnswer?.answer || null;
 
-
-        if (Array.isArray(question?.questionId?.answers) && question.questionId.answers.length > 0) {
-          console.log('Valid answers array:', question.questionId.answers);
-        } else {
-          console.error('Invalid answers array for question:', question);
+        if (userAnswer?.answer === this.getCorrectAnswer(question)) {
+          correctAnswers++;
         }
-        
-        
+
+        totalQuestions++;
       });
     });
 
@@ -139,7 +157,6 @@ export class ExamResultDetailComponent implements OnInit {
 
     this.examResult = result;
     console.log('Processed Exam Result:', this.examResult);
-    
   }
 
   formatDate(date: Date | string): string {
@@ -153,7 +170,7 @@ export class ExamResultDetailComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/student-dashboard']);
+    window.history.back();
   }
 
   getCorrectAnswer(question: any): string {
@@ -180,5 +197,4 @@ export class ExamResultDetailComponent implements OnInit {
     }
     return 0;
   }
-  
 }
