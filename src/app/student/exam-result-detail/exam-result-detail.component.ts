@@ -45,6 +45,7 @@ export class ExamResultDetailComponent implements OnInit {
   examResult: ExamResultDetail | null = null;
   examId: string | null = null;
   userId: string | null = null;
+  user: any = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -54,6 +55,7 @@ export class ExamResultDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    
     // Extract examId and userId from route parameters
     const examIdParam = this.route.snapshot.paramMap.get('examId');
     const userIdParam = this.route.snapshot.paramMap.get('userId');
@@ -73,7 +75,7 @@ export class ExamResultDetailComponent implements OnInit {
       this.loading = false;
       return;
     }
-
+    this.user = this.authService.getCurrentUser();
     this.loadExamResult();
   }
 

@@ -94,5 +94,22 @@ export class AdminExamComponent implements OnInit {
   navigateToStatistics(examId: string) {
     this.router.navigate(['/teacher-statistics', examId]);
   }
+  navigateToCreateExam(): void {
+    this.router.navigate(['/exam-create']);
+  }
+  updateExamStatus(exam: any) {
+    exam.status = 'published'; // Set the status to 'published' when updating
+  
+    this.examService.updateExam(exam._id, exam).subscribe({
+      next: () => {
+        this.loadExams(); // Reload exams to reflect changes
+        alert('Exam status updated successfully');
+      },
+      error: (error) => {
+        console.error('Error updating exam status:', error);
+      }
+    });
+  }
+  
   
 }

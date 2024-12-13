@@ -48,7 +48,6 @@
           <span class="question-points">{{ question.score }} điểm</span>
         </div>
         
-        <p class="question-text">{{ question.questionId.text }}</p>
         <ng-container *ngIf="question.questionId?.text?.includes('http')">
           <!-- Hiển thị audio nếu question.text là URL -->
           <p>Chọn câu trả lời đúng:</p>

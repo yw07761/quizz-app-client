@@ -289,7 +289,15 @@ body {
       font-size: 16px;
       color: #333;
     }
-  
+    .correct-answer {
+      color: #155724; /* Màu chữ xanh đậm */
+      font-weight: bold; /* Tô đậm chữ */
+      display: flex;
+      align-items: center;
+    }
+    
+    
+    
     .question-info {
       display: flex;
       align-items: center;
