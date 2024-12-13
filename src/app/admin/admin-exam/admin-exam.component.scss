@@ -3,6 +3,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f5f5f5;
+  transition: background-color 0.3s ease;
 }
 
 .navbar {
@@ -11,213 +12,279 @@ body {
   padding: 10px 20px;
   background-color: white;
   border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.3s ease;
+}
 
-  .logo {
-    display: flex;
-    align-items: center;
+.navbar:hover {
+  background-color: #f8f8f8; /* Hiệu ứng đổi màu khi hover vào navbar */
+}
 
-    img {
-      height: 30px;
-      margin-right: 10px;
-    }
+.logo {
+  display: flex;
+  align-items: center;
+}
 
-    span {
-      font-size: 20px;
-      font-weight: 500;
-    }
+img {
+  height: 30px;
+  margin-right: 10px;
+}
+
+span {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.nav-links {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.nav-links a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease; /* Thêm hiệu ứng chuyển màu */
+}
+
+.nav-links a:hover {
+  color: #007bff;
+}
+
+.nav-links a.active {
+  color: #007bff;
+  font-weight: bold;
+  border-bottom: 2px solid #007bff;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.user-menu img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.user-menu img:hover {
+  transform: scale(1.1); /* Tạo hiệu ứng phóng to khi hover */
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  width: 300px;
+  z-index: 1000;
+  transition: all 0.3s ease; /* Thêm hiệu ứng động khi dropdown xuất hiện */
+}
+
+.dropdown.active {
+  display: block;
+  transform: translateY(10px); /* Hiệu ứng xuất hiện với chuyển động */
+  opacity: 1;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.3s ease;
+}
+
+.profile:hover {
+  background-color: #f0f0f0;
+}
+
+.menu {
+  padding: 10px 15px;
+}
+
+.menu a {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  transition: color 0.3s ease; /* Thêm hiệu ứng chuyển màu cho menu */
+}
+
+.menu a:hover {
+  color: #007bff;
+}
+
+h1 {
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  transition: all 0.3s ease; /* Hiệu ứng chuyển động cho tiêu đề */
+}
+
+table {
+  width: 80%; 
+  margin: 20px auto; 
+  border-collapse: collapse;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+th {
+  background-color: #f4f4f4;
+  color: #333;
+  transition: background-color 0.3s ease; /* Thêm hiệu ứng cho header khi hover */
+}
+
+th:hover {
+  background-color: #e0e0e0;
+}
+
+tr:hover {
+  background-color: #f9f9f9;
+  cursor: pointer; /* Thêm hiệu ứng con trỏ khi hover vào dòng */
+}
+
+button {
+  padding: 8px 16px;
+  margin: 5px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05); /* Phóng to khi hover */
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Thêm hiệu ứng shadow khi focus */
+}
+
+.create-button {
+  text-align: right;
+  margin: 20px;
+}
+
+.create-button button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.create-button button:hover {
+  background-color: #0056b3;
+}
+
+button:nth-child(1) {
+  background-color: white;
+  color: black;
+  border: 4px solid #ddd;
+  border-radius: 10%;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+button:nth-child(1):hover {
+  background-color: #9cf9a1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button:nth-child(1):active {
+  background-color: #e0e0e0;
+  box-shadow: none;
+}
+
+button:nth-child(2) {
+  background-color: white;
+  color: black;
+  border-radius: 10%;
+  border: 4px solid #ddd;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+button:nth-child(2):hover {
+  background-color: #f69a98;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button:nth-child(2):active {
+  background-color: #e0e0e0;
+  box-shadow: none;
+}
+
+button:nth-child(3) {
+  background-color: white;
+  color: black;
+  border-radius: 10%;
+  border: 4px solid #ddd;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+button:nth-child(3):hover {
+  background-color: #76a5f6;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button:nth-child(3):active {
+  background-color: #e0e0e0;
+  box-shadow: none;
+}
+
+@media screen and (max-width: 600px) {
+  table {
+    font-size: 12px;
+  }
+
+  th, td {
+    padding: 8px;
+  }
+
+  button {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .navbar {
+    padding: 10px;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .nav-links {
-    display: flex;
-    flex-grow: 1;
-    justify-content: center;
-
-    a {
-      margin: 0 15px;
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-
-      &:hover {
-        color: #007bff;
-      }
-    }
-
-    a.active {
-      color: #007bff;
-      font-weight: bold;
-      border-bottom: 2px solid #007bff;
-    }
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
   }
 
   .user-menu {
-    display: flex;
-    align-items: center;
-    position: relative;
-
-    img {
-      height: 40px;
-      width: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-
-    .dropdown {
-      display: none;
-      position: absolute;
-      top: 50px;
-      right: 0;
-      background-color: white;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      border-radius: 5px;
-      width: 300px;
-      z-index: 1000;
-
-      &.active {
-        display: block;
-      }
-
-      .profile {
-        display: flex;
-        align-items: center;
-        padding: 15px;
-        border-bottom: 1px solid #e0e0e0;
-
-        img {
-          height: 50px;
-          width: 50px;
-          border-radius: 50%;
-          margin-right: 10px;
-        }
-
-        .info {
-          flex-grow: 1;
-
-          .name {
-            font-weight: 500;
-          }
-
-          .email {
-            font-size: 12px;
-            color: #666;
-          }
-        }
-      }
-
-      .menu {
-        padding: 10px 15px;
-
-        a {
-          display: flex;
-          align-items: center;
-          padding: 10px 0;
-          text-decoration: none;
-          color: #333;
-          font-size: 14px;
-
-          i {
-            margin-right: 10px;
-          }
-
-          &:hover {
-            color: #007bff;
-          }
-        }
-      }
-    }
+    margin-top: 10px;
   }
 }
-h1 {
-    text-align: center;
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  
-  /* Tạo kiểu cho bảng */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-  }
-  
-  /* Kiểu cho các cột bảng */
-  th, td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    font-size: 14px;
-  }
-  
-  /* Kiểu cho tiêu đề cột */
-  th {
-    background-color: #f4f4f4;
-    color: #333;
-  }
-  
-  /* Tạo hiệu ứng hover cho các dòng trong bảng */
-  tr:hover {
-    background-color: #f9f9f9;
-  }
-  
-  /* Tạo kiểu cho các nút hành động */
-  button {
-    padding: 8px 16px;
-    margin: 5px;
-    border: none;
-    border-radius: 4px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  /* Nút "Xem chi tiết" */
-  button:nth-child(1) {
-    background-color: #4CAF50;
-    color: white;
-  }
-  
-  button:nth-child(1):hover {
-    background-color: #45a049;
-  }
-  
-  /* Nút "Xóa" */
-  button:nth-child(2) {
-    background-color: #f44336;
-    color: white;
-  }
-  
-  button:nth-child(2):hover {
-    background-color: #e53935;
-  }
-  button:nth-child(3) {
-    background-color: #0d5fec;
-    color: white;
-  }
-  
-  button:nth-child(3):hover {
-    background-color: #0d5fec;
-  }
-  /* Kiểu cho các nút khi được focus */
-  button:focus {
-    outline: none;
-  }
-  
-  /* Responsive cho các thiết bị di động */
-  @media screen and (max-width: 600px) {
-    table {
-      font-size: 12px;
-    }
-  
-    th, td {
-      padding: 8px;
-    }
-  
-    button {
-      font-size: 12px;
-      padding: 6px 12px;
-    }
-  }
-  
