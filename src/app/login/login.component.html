@@ -25,19 +25,15 @@
           </div>
           
           <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
+          <div *ngIf="errorMessage" class="error-message text-danger">
+            {{ errorMessage }}
+          </div>
+          
+          
           
           <p class="text-center mt-3">Bạn chưa có tài khoản? <a routerLink="/register" class="text-danger">Đăng kí tại đây</a></p>
           
-          <p class="text-center or-login text-muted">Hoặc đăng nhập bằng</p>
           
-          <div class="login-options d-flex justify-content-between mt-2">
-            <div class="login-option login-option-google d-flex align-items-center justify-content-center">
-                <i class="fa-brands fa-google" style="color: #fd4c00;"></i>
-            </div>
-            <div class="login-option login-option-facebook d-flex align-items-center justify-content-center"> 
-                <i class="fa-brands fa-facebook-f" style="color: #0062ad;"></i>
-            </div>
-          </div>
         </form>
       </div>
     </div>

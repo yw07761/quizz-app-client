@@ -16,11 +16,11 @@ interface ExamResultDetail {
       questions: {
         _id: string;
         text: string;
-        answers: { text: string; isCorrect: boolean }[];
+        answers: { text: string; isCorrect: boolean }[]; 
         userAnswer?: string;
         isCorrect?: boolean;
-      }[];
-    }[];
+      }[]; 
+    }[]; 
   };
   score: number;
   maxScore: number;
@@ -33,13 +33,13 @@ interface ExamResultDetail {
 }
 
 @Component({
-  selector: 'app-exam-result-detail',
-  templateUrl: './exam-result-detail.component.html',
-  styleUrls: ['./exam-result-detail.component.scss'],
+  selector: 'app-student-result-detail',
+  templateUrl: './student-result-detail.component.html',
+  styleUrls: ['./student-result-detail.component.scss'],
   standalone: true,
   imports: [CommonModule, FormsModule],
 })
-export class ExamResultDetailComponent implements OnInit {
+export class studentResultDetailComponent implements OnInit {
   loading: boolean = true;
   error: string | null = null;
   examResult: ExamResultDetail | null = null;
@@ -55,53 +55,52 @@ export class ExamResultDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    
-    // Extract examId and userId from route parameters
-    const examIdParam = this.route.snapshot.paramMap.get('examId');
-    const userIdParam = this.route.snapshot.paramMap.get('userId');
-    const idParam = this.route.snapshot.paramMap.get('id');
+  // Lấy examId và userId từ URL
+  const examIdParam = this.route.snapshot.paramMap.get('examId');
+  const userIdParam = this.route.snapshot.paramMap.get('userId');
 
-    // Case for '/exam-result-detail/:examId/:userId'
-    if (examIdParam && userIdParam) {
-      this.examId = examIdParam;
-      this.userId = userIdParam;
-    } 
-    // Case for '/exam-result-detail/:id'
-    else if (idParam) {
-      this.examId = idParam;
-      this.userId = null; // userId is not provided in this case
-    } else {
-      this.error = 'Không tìm thấy thông tin bài thi';
-      this.loading = false;
-      return;
-    }
-    this.user = this.authService.getCurrentUser();
-    this.loadExamResult();
+  // Nếu có userId trong URL, thì dùng userId đó
+  if (examIdParam) {
+    this.examId = examIdParam;
+  }
+  if (userIdParam) {
+    this.userId = userIdParam;  // Lấy userId từ URL nếu có
   }
 
+  // Nếu có userId thì tải thông tin người dùng
+  if (this.userId) {
+    this.authService.getUserById(this.userId).subscribe({
+      next: (userDetails) => {
+        this.user = userDetails; // Set the user object to the retrieved details
+        this.loadExamResult();
+      },
+      error: (error) => {
+        console.error('Error fetching user details:', error);
+        this.error = 'Không thể tải thông tin người dùng';
+        this.loading = false;
+      },
+    });
+  }
+}
+
+
   loadExamResult() {
-    if (!this.examId) {
-      this.error = 'Không tìm thấy thông tin bài thi';
+    if (!this.examId || !this.userId) {
+      this.error = 'Không tìm thấy thông tin bài thi hoặc người dùng';
       this.loading = false;
       return;
     }
 
-    const user = this.authService.getCurrentUser();
-    if (!user?._id) {
-      this.error = 'Không tìm thấy thông tin người dùng';
-      this.loading = false;
-      return;
-    }
+    // Dùng userId từ URL (hoặc của người dùng hiện tại)
+    console.log('Loading exam result for userId:', this.userId);
 
-    this.examService.getExamHistory(user._id).subscribe({
+    // Lấy lịch sử thi của người dùng theo userId
+    this.examService.getExamHistory(this.userId).subscribe({
       next: (results) => {
         console.log('Fetched Exam History:', results);
 
         const result = results.find(
-          (r) =>
-            r._id === this.examId ||
-            r.examId === this.examId ||
-            (r.examId as any)?._id === this.examId
+          (r) => r._id === this.examId || r.examId === this.examId || (r.examId as any)?._id === this.examId
         );
 
         if (result) {
@@ -109,7 +108,7 @@ export class ExamResultDetailComponent implements OnInit {
             this.examService.getExamDetails(result.examId).subscribe({
               next: (examDetails) => {
                 result.examId = examDetails;
-                this.mapUserAnswers(result);
+                this.mapUserAnswers(result); // Áp dụng đáp án của người dùng
               },
               error: (error) => {
                 console.error('Error fetching exam details:', error);
@@ -117,7 +116,7 @@ export class ExamResultDetailComponent implements OnInit {
               },
             });
           } else if (result.examId.sections) {
-            this.mapUserAnswers(result);
+            this.mapUserAnswers(result); // Nếu đã có sections thì xử lý
           } else {
             this.error = 'Không tìm thấy danh sách câu hỏi trong bài thi';
           }

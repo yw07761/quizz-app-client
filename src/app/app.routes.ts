@@ -24,6 +24,7 @@ import { ProfileComponent} from './profile/profile.component'
 import { SettingsComponent} from './settings/settings.component'
 import { ExamTakeComponent } from './student/exam-take/exam-take.component';
 import { ExamResultDetailComponent } from './student/exam-result-detail/exam-result-detail.component';
+import { studentResultDetailComponent } from './teacher/student-result-detail/student-result-detail.component';
 import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 import { AdminUserComponent } from './admin/admin-user/admin-user.component';
 import { AdminQuestionComponent } from './admin/admin-question/admin-question.component';
@@ -60,7 +61,7 @@ const routes: Routes = [
   { path: 'exam-history', component: ExamHistoryComponent },
   { path: 'student-dashboard', component: StudentDashboardComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: 'exam-result-detail/:examId/:userId', component: ExamResultDetailComponent },
+  { path: 'student-result-detail/:examId/:userId', component: studentResultDetailComponent },
 
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home' } // Route không tìm thấy

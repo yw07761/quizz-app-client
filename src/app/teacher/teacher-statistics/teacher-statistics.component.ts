@@ -21,6 +21,7 @@ interface ExamStatistics {
   lowestScore: number;
   passPercentage: number;
   participants: Array<{
+    userId: string;
     username: string;
     email: string;
     score: number;
@@ -44,7 +45,6 @@ export class TeacherStatisticsComponent implements OnInit {
   examId: string = '';
   statistics: any = null;
   errorMessage: string = '';
-  userId: string = '';
 
   constructor(
     private authService: AuthService,
@@ -102,7 +102,7 @@ export class TeacherStatisticsComponent implements OnInit {
         }
   
         console.log('Navigating to exam-result-detail page with:', this.examId, userId);
-        this.router.navigate(['/exam-result-detail', this.examId, userId]);
+        this.router.navigate(['/student-result-detail', this.examId, userId]);
       },
       error: (error) => {
         console.error('Error fetching student exam details:', error);

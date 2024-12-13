@@ -30,16 +30,18 @@ tr:hover {
   background-color: #e2f7e2;
 }
 
+/* General Button Styles */
 button {
   background-color: #4CAF50;
   color: white;
   border: none;
-  padding: 6px 12px;
-  margin-right: 8px;
+  padding: 8px 16px;
   cursor: pointer;
   border-radius: 4px;
   font-size: 14px;
   transition: background-color 0.3s;
+  margin-right: 8px;
+  display: inline-block;
 }
 
 /* Button Hover Effect */
@@ -72,7 +74,7 @@ button.delete:hover {
   }
 
   button {
-    padding: 4px 8px;
+    padding: 6px 12px;
     font-size: 12px;
   }
 }
@@ -88,6 +90,7 @@ button.delete:hover {
   font-size: 16px;
   margin-top: 20px;
   transition: background-color 0.3s;
+  display: inline-block;
 }
 
 /* Nút Go Back Hover */
@@ -131,6 +134,7 @@ button.delete:hover {
   font-size: 16px;
   margin-top: 20px;
   transition: background-color 0.3s;
+  display: inline-block;
 }
 
 /* Create Account Button Hover */
@@ -173,6 +177,7 @@ button.delete:hover {
   font-size: 16px;
 }
 
+/* Submit Button for Form */
 .create-account button {
   background-color: #4CAF50;
   color: white;
@@ -182,12 +187,22 @@ button.delete:hover {
   border-radius: 4px;
   font-size: 16px;
   transition: background-color 0.3s;
+  width: 100%;
+  margin-top: 10px;
 }
 
+/* Submit Button Hover */
 .create-account button:hover {
   background-color: #45a049;
 }
 
 .create-account button:focus {
   outline: none;
+}
+
+/* Align form elements better */
+.create-account input, .create-account select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
 }
