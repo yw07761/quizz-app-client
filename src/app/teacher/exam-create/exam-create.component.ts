@@ -109,7 +109,7 @@ export class ExamCreateComponent implements OnInit {
         // Thêm câu hỏi vào đúng phần (sectionIndex)
         this.sections[sectionIndex]?.questions.push({
           ...selectedQuestion,
-          score: 0, // Khởi tạo điểm mặc định
+          score: 1, // Khởi tạo điểm mặc định
         });
       } else {
         alert('Câu hỏi này đã được thêm vào phần này!');

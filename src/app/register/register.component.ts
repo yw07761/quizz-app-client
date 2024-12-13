@@ -32,52 +32,74 @@ export class RegisterComponent {
     this.errorMessage = '';
     this.successMessage = '';
   
-    // Check for form validity
+    // Kiểm tra tính hợp lệ của form
     if (!form.valid) {
       this.errorMessage = 'Vui lòng điền đầy đủ thông tin!';
       return;
     }
   
-    // Check password match
+    // Kiểm tra mật khẩu có trùng khớp không
     if (this.password !== this.confirmPassword) {
       this.errorMessage = 'Mật khẩu không khớp!';
       return;
     }
   
-    // Check email format
+    // Kiểm tra định dạng email
     if (!this.isValidEmail(this.email)) {
       this.errorMessage = 'Email không hợp lệ!';
       return;
     }
   
-     // Check if email exists
+    // Kiểm tra email đã tồn tại chưa
     this.authService.checkEmailExist(this.email).subscribe({
-    next: (exists) => {
-      if (exists) {
-        this.emailExists = true;
-        return;
+      next: (exists) => {
+        if (exists) {
+          this.emailExists = true;
+          this.errorMessage = 'Email đã được đăng ký!';
+          return;
+        }
+        // Tiến hành đăng ký nếu email chưa tồn tại
+        this.emailExists = false;
+        this.registerUser(); // Tiến hành đăng ký người dùng
+      },
+      error: (error) => {
+        console.error('Lỗi khi kiểm tra email:', error);
+        this.errorMessage = 'Có lỗi xảy ra, vui lòng thử lại.';
       }
-      // Proceed with registration if email doesn't exist
-      this.emailExists = false;
-      // Continue the registration process...
-    },
-    error: (error) => {
-      console.error('Lỗi khi kiểm tra email:', error);
-      this.errorMessage = 'Có lỗi xảy ra, vui lòng thử lại.';
-    }
-  });
+    });
   }
-  
-  // Add these methods in RegisterComponent class
-isValidEmail(email: string): boolean {
-  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  return emailPattern.test(email);
-}
 
-isValidPassword(password: string): boolean {
-  const passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
-  return passwordPattern.test(password);
-}
+  // Phương thức đăng ký người dùng
+  registerUser() {
+    const userData = {
+      username: `${this.firstName} ${this.lastName}`, // Ghép tên và họ thành username
+      email: this.email,
+      password: this.password
+    };
 
-}
+    this.authService.register(userData).subscribe({
+      next: () => {
+        this.successMessage = 'Đăng ký thành công! Vui lòng đăng nhập.';
+        setTimeout(() => {
+          this.navigateToLogin(); // Chuyển hướng tới trang đăng nhập sau khi thành công
+        }, 2000);
+      },
+      error: (error) => {
+        console.error('Lỗi khi đăng ký:', error);
+        this.errorMessage = 'Có lỗi xảy ra khi đăng ký, vui lòng thử lại.';
+      }
+    });
+  }
 
+  // Kiểm tra tính hợp lệ của email
+  isValidEmail(email: string): boolean {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    return emailPattern.test(email);
+  }
+
+  // Kiểm tra mật khẩu hợp lệ
+  isValidPassword(password: string): boolean {
+    const passwordPattern = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+    return passwordPattern.test(password);
+  }
+}
