@@ -50,7 +50,9 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem('auth_token');
   }
-
+  checkEmailExist(email: string) {
+    return this.http.get(`${this.apiUrl}/check-email?email=${email}`);
+  }
   // Phương thức đăng ký
   register(userData: { username: string; email: string; password: string }): Observable<any> {
     return this.http.post(`${this.apiUrl}/sign-up`, userData).pipe(catchError(this.handleError));
