@@ -22,6 +22,7 @@ interface AuthResponse {
   providedIn: 'root',
 })
 export class AuthService {
+  
   private apiUrl = 'http://localhost:3000'; // Thay đổi theo API của bạn
 
   constructor(private http: HttpClient) {}
@@ -127,6 +128,26 @@ export class AuthService {
     return user ? user._id : null;
   }
 
+  getUserById(userId: string): Observable<User> {
+    const token = this.getToken();
+    if (!token) {
+      console.error('Token không tồn tại');
+      return throwError('Token không tồn tại');
+    }
+  
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+    });
+  
+    return this.http.get<User>(`${this.apiUrl}/users/${userId}`, { headers }).pipe(
+      catchError((error) => {
+        console.error('Lỗi khi lấy thông tin người dùng:', error);
+        return throwError(error);
+      })
+    );
+  }
+  
+  
   // Phương thức đăng xuất
   logout(): Observable<any> {
     return this.http.post(`${this.apiUrl}/logout`, {}).pipe(
