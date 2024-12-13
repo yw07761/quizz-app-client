@@ -18,6 +18,7 @@ export class AdminUserComponent implements OnInit {
   isDropdownActive = false;
   isCreateAccountVisible = false;
   isEditUserVisible = false;
+  userToEdit: any = {};
 
   newUser = {
     username: '',
@@ -96,6 +97,35 @@ export class AdminUserComponent implements OnInit {
   toggleCreateAccount() {
     this.isCreateAccountVisible = !this.isCreateAccountVisible;
   }
+// Edit user: Show the edit form with pre-filled values
+toggleEditUser(user: User) {
+  this.isEditUserVisible = !this.isEditUserVisible;
+  if (this.isEditUserVisible) {
+    this.userToEdit = { ...user }; // Clone the user data for editing
+    console.log('Editing user:', this.userToEdit);  // Debugging line
+  } else {
+    this.userToEdit = null; // Reset when hiding the form
+  }
+}
+
+
+updateUser() {
+  console.log('Updating user:', this.userToEdit); // Kiểm tra dữ liệu trước khi gửi lên server
+  if (this.userToEdit) {
+    this.userService.updateUser(this.userToEdit).subscribe({
+      next: () => {
+        alert('Cập nhật tài khoản thành công!');
+        this.loadUsers();
+        this.isEditUserVisible = false;
+      },
+      error: (error: any) => {
+        console.error('Lỗi cập nhật tài khoản:', error);
+        alert('Có lỗi xảy ra khi cập nhật tài khoản.');
+      }
+    });
+  }
+}
+
 
   updateUserRole(user: User, role: string) {
     this.userService.updateUserRole(user._id, role).subscribe({

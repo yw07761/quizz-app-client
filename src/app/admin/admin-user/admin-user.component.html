@@ -44,7 +44,39 @@
     <button type="submit">Tạo tài khoản</button>
   </form>
 </div>
+<!-- Form chỉnh sửa tài khoản -->
+<div class="create-account" *ngIf="isEditUserVisible">
+  <h2>Chỉnh sửa tài khoản</h2>
+  <form (ngSubmit)="updateUser()">
+    <label for="username">Tên người dùng</label>
+    <input *ngIf="userToEdit" type="text" id="username" [(ngModel)]="userToEdit.username" name="username" required>
 
+    <label for="email">Email</label>
+    <input *ngIf="userToEdit" type="email" id="email" [(ngModel)]="userToEdit.email" name="email" required>
+
+    <label for="role">Vai trò</label>
+    <select *ngIf="userToEdit" id="role" [(ngModel)]="userToEdit.role" name="role" required>
+      <option value="admin">Admin</option>
+      <option value="teacher">Teacher</option>
+      <option value="student">Student</option>
+    </select>
+
+    <label for="dateOfBirth">Ngày sinh</label>
+    <input *ngIf="userToEdit" type="date" id="dateOfBirth" [(ngModel)]="userToEdit.dateOfBirth" name="dateOfBirth" required>
+
+    <label for="gender">Giới tính</label>
+    <select *ngIf="userToEdit" id="gender" [(ngModel)]="userToEdit.gender" name="gender" required>
+      <option value="male">Nam</option>
+      <option value="female">Nữ</option>
+      <option value="other">Khác</option>
+    </select>
+
+    <label for="phoneNumber">Số điện thoại</label>
+    <input *ngIf="userToEdit" type="text" id="phoneNumber" [(ngModel)]="userToEdit.phoneNumber" name="phoneNumber" required>
+
+    <button type="submit">Cập nhật tài khoản</button>
+  </form>
+</div>
 
 <!-- Bảng người dùng -->
 <table>
@@ -70,6 +102,7 @@
       <td>{{ user.gender }}</td>
       <td>{{ user.phoneNumber }}</td>
       <td>
+        <button (click)="toggleEditUser(user)">Chỉnh sửa</button>
         <button (click)="updateUserRole(user, 'admin')">Set Admin</button>
         <button (click)="updateUserRole(user, 'teacher')">Set Teacher</button>
         <button (click)="updateUserRole(user, 'student')">Set Student</button>
