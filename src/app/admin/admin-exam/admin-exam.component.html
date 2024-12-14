@@ -48,11 +48,11 @@
       <td>{{ exam.startDate | date: 'short' }}</td>
       <td>{{ exam.endDate | date: 'short' }}</td>
       <td>{{ exam.status }}</td>
-      <td>{{ getCreatorName(exam.createdBy) }}</td> <!-- Hiển thị tên người tạo -->
+      <td>{{ getCreatorName(exam.createdBy ?? '') }}</td>
       <td>
         <button (click)="viewExamDetails(exam)">Xem chi tiết</button>
         <button (click)="deleteExam(exam)">Xóa</button>
-        <button *ngIf="exam.status === 'published'" (click)="navigateToStatistics(exam._id)">
+        <button *ngIf="exam?.status === 'published'" (click)="navigateToStatistics(exam._id ?? '')">
           Xem Tổng Kết
         </button>
         <button *ngIf="exam.status === 'pending' || exam.status === 'draft'" (click)="updateExamStatus(exam)">

@@ -87,7 +87,7 @@ textarea {
 
 .checkbox-group {
   display: flex;
-  align-items: center;
+  align-items: right;
   gap: 10px;
 }
 
@@ -97,7 +97,38 @@ textarea {
 }
 
 .question-selection {
-  margin: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px; /* Adds space between elements */
+}
+
+.question-selection select {
+  width: auto; /* Allow the select dropdown to adjust its size */
+  min-width: 150px; /* Set a minimum width to ensure it's not too small */
+  padding: 5px;
+  font-size: 14px;
+}
+
+button {
+  padding: 5px 15px;
+  background-color: #4a3aff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.number-of-questions {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 16px;
+  white-space: nowrap; /* Ensures content doesn't wrap onto the next line */
+}
+
+.number-of-questions h3, .number-of-questions p {
+  margin: 0;
 }
 
 .question-add-controls {
@@ -110,7 +141,7 @@ textarea {
   background-color: #f8f9fa;
   border: 1px solid #e0e0e0;
   border-radius: 6px;
-  padding: 15px;
+  padding: 10px;
   margin: 15px 0;
 }
 
@@ -157,6 +188,47 @@ textarea {
   margin-top: 20px;
 }
 
+.question-selection {
+  display: flex;
+  align-items: center; /* Vertically center elements */
+  gap: 10px; /* Space between label, select, and button */
+}
+
+.question-selection label {
+  font-size: 16px;
+  color: #333;
+  margin-right: 10px;
+}
+
+.question-selection select {
+  width: 430px; /* You can adjust this based on your preference */
+  padding: 5px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  height: 35px; /* Ensure the height of the select is consistent with the button */
+}
+
+.question-selection button {
+  position: relative;
+  top: -14px; /* Di chuyển button lên 20px */
+  padding: 5px 15px;
+  background-color: #4a3aff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  height: 40px;
+}
+
+
+.question-selection button:hover {
+  background-color: #372f9e;
+}
+
+
+
 button {
   padding: 10px 20px;
   background-color: #4a3aff;
@@ -164,7 +236,16 @@ button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
+  margin: 0 10px; /* Adds horizontal spacing between buttons */
+  margin-top: 20px;
+}
+
+.button-container {
+  display: flex;              /* Apply flexbox to the container */
+  justify-content: center;    /* Center the buttons horizontally */
+  gap: 10px;                  /* Add space between buttons */
+  margin-top: 20px;           /* Optional: add space above the container */
 }
 
 button:hover {

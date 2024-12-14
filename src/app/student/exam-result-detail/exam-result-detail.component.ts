@@ -5,6 +5,25 @@ import { AuthService } from '../../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+
+interface Answer {
+  text: string;
+  isCorrect: boolean;
+}
+
+interface Question {
+  _id: string;
+  text: string;
+  answers: Answer[];
+  userAnswer?: string;
+  isCorrect?: boolean;
+  questionId?: {   // Updated to reflect that questionId is an object
+    text: string;
+    answers: Answer[];
+  };
+  score?: number;
+}
+
 interface ExamResultDetail {
   _id: string;
   examId: {
@@ -13,13 +32,7 @@ interface ExamResultDetail {
     description: string;
     sections: {
       title: string;
-      questions: {
-        _id: string;
-        text: string;
-        answers: { text: string; isCorrect: boolean }[];
-        userAnswer?: string;
-        isCorrect?: boolean;
-      }[];
+      questions: Question[];  // Questions should follow the updated interface
     }[];
   };
   score: number;
@@ -27,7 +40,7 @@ interface ExamResultDetail {
   percentageScore: number;
   startTime: Date | string;
   endTime: Date | string;
-  answers: { questionId: string; answer: string }[];
+  answers: { questionId: string; answer: string }[]; // This structure seems correct
   correctAnswers?: number;
   totalQuestions?: number;
 }

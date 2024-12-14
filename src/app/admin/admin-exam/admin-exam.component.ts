@@ -15,7 +15,7 @@ export class AdminExamComponent implements OnInit {
   user: any = null;
   isDropdownActive = false;
   exams: Exam[] = [];
-  users: any[] = []; // Danh sách tất cả người dùng
+  users: any[] = []; 
 
   constructor(
     private examService: ExamService,
@@ -28,6 +28,7 @@ export class AdminExamComponent implements OnInit {
     this.loadUsers()
   }
 
+  
   // Hàm tải danh sách bài thi
   loadExams() {
     this.examService.getExams().subscribe({
@@ -51,7 +52,7 @@ export class AdminExamComponent implements OnInit {
     });
   }
   
-  getCreatorName(createdById: string): string {
+  getCreatorName(createdById: string | undefined): string {
     const user = this.users.find(u => u._id === createdById);
     return user ? user.username : 'Không xác định'; // Nếu không tìm thấy trả về "Không xác định"
   }

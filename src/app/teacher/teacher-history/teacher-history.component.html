@@ -42,7 +42,7 @@
         <!-- Action Buttons -->
         <div class="exam-actions">
           <button class="view-details-button" (click)="viewExamDetails(exam)">Xem chi tiết</button>
-          <button class="summary-button" (click)="navigateToStatistics(exam._id)">Tổng kết</button>
+          <button *ngIf="exam._id" class="summary-button" (click)="navigateToStatistics(exam._id)">Tổng kết</button>
         </div>
         
       </div>
