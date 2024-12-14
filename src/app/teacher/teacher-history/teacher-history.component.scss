@@ -5,13 +5,18 @@ body {
   background-color: #f5f5f5;
 }
 
+.nav-links a.active {
+  color: #007bff;
+  font-weight: bold;
+  border-bottom: 2px solid #007bff;
+}
+
 .navbar {
   display: flex;
   align-items: center;
-  padding: 12px 20px; /* Tăng padding cho không gian rộng hơn */
+  padding: 10px 20px;
   background-color: white;
   border-bottom: 1px solid #e0e0e0;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ cho thanh điều hướng */
 }
 
 .navbar .logo {
@@ -25,9 +30,8 @@ body {
 }
 
 .navbar .logo span {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 500;
-  color: #333; /* Chỉnh lại màu cho logo */
 }
 
 .navbar .nav-links {
@@ -37,18 +41,16 @@ body {
 }
 
 .navbar .nav-links a {
-  margin: 0 20px;
+  margin: 0 15px;
   text-decoration: none;
   color: #333;
   font-weight: 500;
-  transition: color 0.3s ease, border-bottom 0.3s ease;
+  transition: color 0.4s ease, transform 0.3s ease;
 }
 
-.navbar .nav-links a:hover,
-.navbar .nav-links a.active {
+.navbar .nav-links a:hover {
   color: #007bff;
-  font-weight: bold;
-  border-bottom: 3px solid #007bff;
+  transform: scale(1.1);
 }
 
 .navbar .user-menu {
@@ -62,6 +64,12 @@ body {
   width: 40px;
   border-radius: 50%;
   cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar .user-menu img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .navbar .user-menu .dropdown {
@@ -70,53 +78,69 @@ body {
   top: 50px;
   right: 0;
   background-color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 6px;
-  width: 250px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  width: 300px;
   z-index: 1000;
-  padding: 10px 0;
+  animation: slideDown 0.4s ease-out;
 }
 
 .navbar .user-menu .dropdown.active {
   display: block;
 }
 
-.navbar .user-menu .dropdown .profile {
+.navbar .user-menu .profile {
   display: flex;
   align-items: center;
   padding: 15px;
   border-bottom: 1px solid #e0e0e0;
 }
 
-.navbar .user-menu .dropdown .profile img {
+.navbar .user-menu .profile img {
   height: 50px;
   width: 50px;
   border-radius: 50%;
   margin-right: 10px;
 }
 
-.navbar .user-menu .dropdown .profile .info .name {
+.navbar .user-menu .profile .info {
+  flex-grow: 1;
+}
+
+.navbar .user-menu .profile .info .name {
   font-weight: 500;
-  color: #333;
 }
 
-.navbar .user-menu .dropdown .profile .info .email {
+.navbar .user-menu .profile .info .email {
   font-size: 12px;
-  color: #777;
+  color: #666;
 }
 
-.navbar .user-menu .dropdown .menu a {
+.navbar .user-menu .profile .view-profile {
+  background-color: #007bff;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.navbar .user-menu .menu {
+  padding: 10px 15px;
+}
+
+.navbar .user-menu .menu a {
   display: flex;
   align-items: center;
-  padding: 12px 15px;
+  padding: 10px 0;
   text-decoration: none;
   color: #333;
   font-size: 14px;
-  transition: background-color 0.2s ease;
+  transition: color 0.4s ease;
 }
 
-.navbar .user-menu .dropdown .menu a:hover {
-  background-color: #f1f1f1;
+.navbar .user-menu .menu a:hover {
   color: #007bff;
 }
 
@@ -124,39 +148,102 @@ body {
   padding: 20px;
 }
 
-.section {
+.content .section {
   background-color: white;
-  padding: 25px;
-  border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow-x: auto;
+  padding: 20px;
   margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.4s ease;
 }
 
-.exam-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+.content .section:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.content .section h2 {
+  margin-top: 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.content .section .empty-state {
+  text-align: center;
+  color: #666;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+.content .section .empty-state img {
+  max-width: 100px;
+  margin-bottom: 10px;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #ff4444;
+  color: white;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
 }
 
 .exam-item {
-  width: calc(33.33% - 20px);
   background-color: #f8f9fa;
   border: 1px solid #e0e0e0;
   border-radius: 6px;
-  padding: 20px;
-  box-sizing: border-box;
-  transition: transform 0.3s ease;
+  padding: 15px;
+  margin-bottom: 15px;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .exam-item:hover {
-  transform: translateY(-5px); /* Tạo hiệu ứng nâng lên khi hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .exam-item h3 {
   margin-top: 0;
   color: #333;
-  font-size: 18px;
 }
 
 .exam-item p {
@@ -164,104 +251,133 @@ body {
   color: #666;
 }
 
-.exam-actions {
+.exam-item .exam-actions {
   display: flex;
-  gap: 12px;
-  margin-top: 12px;
+  gap: 10px;
+  margin-top: 10px;
 }
 
-.exam-actions button {
-  padding: 10px 20px;
+.exam-item .exam-actions button {
+  padding: 8px 15px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.exam-item .exam-actions button:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+
+.create-button {
+  background-color: #3f51b5;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  margin-bottom: 20px;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.exam-actions button:hover {
-  opacity: 0.8;
-  transform: scale(1.05); /* Tạo hiệu ứng phóng to khi hover */
+.create-button:hover {
+  background-color: #283593;
+  transform: scale(1.1);
 }
 
-.exam-actions button:nth-child(1) {
-  background-color: #4a3aff;
-  color: #fff;
+.create-button i {
+  margin-left: 10px;
 }
 
-.exam-actions button:nth-child(2) {
-  background-color: #ffc107;
-  color: #333;
-}
-
-.empty-state {
-  text-align: center;
-  color: #666;
-  padding: 20px;
-}
-
-.empty-state img {
-  max-width: 100px;
-  margin-bottom: 10px;
-}
-
-.section .exam-list::-webkit-scrollbar {
-  height: 8px;
-}
-
-.section .exam-list::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.section .exam-list::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
-}
-
-.section .exam-list::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
+/* Additional styles for responsiveness */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
     padding: 10px;
   }
 
-  .nav-links {
+  .navbar .nav-links {
     margin: 10px 0;
     width: 100%;
     justify-content: space-around;
   }
 
-  .nav-links a {
+  .navbar .nav-links a {
     margin: 0 5px;
     font-size: 14px;
   }
 
-  .user-menu {
+  .navbar .user-menu {
     width: 100%;
     justify-content: flex-end;
   }
 
-  .dropdown {
-    width: 100%;
-    top: 100%;
+  .content {
+    padding: 10px;
   }
 
-  .content {
+  .content .section {
     padding: 15px;
   }
-
-  .section {
-    padding: 20px;
-  }
-
-  .exam-item {
-    width: 100%;
-  }
-
-  .exam-list {
-    flex-wrap: wrap;
-  }
 }
+/* Các nút bấm chính */
+button {
+  padding: 12px 24px; /* Tăng padding để nút không bị trống trải */
+  font-size: 16px;
+  background-color: #007bff; /* Màu nền đẹp và nổi bật */
+  color: white;
+  border: none;
+  border-radius: 6px; /* Các góc tròn giúp nút mềm mại hơn */
+  cursor: pointer;
+  transition: all 0.3s ease; /* Thêm hiệu ứng chuyển động khi hover */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Bóng đổ nhẹ giúp nút nổi bật hơn */
+  font-weight: 600; /* Đậm chữ để dễ đọc */
+}
+
+button:hover {
+  background-color: #0056b3; /* Màu nền tối hơn khi hover */
+  transform: translateY(-2px); /* Nâng nút lên một chút khi hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Bóng đổ đậm hơn khi hover */
+}
+
+button:active {
+  transform: translateY(1px); /* Hiệu ứng khi click, nút bị đẩy xuống */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Giảm bóng đổ khi click */
+}
+
+/* Button với icon đi kèm */
+button i {
+  margin-left: 10px; /* Khoảng cách giữa chữ và icon */
+  font-size: 18px; /* Kích thước icon */
+}
+
+button:focus {
+  outline: none; /* Bỏ viền khi button được chọn */
+}
+
+.exam-item .exam-actions button.view-details-button {
+  background-color: #007bff; /* Màu nền cho nút "Xem chi tiết" */
+  color: white;
+}
+
+.exam-item .exam-actions button.view-details-button:hover {
+  background-color: #0056b3; /* Màu nền tối hơn khi hover */
+  transform: translateY(-2px);
+}
+
+.exam-item .exam-actions button.summary-button {
+  background-color: #28a745; /* Màu nền cho nút "Tổng kết" */
+  color: white;
+}
+
+.exam-item .exam-actions button.summary-button:hover {
+  background-color: #218838; /* Màu nền tối hơn khi hover */
+  transform: translateY(-2px);
+}
+

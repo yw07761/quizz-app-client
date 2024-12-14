@@ -46,7 +46,7 @@ export class ExamCreateComponent implements OnInit {
   availableQuestions: Question[] = [];
   filteredQuestions: Question[] = [];
   teacherId: string | undefined;
-
+  isMaxScoreError: boolean = false;
   selectedCategory: string = '';
   selectedGroup: string = '';
   uniqueCategories: string[] = [];
@@ -75,6 +75,7 @@ export class ExamCreateComponent implements OnInit {
     });
   }
   
+  
   updateUniqueFilters() {
     this.uniqueCategories = [...new Set(this.availableQuestions.map(q => q.category).filter(Boolean) as string[])];
     this.uniqueGroups = [...new Set(this.availableQuestions.map(q => q.group).filter(Boolean) as string[])];
@@ -98,56 +99,92 @@ export class ExamCreateComponent implements OnInit {
   
     // Tìm câu hỏi được chọn trong danh sách availableQuestions
     const selectedQuestion = this.availableQuestions.find((q) => q._id === questionId);
-    
+  
     if (selectedQuestion) {
       // Kiểm tra xem câu hỏi đã tồn tại trong phần chưa
-      const questionExists = this.sections[sectionIndex]?.questions.some(
+      const questionExistsInSection = this.sections[sectionIndex]?.questions.some(
         (q) => q._id === selectedQuestion._id
       );
   
-      if (!questionExists) {
-        // Thêm câu hỏi vào đúng phần (sectionIndex)
-        this.sections[sectionIndex]?.questions.push({
-          ...selectedQuestion,
-          score: 1, // Khởi tạo điểm mặc định
-        });
-      } else {
+      if (questionExistsInSection) {
         alert('Câu hỏi này đã được thêm vào phần này!');
+        return; // Nếu câu hỏi đã có trong phần, không thêm nữa
       }
+  
+      // Kiểm tra xem câu hỏi đã được thêm vào bất kỳ phần nào trong bài thi chưa
+      const questionAlreadyAdded = this.sections.some(section =>
+        section.questions.some(q => q._id === selectedQuestion._id)
+      );
+  
+      if (questionAlreadyAdded) {
+        alert('Câu hỏi này đã được thêm vào một phần khác!');
+        return; // Nếu câu hỏi đã được thêm vào phần khác, không cho phép thêm nữa
+      }
+  
+      // Thêm câu hỏi vào phần hiện tại (sectionIndex)
+      this.sections[sectionIndex]?.questions.push({
+        ...selectedQuestion,
+        score: 1, // Khởi tạo điểm mặc định
+      });
+  
+      // Sau khi thêm câu hỏi, gọi filterQuestions để loại bỏ câu hỏi đã chọn khỏi danh sách có thể chọn
+      this.filterQuestions();
     } else {
       alert('Không tìm thấy câu hỏi!');
     }
   }
   
+
+  // Hàm kiểm tra tổng điểm
+  checkTotalScore(): boolean {
+    // Tính tổng điểm của các câu hỏi trong tất cả các phần
+    const totalScore = this.sections.reduce((total, section) => {
+      const sectionScore = section.questions.reduce((sectionTotal, question) => sectionTotal + (question.score || 0), 0);
+      return total + sectionScore;
+    }, 0);
+
+    // So sánh tổng điểm với điểm tối đa
+    if (totalScore !== this.exam.maxScore) {
+      alert(`Tổng điểm của các câu hỏi (${totalScore}) không khớp với điểm tối đa của bài thi (${this.exam.maxScore})!`);
+      return false; // Trả về false nếu tổng điểm không khớp
+    }
+    return true; // Trả về true nếu tổng điểm khớp
+  }
+
   // Function to save the exam to the server
   saveExam() {
-    const examData = {
-      ...this.exam,
-      createdBy: this.teacherId,
-      sections: this.sections.map(section => ({
-        ...section,
-        questions: section.questions.map(q => ({
-          questionId: q._id,
-          score: q.score
-        }))
-      }))
-    };
-
-    console.log("Exam data being sent:", examData);
-
-    this.examService.createExam(examData).subscribe({
-      next: (response) => {
-        console.log('Exam saved successfully:', response);
-        alert('Bài thi đã được lưu thành công!');
-        window.history.back();
-        
-      },
-      error: (error) => {
-        console.error('Error saving exam:', error);
-        alert('Có lỗi xảy ra khi lưu bài thi. Vui lòng thử lại.');
-      }
-    });
+  // Kiểm tra tổng điểm trước khi gửi
+  if (!this.checkTotalScore()) {
+    return; // Nếu tổng điểm không hợp lệ, dừng lại và không gửi bài thi
   }
+
+  const examData = {
+    ...this.exam,
+    createdBy: this.teacherId,
+    sections: this.sections.map(section => ({
+      ...section,
+      questions: section.questions.map(q => ({
+        questionId: q._id,
+        score: q.score
+      }))
+    }))
+  };
+
+  console.log("Exam data being sent:", examData);
+
+  this.examService.createExam(examData).subscribe({
+    next: (response) => {
+      console.log('Exam saved successfully:', response);
+      alert('Bài thi đã được lưu thành công!');
+      window.history.back();
+    },
+    error: (error) => {
+      console.error('Error saving exam:', error);
+      alert('Có lỗi xảy ra khi lưu bài thi. Vui lòng thử lại.');
+    }
+  });
+}
+
 
   // Function to toggle section visibility (expand/collapse)
   toggleSection(section: string) {
@@ -186,11 +223,18 @@ export class ExamCreateComponent implements OnInit {
       const categoryMatch = this.selectedCategory ? question.category === this.selectedCategory : true;
       const groupMatch = this.selectedGroup ? question.group === this.selectedGroup : true;
       const statusMatch = question.status === "approved";
-      return categoryMatch && groupMatch && statusMatch;
+      
+      // Kiểm tra xem câu hỏi đã được thêm vào bất kỳ phần nào chưa
+      const questionAlreadyAdded = this.sections.some(section => 
+        section.questions.some(q => q._id === question._id)
+      );
+      
+      return categoryMatch && groupMatch && statusMatch && !questionAlreadyAdded; // Loại bỏ câu hỏi đã được thêm
     });
   
     console.log("Filtered Questions after filtering:", this.filteredQuestions); // Kiểm tra câu hỏi sau khi lọc
   }
+  
   
 
 clearFilters() {
