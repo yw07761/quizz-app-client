@@ -18,11 +18,14 @@ export function app(): express.Express {
   server.set('views', browserDistFolder);
 
   // Example Express Rest API endpoints
-  // server.get('/api/**', (req, res) => { });
+  server.get('/api/**', (req, res) => {
+    res.status(200).send({ message: 'API endpoint not implemented yet.' });
+  });
+
   // Serve static files from /browser
-  server.get('**', express.static(browserDistFolder, {
+  server.get('*.*', express.static(browserDistFolder, {
     maxAge: '1y',
-    index: 'index.html',
+    index: false,
   }));
 
   // All regular routes use the Angular engine
@@ -35,10 +38,18 @@ export function app(): express.Express {
         documentFilePath: indexHtml,
         url: `${protocol}://${headers.host}${originalUrl}`,
         publicPath: browserDistFolder,
-        providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
+        providers: [{ provide: APP_BASE_HREF, useValue: baseUrl || '/' }],
       })
       .then((html) => res.send(html))
-      .catch((err) => next(err));
+      .catch((err) => {
+        console.error('Error during SSR:', err.message);
+        next(err);
+      });
+  });
+
+  // Error handling middleware
+  server.use((err: Error, req, res, next) => {
+    res.status(500).send('An error occurred during rendering. Please try again later.');
   });
 
   return server;
