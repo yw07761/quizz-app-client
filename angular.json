@@ -15,7 +15,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-devkit/build-angular:browser", 
           "options": {
             "outputPath": "dist/quizz-app",
             "index": "src/index.html",
@@ -28,7 +28,7 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public",
+                "input": "public", 
                 "output": "/assets"
               }
             ],
@@ -37,7 +37,9 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
-            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"]
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -91,7 +93,7 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public",
+                "input": "public", 
                 "output": "/assets"
               }
             ],
