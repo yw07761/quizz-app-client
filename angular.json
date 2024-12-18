@@ -48,6 +48,15 @@
               "budgets": [
                 {
                   "type": "initial",
+<<<<<<< vananh-branch
+                  "maximumWarning": "2mb",
+                  "maximumError": "3mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "10kb",
+                  "maximumError": "20kb"
+=======
                   "maximumWarning": "2000mb",
                   "maximumError": "3000mb"
                 },
@@ -55,6 +64,7 @@
                   "type": "anyComponentStyle",
                   "maximumWarning": "100000kb",
                   "maximumError": "200000kb"
+>>>>>>> main
                 }
               ],
               "outputHashing": "all"
