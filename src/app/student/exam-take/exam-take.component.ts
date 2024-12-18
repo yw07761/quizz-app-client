@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ExamService, Exam } from '../../../services/exam.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../services/auth.service';
 
 export interface Answer {
   questionId: string;
@@ -43,14 +44,18 @@ export class ExamTakeComponent implements OnInit, OnDestroy {
   errorMessage: string = '';
   showConfirmSubmit: boolean = false;
   showTimeoutWarning: boolean = false;
+  user: any = null;
 
   constructor(
     private route: ActivatedRoute,
     private examService: ExamService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
   ) {}
 
+
   ngOnInit(): void {
+    this.user = this.authService.getCurrentUser();
     this.examId = this.route.snapshot.paramMap.get('id');
     if (this.examId) {
       this.loadExam(this.examId);

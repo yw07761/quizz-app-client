@@ -15,6 +15,7 @@
   </div>
 
   <div class="exam-info">
+    <p><strong>Học viên:</strong> {{ user?.username }}</p>
     <p><strong>Mô tả:</strong> {{ exam.description }}</p>
     <p><strong>Thời gian:</strong> {{ exam.startDate | date }} - {{ exam.endDate | date }}</p>
     <p><strong>Thời lượng:</strong> {{ exam.duration }} phút</p>
